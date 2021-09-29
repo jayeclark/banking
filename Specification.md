@@ -19,18 +19,20 @@ Create a functioning React banking front-end app with a navigation bar and the f
 The application must include a Home page.
 
 **Meets Expectations** (5 pts)
-- [ ] Includes a Bootstrap card
-- [ ] Includes bank title image
-- [ ] Includes welcome message
+- [ ] Includes:
+  - [ ] Bootstrap card styling
+  - [ ] Bank title image
+  - [ ] Welcome message
 
 ## 2. NAVIGATION
 The application must include a navigation bar with specific functionality.
 
 **Meets Expectations** (10 pts)
-- [ ] Includes Create Account link
-- [ ] Includes Deposit link
-- [ ] Includes Withdraw link
-- [ ] Includes All Data link
+- [ ] Includes:
+  - [ ] Create Account link
+  - [ ] Deposit link
+  - [ ] Withdraw link
+  - [ ] All Data link
 - [ ] When selected, each element on the navigation bar displays the correct page
 - [ ] Navigation bar is styled with Bootstrap
 
