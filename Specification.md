@@ -43,24 +43,27 @@ The application must include a Create Account page.
 
 **Meets Expectations** (5 pts)
 - [ ] Includes a bootstrap card with a form
-- [ ] Form includes: name input field
-  - [ ] Form includes email input field
-  - [ ] Form includes password input field
-  - [ ] Form includes "Create Account" button
+- [ ] Form includes: 
+  - [ ] Name input field
+  - [ ] Email input field
+  - [ ] Password input field
+  - [ ] "Create Account" button
 
 ## 4. CREATE ACCOUNT FUNCTIONALITY
 The Create Account page must include specific functionality.
 
 **Meets Expectations** (6 pts)
-- [ ] Upon selecting the "Create Account" button, the user should see a success message
-- [ ] Upon selecting the "Create Account" button, the user should see an "Add Another Account" button.
-- [ ] Upon selecting the "Create Account" button (a second time, after creating the first account), the user will be able to open a cleared "Create Account" form.
+Upon selecting the "Create Account" button, the user should:
+- [ ] See a success message
+- [ ] See an "Add Another Account" button
+- [ ] Be able to open a cleared "Create Account" form when clicking "Add Another Account" or clicking "Create Account" a second time
 
 **Excellent** (4 addl pts, 1 per item)
-- [ ] The user receives an alert if the name field is left blank
-- [ ] The user receives an alert if the email field is left blank
-- [ ] The user receives an alert if the password is less than 8 characters.
-- [ ] The submit button should appear disabled in case of no input.
+- [ ] The user receives an alert if: 
+  - [ ] Name field is left blank
+  - [ ] Email field is left blank
+  - [ ] Password is less than 8 characters
+- [ ] The submit button should appear disabled in case of no input
 
 ## 5. DEPOSIT PAGE
 The application must include a Deposit page that allows a user to add money to their bank account.
