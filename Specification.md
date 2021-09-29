@@ -18,7 +18,7 @@ Create a functioning React banking front-end app with a navigation bar and the f
 - [ ] Write tests to check the functionality required in the specification before writing any code
 - [ ] Deploy app to a GitHub pages branch so it's live on github.io
 
-## 1. HOME PAGE
+### 1. HOME PAGE
 The application must include a Home page.
 
 **Meets Expectations** (5 pts)
@@ -43,7 +43,7 @@ The application must include a navigation bar with specific functionality.
 - [ ] When a user hovers their cursor over a navigation bar element, they see a few words describing that page
 - [ ] The navigation bar highlights the element of the current page the user is on
 
-## 3. CREATE ACCOUNT
+### 3. CREATE ACCOUNT
 The application must include a Create Account page.
 
 **Meets Expectations** (5 pts)
