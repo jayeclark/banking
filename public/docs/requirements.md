@@ -1,5 +1,5 @@
 # Specification
-Grading rubric for React final project, converted into a specification.
+Grading rubric for React final project, converted into a checklist.
 
 ## GENERAL REQUIREMENTS
 List of the basic requirements for the project.
