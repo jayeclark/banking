@@ -2,24 +2,37 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  loadPortfolio().then(result=>{
+    const [start, end] = [result.indexOf('<nav '), result.indexOf('</nav>')];
+    let navBar = result.substring(start, end);
+    navBar = navBar.replace("\"active\"" ,'');
+    console.log(navBar);
+
+    const currentNav = document.getElementById('portfolio-nav');
+    currentNav.innerHTML = navBar;
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{padding:'140px 20px 20px 20px'}}>
+
+      <div>
+        <h2>Bad bank app components will go here! </h2>
+        <p>(Navigation bar for portfolio is being dynamically imported from my portfolio site.</p>
+
+      </div>
+
     </div>
   );
+}
+
+async function loadPortfolio() {
+
+  const result = await fetch('https://jayeclark.github.io/');
+  const homePage = await result.text();
+  
+  return homePage;
+
 }
 
 export default App;
