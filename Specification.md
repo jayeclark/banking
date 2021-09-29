@@ -54,11 +54,11 @@ The application must include a Create Account page.
 ## 4. CREATE ACCOUNT FUNCTIONALITY
 The Create Account page must include specific functionality.
 
-**Meets Expectations** (6 pts)
-Upon selecting the "Create Account" button, the user should:
-- [ ] See a success message
-- [ ] See an "Add Another Account" button
-- [ ] Be able to open a cleared "Create Account" form when clicking "Add Another Account" or clicking "Create Account" a second time
+**Meets Expectations** (6 pts)  
+- [ ] Upon selecting the "Create Account" button, the user should:
+  - [ ] See a success message
+  - [ ] See an "Add Another Account" button
+  - [ ] Be able to open a cleared "Create Account" form when clicking "Add Another Account" or clicking "Create Account" a second time
 
 **Excellent** (4 addl pts, 1 per item)
 - [ ] The user receives an alert if: 
