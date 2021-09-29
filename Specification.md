@@ -130,43 +130,49 @@ The /src directory is organized into: assets, components, data, helpers, pages, 
 
 ### PAGES
 
-**Home.html**
-Static home page with bootstrap card styling, an image, and a welcome message. There will be a spanish and german version too available in subfolders.
-
-**Footer.html**
-Static footer. Separated into its own file for ease of reading the code. There will be a spanish and german version too available in subfolders.
-
-**LoggedIn.html**
-Static boilerplate to show after account creation/login. Most items are not clickable, it's just boilerplate to look more interesting than a blank page. There will be a spanish and german version too.
-
-**CreateAccount.js**
-Component screen with boostrap card styling and a form to create an account. LoggedIn should be passed to this component as it should not display if the user is not logged in. FormType should also be passed. Sitedata should be passed for language rendering purposes.
-
-**Deposit.js**
-Component screen that mimics depositing a check. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.
-
-**Withdraw.js**
-Component screen that mimics requesting a withdrawal or transferring to an external account. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.
-
-**AllData.hs** 
-Component screen that mimics the account view option in banking websites. TxnData and setTxnData should be passed to this component. Sitedata should be passed for language rendering purposes.
-
+**Home.html**  
+Static home page with bootstrap card styling, an image, and a welcome message. There will be a spanish and german version too available in subfolders.  
+  
+**Footer.html**  
+Static footer. Separated into its own file for ease of reading the code. There will be a spanish and german version too available in subfolders.  
+  
+**LoggedIn.html**  
+Static boilerplate to show after account creation/login. Most items are not clickable, it's just boilerplate to look more interesting than a blank page. There will be a spanish and german version too.  
+  
+**CreateAccount.js**  
+Component screen with boostrap card styling and a form to create an account. LoggedIn should be passed to this component as it should not display if the user is not logged in. FormType should also be passed. Sitedata should be passed for language rendering purposes.  
+  
+**Deposit.js**  
+Component screen that mimics depositing a check. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.  
+  
+**Withdraw.js**  
+Component screen that mimics requesting a withdrawal or transferring to an external account. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.  
+  
+**AllData.hs**   
+Component screen that mimics the account view option in banking websites. TxnData and setTxnData should be passed to this component. Sitedata should be passed for language rendering purposes.  
+  
 ### COMPONENTS
-**AppNav.js**
-This component provides the navigation in the bad banking app
-
-**Card.js**
-A basic card component for displaying the withdrawal, deposit, alldata, and create account ui's. Props passed to the card include styling details, formType, 
-
-**FormFormik.js**
-A form component built using the Formik library. Forms generate automatically based on the props passed to the component.
-
-**FormReactHook.js**
-A form component built using the react-hook-form library. Forms generate automatically based on the props passed to the component.
-
-**FormReactFinal.js**
-A form component built using the react-final-form library. Forms generate automatically based on the props passed to the component.
-
+**AppNav.js**  
+This component provides the navigation in the bad banking app  
+  
+**Card.js**  
+A basic card component for displaying the withdrawal, deposit, alldata, and create account ui's. Props passed to the card include styling details, formType, fields, and validation. 
+  
+**FormFormik.js**  
+A form component built using the Formik library. Forms generate automatically based on the props passed to the component.  
+  
+**FormReactHook.js**  
+A form component built using the react-hook-form library. Forms generate automatically based on the props passed to the component.  
+  
+**FormReactFinal.js**  
+A form component built using the react-final-form library. Forms generate automatically based on the props passed to the component.  
+  
+**Notification.js**
+A component to pop up a window with a notification of success or failure, and a progress bar.  
+  
+**OptionsNav**
+A component with some toggling options to display the app using different languages and types of forms.
+  
 ### STATE VARIABLES
 The following variables (other than those in forms) have the ability to trigger a re-render:
 * loggedIn - if the user is logged in, the deposit/withdrawal/allData options show. If not, the home page shows.
