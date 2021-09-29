@@ -8,15 +8,15 @@ List of the basic requirements for the project.
 Create a functioning React banking front-end app with a navigation bar and the following components: Home, Create Account, Withdraw, Deposit, All Data.
 
 **Basic Requirements**
-- [ ] Use create-react-app to set up files and folders
-- [ ] Require/import an external form library using package.json and npm install
-- [ ] Edit index.html including meta description, title, and favicon, to form template bank website in which app will be displayed
-- [ ] Save components to different .js files either as they are created or via refactoring
+- [X] Use create-react-app to set up files and folders
+- [X] Require/import an external form library using package.json and npm install
+- [X] Edit index.html including meta description, title, and favicon, to form template bank website in which app will be displayed
+- [X] Save components to different .js files either as they are created or via refactoring
 
 **Advanced Options**
-- [ ] Plan out and assign functional component and variable/props names before writing any code
+- [X] Plan out and assign functional component and variable/props names before writing any code
 - [ ] Write tests to check the functionality required in the specification before writing any code
-- [ ] Deploy app to a GitHub pages branch so it's live on github.io
+- [X] Deploy app to a GitHub pages branch so it's live on github.io
 
 ### 1. HOME PAGE
 The application must include a Home page.
