@@ -43,10 +43,10 @@ The application must include a Create Account page.
 
 **Meets Expectations** (5 pts)
 - [ ] Includes a bootstrap card with a form
-- [ ] Form includes name input field
-- [ ] Form includes email input field
-- [ ] Form includes password input field
-- [ ] Form includes "Create Account" button
+- [ ] Form includes: name input field
+  - [ ] Form includes email input field
+  - [ ] Form includes password input field
+  - [ ] Form includes "Create Account" button
 
 ## 4. CREATE ACCOUNT FUNCTIONALITY
 The Create Account page must include specific functionality.
