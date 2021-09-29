@@ -131,32 +131,32 @@ The /src directory is organized into: assets, components, data, helpers, pages, 
 ### PAGES
 
 **Home.html**
-Static home page with bootstrap card styling, an image, and a welcome message.
+Static home page with bootstrap card styling, an image, and a welcome message. There will be a spanish and german version too available in subfolders.
 
 **Footer.html**
-Static footer. Separated into its own file for ease of reading the code
+Static footer. Separated into its own file for ease of reading the code. There will be a spanish and german version too available in subfolders.
 
 **LoggedIn.html**
-Static boilerplate to show after account creation/login. Most items are not clickable, it's just boilerplate to look more interesting than a blank page.
+Static boilerplate to show after account creation/login. Most items are not clickable, it's just boilerplate to look more interesting than a blank page. There will be a spanish and german version too.
 
 **CreateAccount.js**
-Component screen with boostrap card styling and a form to create an account.
+Component screen with boostrap card styling and a form to create an account. LoggedIn should be passed to this component as it should not display if the user is not logged in. FormType should also be passed. Sitedata should be passed for language rendering purposes.
 
 **Deposit.js**
-Component screen that mimics depositing a check.
+Component screen that mimics depositing a check. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.
 
 **Withdraw.js**
-Component screen that mimics requesting a withdrawal or transferring to an external account.
+Component screen that mimics requesting a withdrawal or transferring to an external account. LoggedIn, Balance and setBalance, and formType should be passed to this component. Sitedata should be passed for language rendering purposes.
 
 **AllData.hs** 
-Component screen that mimics the account view option in banking websites.
+Component screen that mimics the account view option in banking websites. TxnData and setTxnData should be passed to this component. Sitedata should be passed for language rendering purposes.
 
 ### COMPONENTS
 **AppNav.js**
 This component provides the navigation in the bad banking app
 
 **Card.js**
-A basic card component for displaying the withdrawal, deposit, alldata, and create account ui's.
+A basic card component for displaying the withdrawal, deposit, alldata, and create account ui's. Props passed to the card include styling details, formType, 
 
 **FormFormik.js**
 A form component built using the Formik library. Forms generate automatically based on the props passed to the component.
@@ -200,11 +200,14 @@ Stores the bank accounts, their types and the users they are associated with. Pr
 * status: number
 * accountCreatedTime: datetime
 
-**transactionData** 
+**transactions** 
 All transaction data with information on the user and the account to which the transaction relates as well as cleared/pending status. Properties:
 * txnNum: number
-* txnTime: datetime;
-* txnClearTime: datetime;
+* txnTitle: string
+* txnDetails: string
+* txnNickname: string
+* txnTime: datetime
+* txnClearTime: datetime
 * accountNum: number
 * debit: float
 * credit: float
