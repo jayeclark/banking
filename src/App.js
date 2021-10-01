@@ -8,6 +8,7 @@ import Deposit from './pages/Deposit.js';
 import Withdraw from './pages/Withdraw.js';
 import AllData from './pages/AllData.js';
 import AppNav from './components/AppNav';
+import logo from './assets/logo.svg';
 
 const UserContext = createContext(null);
 
@@ -18,8 +19,9 @@ function App() {
     <>
     <HashRouter>
       <div className="App">
+        <div style={{height:'60px', padding:'15px 40px 20px 40px',textAlign:'left'}}><img src={logo} height="100%"/></div>
         <AppNav />
-        <div>
+        <div className="container" style={{padding:'20px'}}>
           <UserContext.Provider value={{users:[]}}>
             <Route path="/" exact component={Home}></Route>
             <Route path="/create-account/" exact component={CreateAccount}></Route>
