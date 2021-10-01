@@ -23,7 +23,7 @@ function AppNav() {
                     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
+        <nav className="navbar navbar-expand-md navbar-dark" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
             <div className="container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
