@@ -3,6 +3,7 @@ import FormReactFinal from '../components/FormReactFinal';
 import FormReactHook from '../components/FormReactHook';
 import Card from '../components/Card';
 import {useContext} from 'react';
+import UserDBContext from '../helpers/UserDBContext';
 
 function CreateAccount() {
 
@@ -10,7 +11,7 @@ function CreateAccount() {
 
     const formProvider = 'formik';
 
-    const userObj = useContext('UserDBContext');
+    const userObj = useContext(UserDBContext);
     console.log(userObj);
 
     const valLength = val => val.length > 0;
@@ -45,7 +46,7 @@ function CreateAccount() {
             }
         ]
 
-    const submitHelper = values => {
+    const submitHelperFunc = (values) => {
 
         const user = {
             name: values.name,
@@ -66,10 +67,11 @@ function CreateAccount() {
     }
 
     const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Create Account', altDisplay: 'Add Another Account', dependency: () => accountCreated === true, className:'btn btn-primary'}],
-                            submitHelper: submitHelper,
+                            submitHelper: submitHelperFunc,
                             success: 'Your account has been created!',
                             failure: 'An account is already associated with that email! Please use a different one.',
                             idRoot: 'create-account',
+                            accountCreated: accountCreated
                             }
 
 

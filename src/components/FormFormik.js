@@ -3,9 +3,9 @@ import '../styles/formik.css';
 import Notification from './Notification.js';
 import { useState } from 'react';
 
-function FormFormik({formFields, formSubmission, accountCreated, setAccountCreated, submitHelper}) {
+function FormFormik({formFields, formSubmission}) {
 
-    let {buttons, success, failure, idRoot} = formSubmission
+    let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
     let [submitted, setSubmitted] = useState({showNotification: false, title: 'Success', type: 'success', text: success});
@@ -25,14 +25,18 @@ function FormFormik({formFields, formSubmission, accountCreated, setAccountCreat
             const outcome = submitHelper(values);
             if (outcome === 'failure') {
                 let tempSubmitted = {...submitted};
-                tempSubmitted.type = 'failure';
+                tempSubmitted.type = 'error';
                 tempSubmitted.title = 'Account Create Failed';
                 tempSubmitted.text = failure;
                 tempSubmitted.showNotification = true;
                 setSubmitted(tempSubmitted);
             }
             else {
-                setAccountCreated(true);
+                formSubmission.accountCreated = true;
+                const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
+                let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
+                buttonEl.innerHTML = buttonArr.altDisplay;
+                
                 let tempSubmitted = {...submitted};
                 tempSubmitted.type = 'success';
                 tempSubmitted.title = 'Success';
@@ -46,16 +50,12 @@ function FormFormik({formFields, formSubmission, accountCreated, setAccountCreat
                 element.value = '';
                 values[formFields[field].name] = '';
             }
-            accountCreated = true;
-            const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
-            let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
-            buttonEl.innerHTML = buttonArr.altDisplay;
-            
+
             setTimeout(()=>{
                 let tempSubmitted = {...submitted};
                 tempSubmitted.showNotification = false;
                 setSubmitted(tempSubmitted);
-            },5000);
+            },50000);
         },
 
         validate: values => {

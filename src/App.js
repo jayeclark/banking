@@ -1,19 +1,19 @@
 import './styles/App.css';
 import './styles/bootstrap.min.css';
-import { createContext } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import Home from './pages/Home.js';
 import CreateAccount from './pages/CreateAccount.js';
-import Deposit from './pages/Deposit.js';
-import Withdraw from './pages/Withdraw.js';
-import AllData from './pages/AllData.js';
+import Deposit from './pages/Deposit';
+import Withdraw from './pages/Withdraw';
+import AllData from './pages/AllData';
 import AppNav from './components/AppNav';
 import logo from './assets/logo.svg';
+import LanguageContext from './helpers/LanguageContext';
+import FormContext from './helpers/LanguageContext';
+import UserDBContext from './helpers/LanguageContext';
+import UserContext from './helpers/LanguageContext';
 
-const LanguageContext = createContext({language:'en'});
-const FormContext = createContext({form:'formik'});
-const UserDBContext = createContext({users:[]});
-const UserContext = createContext({loggedIn: null});
+
 
 function App() {
 
