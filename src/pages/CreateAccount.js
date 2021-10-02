@@ -16,7 +16,7 @@ function CreateAccount() {
 
     const valLength = val => val.length > 0;
     const nameLength = val => val.length >= 4;
-    const emlRegex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,'i');
+    const emlRegex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,'i');
     const pwdRegex = new RegExp(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{0,}$/,"i");
     const emailFormat = email => emlRegex.test(email);
     const passwordLength = val => val.length >= 8;
@@ -51,7 +51,8 @@ function CreateAccount() {
         const user = {
             name: values.name,
             email: values.email,
-            password: values.password
+            password: values.password,
+            transactions: [],
          };
 
         let userDB = userObj.users;
