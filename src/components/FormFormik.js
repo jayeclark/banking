@@ -1,9 +1,15 @@
 import { useFormik } from 'formik';
+import '../styles/formik.css';
+import Notification from './Notification.js';
+import { useState } from 'react';
 
-function FormFormik({formFields, formSubmission, accountCreated, setAccountCreated}) {
+function FormFormik({formFields, formSubmission, accountCreated, setAccountCreated, submitHelper}) {
 
-    let {buttons, success, idRoot} = formSubmission
+    let {buttons, success, failure, idRoot} = formSubmission
     let initialFieldValues = {};
+
+    let [submitted, setSubmitted] = useState({showNotification: false, title: 'Success', type: 'success', text: success});
+
 
     for (let field in formFields) {
         const fieldName = formFields[field].name;
@@ -15,8 +21,26 @@ function FormFormik({formFields, formSubmission, accountCreated, setAccountCreat
         initialValues: initialFieldValues,
 
         onSubmit: values => {
-            console.log(values);
-            alert(success);
+
+            const outcome = submitHelper(values);
+            if (outcome === 'failure') {
+                let tempSubmitted = {...submitted};
+                tempSubmitted.type = 'failure';
+                tempSubmitted.title = 'Account Create Failed';
+                tempSubmitted.text = failure;
+                tempSubmitted.showNotification = true;
+                setSubmitted(tempSubmitted);
+            }
+            else {
+                setAccountCreated(true);
+                let tempSubmitted = {...submitted};
+                tempSubmitted.type = 'success';
+                tempSubmitted.title = 'Success';
+                tempSubmitted.text = success;
+                tempSubmitted.showNotification = true;
+                setSubmitted(tempSubmitted);
+            }
+
             for (let field in formFields) {
                 let element = document.getElementById(formFields[field].name);
                 element.value = '';
@@ -24,10 +48,14 @@ function FormFormik({formFields, formSubmission, accountCreated, setAccountCreat
             }
             accountCreated = true;
             const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
-            console.log(buttonArr);
             let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
-            console.log(buttonEl);
             buttonEl.innerHTML = buttonArr.altDisplay;
+            
+            setTimeout(()=>{
+                let tempSubmitted = {...submitted};
+                tempSubmitted.showNotification = false;
+                setSubmitted(tempSubmitted);
+            },5000);
         },
 
         validate: values => {
@@ -51,23 +79,31 @@ function FormFormik({formFields, formSubmission, accountCreated, setAccountCreat
 
     })
 
+    const handleClick = () => {
+        let tempSubmitted = {...submitted};
+        tempSubmitted.showNotification = false;
+        setSubmitted(tempSubmitted);
+    }
+
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <form className="form-formik" onSubmit={formik.handleSubmit}>
+            {submitted.showNotification === true ? <Notification title={submitted.title} type={submitted.type} text={submitted.text} handleClick={handleClick}></Notification> : null}
             {formFields.map((field,i)=>{
                 return (
-                    <div key={i}>
-                        <div>{field.display}</div>
-                        <div>
-                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]}/>
-                            {formik.errors[field.name] ? <div id={idRoot + "-" + field.name + "Error"}>{formik.errors[field.name]}</div> : null }
+                    <div key={i} className="input-container">
+                        <div className='field-name'><b>{field.display}</b></div>
+                        <div className='input-lockup'>
+                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]} style={{outlineColor: formik.errors[field.name] ? 'red' : 'green' }}/>
+                            {formik.errors[field.name] ? <div id={idRoot + "-" + field.name + "Error"} className="error">{formik.errors[field.name]}</div> : null }
                         </div>
                     </div>
                 )
             })}
-            <div>
+            <div className='buttons'>
+                <div className='button-buffer'></div>
                 {buttons.map((buttonEl,i)=>{
                     return (
-                        <div key={i}>
+                        <div key={i} className="button-container">
                             <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>'') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
                         </div>
                     )

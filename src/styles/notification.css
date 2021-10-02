@@ -1,0 +1,45 @@
+.notification-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    box-sizing: border-box;
+    padding: 180px 10% 0px 10%;
+    align-items: flex-start;
+    justify-content: center;
+    position:fixed;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    z-index: 9999;
+}
+
+.notification-card {
+    width: 100%;
+    max-width: 450px;
+    min-width: 200px;
+    border-width: 1px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.4);
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.green {
+    border-width: 3px;
+    border-color: green; 
+}
+
+.red {
+    border-width: 3px;
+    border-color: red; 
+}
+
+.close-button {
+    text-align: right;
+    margin: -10px -5px;
+}
+
+.close-x {
+    cursor: pointer;
+    width: fit-content;
+    margin-left: auto;
+}
