@@ -4,15 +4,15 @@ import FormReactHook from '../components/FormReactHook';
 import Card from '../components/Card';
 import {useContext} from 'react';
 import UserDBContext from '../helpers/UserDBContext';
+import FormContext from '../helpers/FormContext';
 
 function CreateAccount() {
 
-    const accountCreated = false;
-
-    const formProvider = 'formik';
-
     const userObj = useContext(UserDBContext);
-    console.log(userObj);
+    let userCount = userObj.users.length;
+    const formObj = useContext(FormContext);
+    const formProvider = formObj.form;
+    const accountCreated = userCount === 0 ? false : true;
 
     const valLength = val => val.length > 0;
     const nameLength = val => val.length >= 4;

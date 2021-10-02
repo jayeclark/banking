@@ -17,7 +17,6 @@ import UserContext from './helpers/LanguageContext';
 
 function App() {
 
-
   return (
     <>
     <HashRouter>

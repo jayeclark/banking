@@ -8,8 +8,7 @@ function FormFormik({formFields, formSubmission}) {
     let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
-    let [submitted, setSubmitted] = useState({showNotification: false, title: 'Success', type: 'success', text: success});
-
+    const [submitted, setSubmitted] = useState({showNotification: false, title: 'Success', type: 'success', text: success});
 
     for (let field in formFields) {
         const fieldName = formFields[field].name;
@@ -55,7 +54,7 @@ function FormFormik({formFields, formSubmission}) {
                 let tempSubmitted = {...submitted};
                 tempSubmitted.showNotification = false;
                 setSubmitted(tempSubmitted);
-            },50000);
+            },5000);
         },
 
         validate: values => {
