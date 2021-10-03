@@ -1,0 +1,25 @@
+.responsive-nav {
+    justify-content: center;
+}
+
+@media only screen and (max-width: 650px) {
+    .responsive-nav {
+        font-size: 0.75em;
+    }
+
+    h4 {
+        font-size: calc(1rem + .3vw);
+    }
+   
+}
+
+@media only screen and (max-width: 575px) {
+    .responsive-nav {
+        justify-content: left;
+        font-size: 1em;
+    }
+
+    .nav-link {
+        text-align: left;
+    }
+}

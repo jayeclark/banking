@@ -6,12 +6,17 @@ import '../styles/alldata.css';
 
 function AllData() {
 
-    const userObj = useContext(UserDBContext);
-    const loginObj = useContext(UserContext);
-    const users = userObj.users;
-    let user =  loginObj.loggedIn !== '' ? users.filter(x=>x.number === loginObj.loggedIn)[0] :   
-                users.length > 0 ? users[0] : null
-    let transactions = user ? user.transactions : [];
+    const userDBcontext = useContext(UserDBContext);
+    const {loggedInUser} = useContext(UserContext);
+
+    const getUser = (userObj, userNum) => {
+        const users = userObj.users;
+        let user =  userNum !== '' ? users.filter(x=>x.number === userNum)[0] :   
+                    users.length > 0 ? users[0] : null
+        return user;
+    }
+
+    let transactions = getUser(userDBcontext,loggedInUser) ? getUser(userDBcontext,loggedInUser).transactions : [];
 
     const chartHeader = <div className="data-grid-header-row"><div className="align-left"><b>Date</b></div><div className="data-grid-description align-left"><b>Description</b></div><div className="align-right"><b>Credit</b></div><div className="align-right"><b>Debit</b></div><div className="align-right"><b>Balance</b></div></div>;
 
@@ -22,7 +27,7 @@ function AllData() {
 
     return (
         <>
-        {user ? <Card header={header} content={content} form={form}></Card> :
+        {loggedInUser !== '' && transactions.length > 0 ? <Card header={header} content={content} form={form}></Card> :
                 <Card header={header} content="No transactions available to display" form={form}></Card>}
         </>
     )

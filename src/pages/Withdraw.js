@@ -10,15 +10,19 @@ import { now } from 'lodash';
 
 function Withdraw() {
 
-    const userObj = useContext(UserDBContext);
-    const loginObj = useContext(UserContext);
-    const users = userObj.users;
-    let user =  loginObj.loggedIn !== '' ? users.filter(x=>x.number === loginObj.loggedIn)[0] :   
-                users.length > 0 ? users[0] : null
+    const userDBContext = useContext(UserDBContext);
+    const {loggedInUser} = useContext(UserContext);
    
+    const getUser = (userDBObj, userNum) => {
+        const users = userDBObj.users;
+        let user =  userNum !== null ? users.filter(x=>x.number === userNum)[0] :   
+                    users.length > 0 ? users[0] : null
+        return user;
+    }
+
     const formObj = useContext(FormContext);
     const formProvider = formObj.form;
-    const startingBalance = user ? user.balance : 0.00;
+    const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
     const header = "Make a Withdrawal";
@@ -44,13 +48,13 @@ function Withdraw() {
 
     const submitHelperFunc = (values) => {
 
-            if (!user) {return 'failure'}
+            if (loggedInUser === '') {return 'failure'}
             else {
                 let newBalance = balance - Number(values.withdraw.replace(',',''));
                 if (isNaN(newBalance)) {return 'failure'};
                 setBalance(newBalance);
-                user.balance = newBalance;
-                user.transactions.push({time: now(), credit: null, debit: Number(values.withdraw.replace(',','')), description: 'Withdrawal from account', newBalance: balance - Number(Number(values.withdraw.replace(',','')).toFixed(2)) })
+                getUser(userDBContext,loggedInUser).balance = newBalance;
+                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: null, debit: Number(values.withdraw.replace(',','')), description: 'Withdrawal from account', newBalance: balance - Number(Number(values.withdraw.replace(',','')).toFixed(2)) })
                 return 'success';
             }
     
@@ -103,10 +107,10 @@ function Withdraw() {
 
     return (
             <>
-            { user && balance > 0 ? <Card header={header} content={content} form={form}></Card> :
-                    user ? 
-                    <Card header={header} content="You must have a positive balance to make a withdrawal!" form=""></Card> : 
-                    <Card header={header} content="You must create an account and have a positive balance to make a withdrawal!" form=""></Card> 
+            { loggedInUser !== '' && balance > 0 ? <Card header={header} content={content} form={form}></Card> :
+                    loggedInUser !== ''  ? 
+                    <Card header={header} content={<><p>You must have a positive balance amount in order to make a withdrawal from your account!</p><h4>Current Balance: ${balance.toFixed(2)}</h4></>} form=""></Card> : 
+                    <Card header={header} content={<p>You must be logged in and have a positive balance in order to request a withdrawal!</p>} form=""></Card> 
             }
             </>
     )

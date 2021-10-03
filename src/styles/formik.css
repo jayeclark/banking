@@ -1,6 +1,10 @@
 .form-formik {
-    min-width: 375px;
+    min-width: 290px;
     padding: 10px 30px;
+}
+
+input:-internal-direct-focus {
+    outline-color:rgba(0, 128, 0, 0.5);
 }
 
 .form-formik .input-container {
@@ -12,23 +16,36 @@
 
 .form-formik .input-container .field-name {
     margin-right: 10px;
-    width: 70px;
+    width: 80px;
+    min-width: 80px;
     flex-grow: 1;
     text-align: left;
 }
 
 .form-formik .input-container .input-lockup {
     flex-grow: 4;
-    width: 250px;
     position: relative;
 }
 
 .form-formik .input-container input {
     width: 100%;
+    min-width: 120px;
 }
 
-.form-formik .input-container input:focus {
-    outline-color: green;
+.input-error:focus {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.input-visible-error {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.input-noerror:focus {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
+}
+
+.input-visible-noerror {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
 }
 
 .form-formik .input-container .error {
@@ -66,4 +83,20 @@
     flex-grow: 1;
     flex-shrink: 1;
     width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .form-formik .input-container .error {
+        white-space: nowrap;
+        font-size: 0.6em;
+        top: -14px;
+    }
+}
+
+@media only screen and (max-width: 418px) {
+    .form-formik .input-container .error {
+        position: absolute;
+        top: 30px;
+        font-size: 0.6em;
+    }
 }

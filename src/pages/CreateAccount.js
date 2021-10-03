@@ -4,15 +4,19 @@ import FormReactHook from '../components/FormReactHook';
 import Card from '../components/Card';
 import {useContext} from 'react';
 import UserDBContext from '../helpers/UserDBContext';
+import UserContext from '../helpers/UserContext';
 import FormContext from '../helpers/FormContext';
 
 function CreateAccount() {
 
-    const userObj = useContext(UserDBContext);
-    let userCount = userObj.users.length;
+    const userDBcontext = useContext(UserDBContext);
+
+    const getUserCount = (userDBcontext) => userDBcontext.users.length;
     const formObj = useContext(FormContext);
     const formProvider = formObj.form;
-    const accountCreated = userCount === 0 ? false : true;
+    const accountCreated = getUserCount(userDBcontext) === 0 ? false : true;
+
+    const { logIn } = useContext(UserContext);
 
     const valLength = val => val.length > 0;
     const nameLength = val => val.length >= 4;
@@ -41,7 +45,7 @@ function CreateAccount() {
             type: 'password',
             display: 'Password',
             validation: [   {function: passwordLength, error: 'Must be 8 characters or longer'},
-                            {function: passwordFormat, error: 'Must include one letter, one number & one of these characters: @$!%*#?&'}
+                            {function: passwordFormat, error: 'Must include letter, number & special character.'}
                         ]
             }
         ]
@@ -54,16 +58,17 @@ function CreateAccount() {
             password: values.password,
             transactions: [],
             balance: 0,
-            number: userObj.users.length + 1,
+            number: getUserCount(userDBcontext) + 1,
          };
 
-        let userDB = userObj.users;
+        let userDB = userDBcontext.users;
 
         let filtered = userDB.filter(x=>x.email === values.email);
         
         if (filtered.length > 0) {return 'failure'}
         else {
             userDB.push(user);
+            logIn(user.number);
             return 'success';
         }
 
@@ -71,7 +76,7 @@ function CreateAccount() {
 
     const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Create Account', altDisplay: 'Add Another Account', dependency: () => accountCreated === true, className:'btn btn-primary'}],
                             submitHelper: submitHelperFunc,
-                            success: 'Your account has been created!',
+                            success: 'Your account has been created and you have automatically been logged in. You may now make deposits and withdrawals.',
                             failure: 'An account is already associated with that email! Please use a different one.',
                             idRoot: 'create-account',
                             accountCreated: accountCreated

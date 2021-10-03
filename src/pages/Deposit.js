@@ -10,15 +10,20 @@ import { now } from 'lodash';
 
 function Deposit() {
 
-    const userObj = useContext(UserDBContext);
-    const loginObj = useContext(UserContext);
-    const users = userObj.users;
-    let user =  loginObj.loggedIn !== '' ? users.filter(x=>x.number === loginObj.loggedIn)[0] :   
-                users.length > 0 ? users[0] : null
-   
+    const userDBContext = useContext(UserDBContext);
+    console.log(useContext(UserContext));
+    const {loggedInUser} = useContext(UserContext);
+
+    const getUser = (userDBObj, userNum) => {
+        const users = userDBObj.users;
+        let user =  userNum !== null ? users.filter(x=>x.number === userNum)[0] :   
+                    users.length > 0 ? users[0] : null
+        return user;
+    }
+
     const formObj = useContext(FormContext);
     const formProvider = formObj.form;
-    const startingBalance = user ? user.balance : 0.00;
+    const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
     const header = "Make a Deposit";
@@ -42,13 +47,13 @@ function Deposit() {
 
     const submitHelperFunc = (values) => {
 
-            if (!user) {return 'failure'}
+            if (loggedInUser === null) {return 'failure'}
             else {
                 let newBalance = balance + Number(values.deposit.replace(',',''));
                 if (isNaN(newBalance)) {return 'failure'};
                 setBalance(newBalance);
-                user.balance = newBalance;
-                user.transactions.push({time: now(), credit: Number(values.deposit.replace(',','')), debit: null, description: 'Deposit to account', newBalance: balance + Number(Number(values.deposit.replace(',','')).toFixed(2)) })
+                getUser(userDBContext,loggedInUser).balance = newBalance;
+                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: Number(values.deposit.replace(',','')), debit: null, description: 'Deposit to account', newBalance: balance + Number(Number(values.deposit.replace(',','')).toFixed(2)) })
                 return 'success';
             }
     
@@ -100,9 +105,8 @@ function Deposit() {
 
     return (
             <>
-            {user ? <Card header={header} content={content} form={form}></Card> :
-                    <Card header={header} content="You must create an account to make a deposit!" form=""></Card> 
-            }
+            {loggedInUser ? <Card header={header} content={content} form={form}></Card> :
+                    <Card header={header} content="You must be logged in to make a deposit!" form=""></Card> }
             </>
     )
 

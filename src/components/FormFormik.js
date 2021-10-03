@@ -8,6 +8,8 @@ function FormFormik({formFields, formSubmission}) {
     let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
+    let manuallyClosed = false;
+
     const [submitted, setSubmitted] = useState(false);
     const notification = {title: 'Success', type: 'success', text: success};
 
@@ -48,7 +50,7 @@ function FormFormik({formFields, formSubmission}) {
                 values[formFields[field].name] = '';
             }
 
-            setTimeout(()=>setSubmitted(false),5000);
+            setTimeout(()=>{if (manuallyClosed === false) setSubmitted(false)},5000);
         },
 
         validate: values => {
@@ -74,6 +76,7 @@ function FormFormik({formFields, formSubmission}) {
 
     const handleClick = () => {
         setSubmitted(false);
+        manuallyClosed = true;
     }
 
     return (
@@ -84,7 +87,7 @@ function FormFormik({formFields, formSubmission}) {
                     <div key={i} className="input-container">
                         <div className='field-name'><b>{field.display}</b></div>
                         <div className='input-lockup'>
-                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]} style={{outlineColor: formik.errors[field.name] ? 'red' : 'green' }}/>
+                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]} className={formik.errors[field.name] && formik.values[field.name] ? 'input-visible-error' : formik.errors[field.name] ? 'input-error' : formik.values[field.name] ? 'input-visible-noerror' : 'input-noerror'} />
                             {formik.errors[field.name] ? <div id={idRoot + "-" + field.name + "Error"} className="error">{formik.errors[field.name]}</div> : null }
                         </div>
                     </div>

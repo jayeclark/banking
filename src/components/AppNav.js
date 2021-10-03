@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
+import '../styles/appnav.css';
 
 function AppNav() {
     
@@ -23,7 +24,7 @@ function AppNav() {
                     }
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
+        <nav className="navbar navbar-expand-sm navbar-dark responsive-nav" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
             <div className="container-fluid" style={{justifyContent:"left"}}>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
