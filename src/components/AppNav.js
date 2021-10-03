@@ -14,8 +14,6 @@ function AppNav() {
 
     const pageUrl = window.location.hash;
 
-    console.log(pageUrl);
-
     const active = {home: pageUrl === '#/' ? ' active' : '',
                     createAccount: pageUrl === '#/create-account/' ? ' active' :  '',
                     deposit: pageUrl === '#/deposit/' ? ' active' :  '',

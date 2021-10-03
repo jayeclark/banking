@@ -11,7 +11,7 @@ import { now } from 'lodash';
 function Deposit() {
 
     const userDBContext = useContext(UserDBContext);
-    console.log(useContext(UserContext));
+
     const {loggedInUser} = useContext(UserContext);
 
     const getUser = (userDBObj, userNum) => {
