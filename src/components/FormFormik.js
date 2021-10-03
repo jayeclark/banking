@@ -8,7 +8,8 @@ function FormFormik({formFields, formSubmission}) {
     let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
-    const [submitted, setSubmitted] = useState({showNotification: false, title: 'Success', type: 'success', text: success});
+    const [submitted, setSubmitted] = useState(false);
+    const notification = {title: 'Success', type: 'success', text: success};
 
     for (let field in formFields) {
         const fieldName = formFields[field].name;
@@ -22,13 +23,12 @@ function FormFormik({formFields, formSubmission}) {
         onSubmit: values => {
 
             const outcome = submitHelper(values);
+
             if (outcome === 'failure') {
-                let tempSubmitted = {...submitted};
-                tempSubmitted.type = 'error';
-                tempSubmitted.title = 'Account Create Failed';
-                tempSubmitted.text = failure;
-                tempSubmitted.showNotification = true;
-                setSubmitted(tempSubmitted);
+                notification.type = 'error';
+                notification.title = 'Account Create Failed';
+                notification.text = failure;
+                setSubmitted(true);
             }
             else {
                 formSubmission.accountCreated = true;
@@ -36,12 +36,10 @@ function FormFormik({formFields, formSubmission}) {
                 let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
                 buttonEl.innerHTML = buttonArr.altDisplay;
                 
-                let tempSubmitted = {...submitted};
-                tempSubmitted.type = 'success';
-                tempSubmitted.title = 'Success';
-                tempSubmitted.text = success;
-                tempSubmitted.showNotification = true;
-                setSubmitted(tempSubmitted);
+                notification.type = 'success';
+                notification.title = 'Success';
+                notification.text = success;
+                setSubmitted(true);
             }
 
             for (let field in formFields) {
@@ -50,11 +48,7 @@ function FormFormik({formFields, formSubmission}) {
                 values[formFields[field].name] = '';
             }
 
-            setTimeout(()=>{
-                let tempSubmitted = {...submitted};
-                tempSubmitted.showNotification = false;
-                setSubmitted(tempSubmitted);
-            },5000);
+            setTimeout(()=>setSubmitted(false),5000);
         },
 
         validate: values => {
@@ -79,14 +73,12 @@ function FormFormik({formFields, formSubmission}) {
     })
 
     const handleClick = () => {
-        let tempSubmitted = {...submitted};
-        tempSubmitted.showNotification = false;
-        setSubmitted(tempSubmitted);
+        setSubmitted(false);
     }
 
     return (
-        <form className="form-formik" onSubmit={formik.handleSubmit}>
-            {submitted.showNotification === true ? <Notification title={submitted.title} type={submitted.type} text={submitted.text} handleClick={handleClick}></Notification> : null}
+        <form id={idRoot} className="form-formik" onSubmit={formik.handleSubmit}>
+            {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick}></Notification> : null}
             {formFields.map((field,i)=>{
                 return (
                     <div key={i} className="input-container">
@@ -103,7 +95,7 @@ function FormFormik({formFields, formSubmission}) {
                 {buttons.map((buttonEl,i)=>{
                     return (
                         <div key={i} className="button-container">
-                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>'') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
+                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
                         </div>
                     )
                     

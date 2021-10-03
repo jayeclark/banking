@@ -54,6 +54,7 @@ function CreateAccount() {
             password: values.password,
             transactions: [],
             balance: 0,
+            number: userObj.users.length + 1,
          };
 
         let userDB = userObj.users;

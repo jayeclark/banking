@@ -1,0 +1,17 @@
+.data-grid {
+    display: block;
+}
+
+.data-grid-row {
+    display: grid;
+    grid-template-columns: 15% 40% 15% 15% 15%;
+    grid-template-rows: auto;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
