@@ -33,8 +33,8 @@ function App() {
     <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
         <LanguageContext.Provider value={{language:'en'}}>
           <div className="App">
-            <div style={{height:'60px', padding:'15px 40px 20px 40px',textAlign:'left'}}><img alt="" src={logo} height="100%"/></div>
-            <div style={{position:'absolute',display:'flex',height:'60px',right:'0px',top:'0px'}}><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
+            <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
+            <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
             <AppNav />
             <div className="container" style={{padding:'20px'}}>
            

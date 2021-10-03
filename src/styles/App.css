@@ -28,6 +28,24 @@
   color: #61dafb;
 }
 
+.brand-div {
+  height:60px;
+  padding: 15px 40px 20px 40px;
+  text-align:left;
+}
+
+.brand-image {
+  height: 100%;
+}
+
+.login-widget {
+  position:absolute;
+  display:flex;
+  height:60px;
+  right:0px;
+  top:0px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,3 +54,42 @@
     transform: rotate(360deg);
   }
 }
+
+@media only screen and (max-width: 575px) {
+  
+  .brand-div {
+    padding: 15px 40px 20px 30px;
+  }
+
+}
+
+@media only screen and (max-width: 440px) {
+  
+  .brand-div {
+    padding: 16.5px 40px 22px 20px;
+  }
+
+}
+
+@media only screen and (max-width: 440px) {
+  
+  .brand-div {
+    padding: 14px 40px 28px 20px;
+  }
+
+}
+
+@media only screen and (max-width: 360px) {
+  
+  .login-widget {
+    position:relative;
+    display:flex;
+    height:auto;
+    margin-top: -10px;
+    margin-left: -2px;
+    margin-bottom: 10px;
+    left:0px;
+  }
+
+}
+
