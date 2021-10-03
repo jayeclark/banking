@@ -30,12 +30,6 @@ function AllData() {
 }
 
 function ChartRow({data}) {
-    console.log(Object.keys(data));
-    console.log(data.time);
-    console.log(data.description);
-    console.log(data.debit === null);
-    console.log(data.credit === null);
-    console.log(data.newBalance);
     const txnDate = new Date(data.time);
     return (
         <div className="data-grid-row"><div className="align-left">{txnDate.toLocaleDateString()}</div><div className="align-left">{data.description}</div>{data.credit !== null ? <div className="align-right">${data.credit.toFixed(2)}</div> : <div></div>}{data.debit !== null ? <div className="align-right">-${data.debit.toFixed(2)}</div> : <div></div>}<div className="align-right">${data.newBalance.toFixed(2)}</div></div>
