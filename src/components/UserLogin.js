@@ -1,6 +1,7 @@
 import UserContext from "../helpers/UserContext";
 import UserDBContext from "../helpers/UserDBContext";
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/userLogin.css';
 
 function UserLogin() {
@@ -32,7 +33,7 @@ function UserLogin() {
     
     return (
         <div style={{padding:'10px',fontSize:"0.8rem", height: 'auto', margin:'auto 0px', display:'flex',flexWrap:'nowrap'}}>
-        {(loggedInUser !== '') ? <div style={{padding: '0px 10px',borderRight: '1px solid #ccc'}}>{getUser(userDBContext,loggedInUser).name}</div> : null}<div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : handleSignIn}>{(loggedInUser !== '')  ? 'Sign Out' : 'Sign In'}</div>
+        {(loggedInUser !== '') ? <div style={{padding: '0px 10px',borderRight: '1px solid #ccc'}}>{getUser(userDBContext,loggedInUser).name}</div> : null}<div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : userDBContext.users.length > 0 ? handleSignIn : null}>{loggedInUser !== ''  ? 'Sign Out' : userDBContext.users.length > 0 ? 'Sign In' : <Link style={{textDecoration:'none',color:'black'}} to="/create-account/">Sign In</Link>}</div>
         </div>
     )
 }
