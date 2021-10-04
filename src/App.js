@@ -10,14 +10,16 @@ import AllData from './pages/AllData';
 import AppNav from './components/AppNav';
 import logo from './assets/logo.svg';
 import LanguageContext from './helpers/LanguageContext';
-import FormContext from './helpers/LanguageContext';
+import FormContext from './helpers/FormContext';
 import UserContext from './helpers/UserContext';
-import UserDBContext from './helpers/LanguageContext';
+import UserDBContext from './helpers/UserDBContext';
 import UserLogin from './components/UserLogin';
 
 function App() {
 
   const [loggedInUser, setLoggedInUser] = useState('');
+  const [language, setLanguage] = useState('en');
+
 
   function logOut() {
     setLoggedInUser('');
@@ -26,12 +28,16 @@ function App() {
     setLoggedInUser(val);
   }
   
+  function changeLanguage(lan) {
+    setLanguage(lan);
+  }
+
   return (
     <>
     <HashRouter>
     <UserDBContext.Provider value={{users: []}}>
     <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
-        <LanguageContext.Provider value={{language:'en'}}>
+        <LanguageContext.Provider value={{language, changeLanguage}}>
           <div className="App">
             <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
             <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>

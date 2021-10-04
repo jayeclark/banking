@@ -2,16 +2,19 @@ import { useFormik } from 'formik';
 import '../styles/formik.css';
 import Notification from './Notification.js';
 import { useState } from 'react';
+import data from '../data/en.json';
 
 function FormFormik({formFields, formSubmission}) {
+
+    const {successTitle, failureTitle} = data.general;
 
     let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
-    let manuallyClosed = false;
+    let manuallyClosed = {idRoot: null, closed: false};
 
     const [submitted, setSubmitted] = useState(false);
-    const notification = {title: 'Success', type: 'success', text: success};
+    const notification = {title: successTitle, type: 'success', text: success};
 
     for (let field in formFields) {
         const fieldName = formFields[field].name;
@@ -25,10 +28,11 @@ function FormFormik({formFields, formSubmission}) {
         onSubmit: values => {
 
             const outcome = submitHelper(values);
+            manuallyClosed.closed = false;
 
             if (outcome === 'failure') {
                 notification.type = 'error';
-                notification.title = 'Account Create Failed';
+                notification.title = failureTitle;
                 notification.text = failure;
                 setSubmitted(true);
             }
@@ -36,10 +40,10 @@ function FormFormik({formFields, formSubmission}) {
                 formSubmission.accountCreated = true;
                 const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
                 let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
-                buttonEl.innerHTML = buttonArr.altDisplay;
+                if (buttonArr.hasOwnProperty("altDisplay")) {buttonEl.innerHTML = buttonArr.altDisplay;}
                 
                 notification.type = 'success';
-                notification.title = 'Success';
+                notification.title = successTitle;
                 notification.text = success;
                 setSubmitted(true);
             }
@@ -50,7 +54,7 @@ function FormFormik({formFields, formSubmission}) {
                 values[formFields[field].name] = '';
             }
 
-            setTimeout(()=>{if (manuallyClosed === false) setSubmitted(false)},5000);
+            setTimeout(()=>{if (manuallyClosed.closed === false && manuallyClosed.idRoot === idRoot) {setSubmitted(false)}},5000);
         },
 
         validate: values => {
@@ -63,7 +67,18 @@ function FormFormik({formFields, formSubmission}) {
                     let validationFunction = item.function;
                     let errorMsg = item.error;
                     let value = values[thisField.name];
-                    if(validationFunction(value) === false) { errors[thisField.name] = errorMsg }
+
+                    if (item.hasOwnProperty("args")) {
+                        let itemArgs = item["args"];
+                        let itemArgValues = itemArgs.reduce((a,b) => {a.push(b.value); return a;},[]);
+                        if (itemArgValues.length > 1 && validationFunction(value, ...itemArgValues) === false) { errors[thisField.name] = errorMsg }
+                        else if (itemArgValues.length === 1 && validationFunction(value, itemArgValues[0]) === false) { errors[thisField.name] = errorMsg }
+                    }
+                    else {
+                        if(validationFunction(value) === false) { errors[thisField.name] = errorMsg }
+                    }
+ 
+                    
                 }
 
             }
@@ -75,8 +90,9 @@ function FormFormik({formFields, formSubmission}) {
     })
 
     const handleClick = () => {
-        setSubmitted(false);
-        manuallyClosed = true;
+        if (manuallyClosed.closed === false) {setSubmitted(false);}
+        manuallyClosed.closed = true;
+        manuallyClosed.idRoot = idRoot;
     }
 
     return (
@@ -98,7 +114,7 @@ function FormFormik({formFields, formSubmission}) {
                 {buttons.map((buttonEl,i)=>{
                     return (
                         <div key={i} className="button-container">
-                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
+                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency && buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
                         </div>
                     )
                     

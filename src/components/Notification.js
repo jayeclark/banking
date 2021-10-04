@@ -5,7 +5,7 @@ import closeButton from '../assets/closeButton.svg';
 function Notification({title, text, type, handleClick}) {
 
     let parsedContent = title ? <><div className="close-button"><div className="close-x" onClick={(e) => handleClick()}><img src={closeButton} alt="" height="20px" style={{margin:"-10px 0px"}}/></div></div><div style={{padding:"30px"}}><h4>{title}</h4>{text}</div></>
-                                : text;
+                                : <><div className="close-button"><div className="close-x" onClick={(e) => handleClick()}><img src={closeButton} alt="" height="20px" style={{margin:"-10px 0px"}}/></div></div><div style={{padding:"30px"}}>{text}</div></>;
 
     return (
         <div className="notification-container" >

@@ -1,51 +1,42 @@
-import FormFormik from '../components/FormFormik';
-import FormReactFinal from '../components/FormReactFinal';
-import FormReactHook from '../components/FormReactHook';
 import Card from '../components/Card';
 import {useContext, useState} from 'react';
 import UserDBContext from '../helpers/UserDBContext';
 import FormContext from '../helpers/FormContext';
 import UserContext from '../helpers/UserContext';
+import LanguageContext from '../helpers/LanguageContext';
 import { now } from 'lodash';
+import formParser from '../helpers/formParser';
+import validationFunctions from '../helpers/validation';
+import { getUser, parseValidation } from '../helpers/library';
+import languages from '../data/languages.js';
 
 function Withdraw() {
 
+    // Get user database
     const userDBContext = useContext(UserDBContext);
-    const {loggedInUser} = useContext(UserContext);
-   
-    const getUser = (userDBObj, userNum) => {
-        const users = userDBObj.users;
-        let user =  userNum !== null ? users.filter(x=>x.number === userNum)[0] :   
-                    users.length > 0 ? users[0] : null
-        return user;
-    }
 
-    const formObj = useContext(FormContext);
-    const formProvider = formObj.form;
+    // Get logged in user number, determine starting balance, and set balance state
+    const {loggedInUser} = useContext(UserContext);
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-    const header = "Make a Withdrawal";
-    const content = <><p style={{padding:'20px 40px'}}>Enter an amount and click submit to make a withdrawal from your account!</p><h4 style={{textAlign: 'right',padding: '0px 40px'}}>Current Balance: ${balance.toFixed(2)}</h4></>;
-    let form = '';
+    // Get form preference
+    const {form: formProvider} = useContext(FormContext);
 
-    const valLength = (val) => val.length > 0;
-    const valPositive = (val) => val.toString().search(/^-/) === -1;
-    const typeCheck = (val) => val.toString().search(/[0-9.,-]/) > -1 && val.toString().search(/[^0-9.,-]/) === -1;
-    const decimalCheck = (val) => val.toString().search(/(\.){2,}/) === -1 && val.toString().search(/\.(.){3,}/) === -1;
-    const balCheck = (val) => Number(val.replace(',','')) <= balance || isNaN(Number(val));
+    // Get language preference and import content data based on it
+    const {language} = useContext(LanguageContext);
+    const data = languages[language];
+    
+    // Load page content
+    const {header, card: {cardMsg, balanceMsg}, id} = data.pages.withdraw;
+    const {formSubmission, formFields, valueIfNoData, valueIfNotLoggedIn} = data.forms.withdraw;
+    const content = <><p style={{padding:'20px 40px'}}>{cardMsg}</p><h4 style={{textAlign: 'right',padding: '0px 40px'}}>{balanceMsg}{balance.toFixed(2)}</h4></>;
 
-    const formFields = [{
-                            name: 'withdraw',
-                            display: 'Amount ($)',
-                            type: 'text',
-                            validation: [{function: valLength, error: 'Please enter an amount to withdraw'},
-                                         {function: valPositive, error: 'Please enter a positive amount to withdraw'},
-                                         {function: typeCheck, error: 'Please enter a positive amount to withdraw, with no currency symbol'},
-                                         {function: decimalCheck, error: 'Please only enter 2 decimal points'},
-                                         {function: balCheck, error: 'Overdraw alert: Amount is more than your available balance'}]
-                        }];
+    // Parse validation functions
+    const availableArgs = {balance};
+    parseValidation(formFields, validationFunctions, availableArgs);
 
+    // Add submission instructions
     const submitHelperFunc = (values) => {
 
             if (loggedInUser === '') {return 'failure'}
@@ -60,57 +51,16 @@ function Withdraw() {
     
         }
 
-    const withdrawalCreated = false;
+    formSubmission.submitHelper = submitHelperFunc;
 
-    const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Withdraw', altDisplay: 'Withdraw', dependency: () => false, className:'btn btn-primary'}],
-                            submitHelper: submitHelperFunc,
-                            success: 'Your withdrawal has been recorded!',
-                            failure: 'We were unable to make a withdrawal. Please try again later.',
-                            idRoot: 'withdraw',
-                            accountCreated: withdrawalCreated,
-                            };
-
-    switch (formProvider) {
-
-        case 'formik':
-            form = <FormFormik 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={withdrawalCreated} >
-                    </FormFormik> ;
-            break;
-
-        case 'reactFinal':
-            form = <FormReactFinal 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={withdrawalCreated} >
-                    </FormReactFinal>;
-            break;
-
-        case 'reactHook':
-            form = <FormReactHook 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={withdrawalCreated} >
-                    </FormReactHook>;
-            break;
-        
-        default:
-            form = <FormFormik 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={withdrawalCreated} >
-                    </FormFormik>;
-    }
-
+    const form = formParser(formProvider, formFields, formSubmission);
 
     return (
             <>
-            { loggedInUser !== '' && balance > 0 ? <Card header={header} content={content} form={form}></Card> :
+            { loggedInUser !== '' && balance > 0 ? <Card id={id} header={header} content={content} form={form}></Card> :
                     loggedInUser !== ''  ? 
-                    <Card header={header} content={<><p>You must have a positive balance amount in order to make a withdrawal from your account!</p><h4>Current Balance: ${balance.toFixed(2)}</h4></>} form=""></Card> : 
-                    <Card header={header} content={<p>You must be logged in and have a positive balance in order to request a withdrawal!</p>} form=""></Card> 
+                    <Card id={id} header={header} content={<><p>{valueIfNoData}</p><h4>{balanceMsg}{balance.toFixed(2)}</h4></>} form=""></Card> : 
+                    <Card id={id} header={header} content={<p>{valueIfNotLoggedIn}</p>} form=""></Card> 
             }
             </>
     )

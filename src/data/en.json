@@ -1,0 +1,50 @@
+{
+    "pages": {
+        "withdraw": {
+            "nav-button": "Withdraw",
+            "nav-tool-tip": "Withdraw from Your Account",
+            "header": "Make a Withdrawal",
+            "card": {
+                "cardMsg": "Enter an amount and click the button to make a withdrawal from your account!",
+                "balanceMsg": "Current Balance: $"
+            },
+            "id": "withdraw-page"
+        },
+        "deposit": {}
+    },
+
+    "forms": {
+        "withdraw": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Withdraw",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "Your withdrawal has been recorded!",
+                    "failure": "We were unable to make a withdrawal. Please try again later.",
+                    "idRoot": "withdraw-form-",
+                    "typeOfAction" : "Withdrawal from account"
+            },
+            "formFields" : [{
+                "name" : "withdraw",
+                "display" : "Amount ($)",
+                "type" : "text",
+                "validation": [
+                    {"functionName": "hasInput", "error":"Please enter an amount to withdraw"},
+                    {"functionName": "isPositive", "error": "Please enter a positive amount to withdraw"},
+                    {"functionName": "isNumber", "error": "Please enter a valid number, with no currency symbol"},
+                    {"functionName": "hasTwoSigFigs", "error": "Please only enter 2 decimal points"},
+                    {"functionName": "isLessThanBalance", "args":[{"name":"balance","value":""}], "error": "Overdraw alert: Amount is more than your available balance"}
+                ]
+            }],
+            "valueIfNotLoggedIn": "You must be logged in and have a positive balance in order to request a withdrawal!",
+            "valueIfNoData": "You must have a positive balance amount in order to make a withdrawal from your account!"
+        }
+    },
+
+    "general": {
+        "successTitle":"Success",
+        "failureTitle":"Error"
+    }
+}

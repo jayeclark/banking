@@ -1,0 +1,50 @@
+{
+    "pages": {
+        "withdraw": {
+            "nav-button": "Retirar",
+            "nav-tool-tip": "Retirar de su Cuenta",
+            "header": "Hace un Retiro",
+            "card": {
+                "cardMsg": "Ingrese una cantidad y haz clic el botón para realizar un retiro de su cuenta.",
+                "balanceMsg": "Saldo Corriente: $"
+            },
+            "id": "withdraw-page"
+        },
+        "deposit": {}
+    },
+
+    "forms": {
+        "withdraw": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Retirar",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "Su retiro ha sido registrado.",
+                    "failure": "No pudimos hacer un retiro. Por favor, inténtelo de nuevo más tarde.",
+                    "idRoot": "withdraw-form-",
+                    "typeOfAction" : "Retiro de la cuenta"
+            },
+            "formFields" : [{
+                "name" : "withdraw",
+                "display" : "Cantidad ($)",
+                "type" : "text",
+                "validation": [
+                    {"functionName": "hasInput", "error":"Ingrese una cantidad para retirar"},
+                    {"functionName": "isPositive", "error": "Ingrese una cantidad positiva para retirar"},
+                    {"functionName": "isNumber", "error": "Ingrese un número válido, sin símbolo de moneda"},
+                    {"functionName": "hasTwoSigFigs", "error": "Ingrese solo 2 puntos decimales"},
+                    {"functionName": "isLessThanBalance", "args":[{"name":"balance","value":""}], "error": "Alerta de sobregiro: la cantidad es mayor que su saldo disponible"}
+                ]
+            }],
+            "valueIfNotLoggedIn": "¡Debes iniciar sesión y tener un saldo positivo para solicitar un retiro!",
+            "valueIfNoData": "¡Debe tener un saldo positivo para poder hacer un retiro de su cuenta!"
+        }
+    },
+
+    "general": {
+        "successTitle":"",
+        "failureTitle":""
+    }
+}
