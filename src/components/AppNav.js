@@ -28,7 +28,7 @@ function AppNav() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent2">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center" style={{boxSizing:"border-box",marginTop:'4px',width:"100%"}}>
+                    <ul id="app-navigation" className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center" style={{boxSizing:"border-box",marginTop:'4px',width:"100%"}}>
                         <li id="home-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="home-link-tooltip"  data-iscapture="true" data-tip="Return to Home">
                             <Link to="/" className={"nav-link" + active.home}>Home</Link>
                         </li>

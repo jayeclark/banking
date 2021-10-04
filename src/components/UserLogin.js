@@ -31,9 +31,17 @@ function UserLogin() {
         }
     }
     
+    const changeActive = () => {
+        let targetEl = document.getElementById('create-account-link');
+        let link = targetEl.getElementsByClassName('nav-link')[0];
+        let currentlyActive = Array.from(document.getElementsByClassName('active'));
+         currentlyActive.forEach(el => el.classList.remove('active'));
+         link.classList.add('active');
+     }  
+
     return (
         <div style={{padding:'10px',fontSize:"0.8rem", height: 'auto', margin:'auto 0px', display:'flex',flexWrap:'nowrap'}}>
-        {(loggedInUser !== '') ? <div style={{padding: '0px 10px',borderRight: '1px solid #ccc'}}>{getUser(userDBContext,loggedInUser).name}</div> : null}<div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : userDBContext.users.length > 0 ? handleSignIn : null}>{loggedInUser !== ''  ? 'Sign Out' : userDBContext.users.length > 0 ? 'Sign In' : <Link style={{textDecoration:'none',color:'black'}} to="/create-account/">Sign In</Link>}</div>
+        {(loggedInUser !== '') ? <div style={{padding: '0px 10px',borderRight: '1px solid #ccc'}}>{getUser(userDBContext,loggedInUser).name}</div> : null}<div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : userDBContext.users.length > 0 ? handleSignIn : changeActive}>{loggedInUser !== ''  ? 'Sign Out' : userDBContext.users.length > 0 ? 'Sign In' : <Link style={{textDecoration:'none',color:'black'}} to="/create-account/">Sign In</Link>}</div>
         </div>
     )
 }
