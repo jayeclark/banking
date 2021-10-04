@@ -85,7 +85,7 @@ function CreateAccount() {
 
 
     const header = "Create a New Account";
-    const content = <p>Enter your name, email, and password and click submit to create a new account!</p>;
+    const content = <p style={{padding:'20px 40px'}}>Enter your name, email, and password and click submit to create a new account!</p>;
     let form = '';
 
 

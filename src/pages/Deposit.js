@@ -27,7 +27,7 @@ function Deposit() {
     const [balance, setBalance] = useState(startingBalance);
 
     const header = "Make a Deposit";
-    const content = <><p>Enter an amount and click submit to make a deposit to your account!</p><h4>Current Balance: ${balance.toFixed(2)}</h4></>;
+    const content = <><p style={{padding:'20px 40px'}}>Enter an amount and click submit to make a deposit to your account!</p><h4 style={{textAlign: 'right',padding:'0px 40px'}}>Current Balance: ${balance.toFixed(2)}</h4></>;
     let form = '';
 
     const valLength = (val) => val.length > 0;
