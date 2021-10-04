@@ -19,7 +19,13 @@ function App() {
 
   const [loggedInUser, setLoggedInUser] = useState('');
   const [language, setLanguage] = useState('en');
+  const [users, setUsers] = useState([]);
 
+  function addUser(user) {
+    let currentUsers = [...users];
+    currentUsers.push(user);
+    setUsers(currentUsers);
+  }
 
   function logOut() {
     setLoggedInUser('');
@@ -35,7 +41,7 @@ function App() {
   return (
     <>
     <HashRouter>
-    <UserDBContext.Provider value={{users: []}}>
+    <UserDBContext.Provider value={{users, addUser}}>
     <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
         <LanguageContext.Provider value={{language, changeLanguage}}>
           <div className="App">

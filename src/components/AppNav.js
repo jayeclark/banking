@@ -1,9 +1,30 @@
 import {Link} from 'react-router-dom';
+import {useContext} from 'react';
 import ReactTooltip from 'react-tooltip';
 import '../styles/appnav.css';
+import LanguageContext from '../helpers/LanguageContext';
+import languages from '../data/languages.js';
 
 function AppNav() {
     
+    // Get language preference and import content data based on it
+    const {language} = useContext(LanguageContext);
+    const data = languages[language];
+
+    // Build list of nav links
+    const pages = Object.keys(data.pages);
+    const navs = pages.map(key => {
+        const page = data.pages[key];
+        return {
+                pageKey: key,
+                id: page.id.replace('-page','-link'),
+                dataFor: page.id.replace('-page','-link-tooltip'),
+                toolTip: page["nav-tool-tip"],
+                navButton: page["nav-button"],
+                navRoute: page["nav-route"]
+                }
+    });
+
     const changeActive = e => {
        let targetEl = e.currentTarget;
        let link = targetEl.getElementsByClassName('nav-link')[0];
@@ -29,29 +50,11 @@ function AppNav() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent2">
                     <ul id="app-navigation" className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center" style={{boxSizing:"border-box",marginTop:'4px',width:"100%"}}>
-                        <li id="home-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="home-link-tooltip"  data-iscapture="true" data-tip="Return to Home">
-                            <Link to="/" className={"nav-link" + active.home}>Home</Link>
-                        </li>
-                        <li id="create-account-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="create-account-link-tooltip"  data-iscapture="true" data-tip="Create an Account">
-                            <Link to="/create-account/" className={"nav-link" + active.createAccount}>Create Account</Link>
-                        </li>
-                        <li id="deposit-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="deposit-link-tooltip"  data-iscapture="true" data-tip="Deposit to Your Account">
-                            <Link to="/deposit/" className={"nav-link" + active.deposit}>Deposit</Link>
-                        </li>
-                        <li id="withdraw-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="withdraw-link-tooltip"  data-iscapture="true" data-tip="Withdraw from Your Account">
-                            <Link to="/withdraw/" className={"nav-link" + active.withdraw}>Withdraw</Link>
-                        </li>
-                        <li id="all-data-link" style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for="all-data-link-tooltip"  data-iscapture="true" data-tip="View All Transaction Data">
-                            <Link to="/all-data/" className={"nav-link" + active.allData}>All Data</Link>
-                        </li>
+                        {navs.map((nav,i)=> <li id={nav.id} key={i} style={{padding:"0px 20px"}} onClick={e=> changeActive(e)} className="nav-item" data-for={nav.dataFor}  data-iscapture="true" data-tip={nav.toolTip}><Link to={nav.navRoute} className={"nav-link" + active[nav.pageKey]}>{nav.navButton}</Link></li>)}
                     </ul>
                 </div>
             </div>
-             <ReactTooltip id="home-link-tooltip" place="bottom" type="dark" effect="solid" multiline={true} />
-             <ReactTooltip id="create-account-link-tooltip" place="bottom" type="dark" effect="solid" multiline={true} />
-             <ReactTooltip id="deposit-link-tooltip" place="bottom" type="dark" effect="solid" multiline={true} />
-             <ReactTooltip id="withdraw-link-tooltip" place="bottom" type="dark" effect="solid" multiline={true} />
-             <ReactTooltip id="all-data-link-tooltip" place="bottom" type="dark" effect="solid" multiline={true} />
+            {navs.map((nav,i)=> <ReactTooltip id={nav.dataFor} key={i} place="bottom" type="dark" effect="solid" multiline={true} />)}
         </nav>
     )
 }

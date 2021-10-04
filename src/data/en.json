@@ -1,8 +1,40 @@
 {
     "pages": {
+        "home": {
+            "nav-button": "Home",
+            "nav-tool-tip": "Return to Home",
+            "nav-route": "/",
+            "header": "Welcome to Bad Bank of America",
+            "card": {
+                "cardMsg":"See how Bad Bank of America® banking solutions and Bad Merrill Edge® Investment services can help make your personal financial life easier."
+            },
+            "id": "home-page"
+        },
+        "createAccount": {
+            "nav-button": "Create Account",
+            "nav-tool-tip": "Create an Account",
+            "nav-route": "/create-account/",
+            "header": "Create a New Account",
+            "card": {
+                "cardMsg": "Enter your name, email, and password and click submit to create a new account!"
+            },
+            "id": "create-account-page"
+        },
+        "deposit": {
+            "nav-button": "Deposit",
+            "nav-tool-tip": "Deposit to Your Account",
+            "nav-route": "/deposit/",
+            "header": "Make a Deposit",
+            "card": {
+                "cardMsg": "Enter an amount and click submit to make a deposit to your account!",
+                "balanceMsg": "Current Balance: $"
+            },
+            "id": "deposit-page"
+        },
         "withdraw": {
             "nav-button": "Withdraw",
             "nav-tool-tip": "Withdraw from Your Account",
+            "nav-route": "/withdraw/",
             "header": "Make a Withdrawal",
             "card": {
                 "cardMsg": "Enter an amount and click the button to make a withdrawal from your account!",
@@ -10,10 +42,91 @@
             },
             "id": "withdraw-page"
         },
-        "deposit": {}
+        "allData": {
+            "nav-button": "All Data",
+            "nav-tool-tip": "View All Transaction Data",
+            "nav-route": "/all-data/",
+            "header": "Recent Transactions",
+            "card": {
+                "cardMsg": "",
+                "cardCols": ["Date","Description","Credit","Debit","Balance"]
+            },
+            "id": "all-data-page"
+        }
     },
 
     "forms": {
+        "createAccount": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Create Account",
+                                "altDisplay": "Add Another Account",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "Your account has been created and you have automatically been logged in. You may now make deposits and withdrawals.",
+                    "failure": "An account is already associated with that email! Please use a different one.",
+                    "idRoot": "create-account",
+                    "typeOfAction" : "Account created",
+                    "displayAlt": "accountCreated"
+            },
+            "formFields" : [
+                    {
+                    "name" : "name",
+                    "display" : "Name",
+                    "type" : "text",
+                    "validation": [
+                        {"functionName": "hasInput", "error":"Please enter your name"},
+                        {"functionName": "hasInput", "args":[{"name":"len","value":4}],"error": "Name must be 4 or more characters long"}]
+                    },
+                    {
+                        "name" : "email",
+                        "display" : "Email",
+                        "type" : "text",
+                        "validation": [
+                            {"functionName": "hasInput", "error":"Please enter your email address"},
+                            {"functionName": "emailFormat", "error": "Please enter a valid email address"}
+                        ]
+                    },
+                    {
+                        "name" : "password",
+                        "display" : "Password",
+                        "type" : "password",
+                        "validation": [
+                            {"functionName": "hasInput", "args":[{"name":"len","value":4}], "error":"Must be 8 characters or longer"},
+                            {"functionName": "passwordFormat", "error": "Must include letter, number & special character."}
+                        ]
+                    }
+                ],
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        },
+        "deposit": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Deposit",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "Your deposit has been recorded!",
+                    "failure": "We were unable to make a deposit. Please try again later.",
+                    "idRoot": "deposit-form",
+                    "typeOfAction" : "Deposit to account"
+            },
+            "formFields" : [{
+                "name" : "deposit",
+                "display" : "Amount ($)",
+                "type" : "text",
+                "validation": [
+                    {"functionName": "hasInput", "error":"Please enter an amount to deposit"},
+                    {"functionName": "isPositive", "error": "Please enter a positive amount to deposit"},
+                    {"functionName": "isNumber", "error": "Please enter a valid number, with no currency symbol"},
+                    {"functionName": "hasTwoSigFigs", "error": "Please only enter 2 decimal points"}
+                ]
+            }],
+            "valueIfNotLoggedIn": "You must be logged in to deposit.",
+            "valueIfNoData": ""
+        },
         "withdraw": {
             "formSubmission" : {
                     "buttons": [ {"type":"submit",
@@ -23,7 +136,7 @@
                                 "dependency":false}],
                     "success": "Your withdrawal has been recorded!",
                     "failure": "We were unable to make a withdrawal. Please try again later.",
-                    "idRoot": "withdraw-form-",
+                    "idRoot": "withdraw-form",
                     "typeOfAction" : "Withdrawal from account"
             },
             "formFields" : [{

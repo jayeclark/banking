@@ -1,8 +1,40 @@
 {
     "pages": {
+        "home": {
+            "nav-button": "Inicio",
+            "nav-tool-tip": "Volver a Inicio",
+            "nav-route": "/",
+            "header": "Bienvenido a Bad Bank of America",
+            "card": {
+                "cardMsg":"Vea cómo las soluciones bancarias de Bad Bank of America® y los servicios de Bad Merrill Edge® Investment pueden ayudarle a facilitar su vida financiera personal."
+            },
+            "id": "home-page"
+        },
+        "createAccount": {
+            "nav-button": "Crear Cuenta",
+            "nav-tool-tip": "Crear una Cuenta",
+            "nav-route": "/create-account/",
+            "header": "Crear una Cuenta Nueva",
+            "card": {
+                "cardMsg": "¡Ingrese su nombre, correo electrónico y contraseña y haga clic en enviar para crear una nueva cuenta!"
+            },
+            "id": "create-account-page"
+        },
+        "deposit": {
+            "nav-button": "Depositar",
+            "nav-tool-tip": "Deposite en su Cuenta",
+            "nav-route": "/deposit/",
+            "header": "Hacer un Depósito",
+            "card": {
+                "cardMsg": "¡Ingrese una cantidad y haga clic en enviar para realizar un depósito en su cuenta!",
+                "balanceMsg": "Saldo Corriente: $"
+            },
+            "id": "deposit-page"
+        },
         "withdraw": {
             "nav-button": "Retirar",
             "nav-tool-tip": "Retirar de su Cuenta",
+            "nav-route": "/withdraw/",
             "header": "Hace un Retiro",
             "card": {
                 "cardMsg": "Ingrese una cantidad y haz clic el botón para realizar un retiro de su cuenta.",
@@ -10,10 +42,91 @@
             },
             "id": "withdraw-page"
         },
-        "deposit": {}
+        "allData": {
+            "nav-button": "Todos los Datos",
+            "nav-tool-tip": "Ver todos los Datos de Transacciones",
+            "nav-route": "/all-data/",
+            "header": "Transacciones Recientes",
+            "card": {
+                "cardMsg": "",
+                "cardCols": ["Fecha","Descripción","Crédito","Débito","Saldo"]
+            },
+            "id": "all-data-page"
+        }
     },
 
     "forms": {
+        "createAccount": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Crear Cuenta",
+                                "altDisplay": "Agregar Otra Cuenta",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "Se ha creado su cuenta y ha iniciado sesión automáticamente. Ahora puede realizar depósitos y retiros.",
+                    "failure": "¡Ya hay una cuenta asociada a ese correo electrónico! Utilice una diferente.",
+                    "idRoot": "create-account",
+                    "typeOfAction" : "Cuenta creada",
+                    "displayAlt": "accountCreated"
+            },
+            "formFields" : [
+                    {
+                    "name" : "name",
+                    "display" : "Nombre",
+                    "type" : "text",
+                    "validation": [
+                        {"functionName": "hasInput", "error":"Ingresa tu nombre"},
+                        {"functionName": "hasInput", "args":[{"name":"len","value":4}],"error": "El nombre debe tener 4 o más caracteres"}]
+                    },
+                    {
+                        "name" : "email",
+                        "display" : "Correo Electronico",
+                        "type" : "text",
+                        "validation": [
+                            {"functionName": "hasInput", "error":"Ingresa tu dirección de correo electrónico"},
+                            {"functionName": "emailFormat", "error": "Ingresa una dirección de correo electrónico válida"}
+                        ]
+                    },
+                    {
+                        "name" : "password",
+                        "display" : "Contraseña",
+                        "type" : "password",
+                        "validation": [
+                            {"functionName": "hasInput", "args":[{"name":"len","value":4}], "error":"Debe tener 8 caracteres o más"},
+                            {"functionName": "passwordFormat", "error": "Debe incluir letra, número y carácter especial"}
+                        ]
+                    }
+                ],
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        },
+        "deposit": {
+            "formSubmission" : {
+                    "buttons": [ {"type":"submit",
+                                "name":"submit",
+                                "display":"Depósito",
+                                "className":"btn btn-primary",
+                                "dependency":false}],
+                    "success": "¡Su depósito ha sido registrado!",
+                    "failure": "No pudimos realizar un depósito. Vuelva a intentarlo más tarde.",
+                    "idRoot": "deposit-form",
+                    "typeOfAction" : "Formulario de depósito"
+            },
+            "formFields" : [{
+                "name" : "deposit",
+                "display" : "Amount ($)",
+                "type" : "text",
+                "validation": [
+                    {"functionName": "hasInput", "error":"Ingresa una cantidad para depositar"},
+                    {"functionName": "isPositive", "error": "Ingresa una cantidad positiva para depositar"},
+                    {"functionName": "isNumber", "error": "Ingresa un número válido, sin símbolo de moneda"},
+                    {"functionName": "hasTwoSigFigs", "error": "Ingresa solo 2 puntos decimales"}
+                ]
+            }],
+            "valueIfNotLoggedIn": "Debes iniciar sesión para depositar.",
+            "valueIfNoData": ""
+        },
         "withdraw": {
             "formSubmission" : {
                     "buttons": [ {"type":"submit",
@@ -44,8 +157,8 @@
     },
 
     "general": {
-        "successTitle":"",
-        "failureTitle":"",
+        "successTitle":"Éxito",
+        "failureTitle":"Error",
         "signIn":"Iniciar Sesión",
         "signOut":"Desconectar"
     }

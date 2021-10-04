@@ -45,7 +45,7 @@ function Withdraw() {
                 if (isNaN(newBalance)) {return 'failure'};
                 setBalance(newBalance);
                 getUser(userDBContext,loggedInUser).balance = newBalance;
-                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: null, debit: Number(values.withdraw.replace(',','')), description: 'Withdrawal from account', newBalance: balance - Number(Number(values.withdraw.replace(',','')).toFixed(2)) })
+                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: null, debit: Number(values.withdraw.replace(',','')), description: formSubmission.typeOfAction, newBalance: balance - Number(Number(values.withdraw.replace(',','')).toFixed(2)) })
                 return 'success';
             }
     
@@ -53,6 +53,7 @@ function Withdraw() {
 
     formSubmission.submitHelper = submitHelperFunc;
 
+    // Create form component
     const form = formParser(formProvider, formFields, formSubmission);
 
     return (

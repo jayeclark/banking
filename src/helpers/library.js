@@ -6,7 +6,7 @@ export const getUser = (userDBObj, userNum) => {
     return user;
 }
 
-export function parseValidation(formFields,validationFunctions,availableArgs) {
+export function parseValidation(formFields,validationFunctions,availableArgs={}) {
 
     formFields.forEach((field,i)=>{
 

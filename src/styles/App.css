@@ -44,6 +44,12 @@
   height:60px;
   right:0px;
   top:0px;
+  padding-right: 40px;
+}
+
+.login-name {
+  padding: 2px 10px; 
+  border-right: 1px solid #ccc;
 }
 
 @keyframes App-logo-spin {
@@ -55,10 +61,29 @@
   }
 }
 
+
+@media only screen and (max-width: 680px) {
+  
+  .login-widget {
+    position:relative;
+    display:flex;
+    height:auto;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    left:0px;
+    padding-left: 18px;
+  }
+
+}
+
 @media only screen and (max-width: 575px) {
   
   .brand-div {
-    padding: 15px 40px 20px 30px;
+    padding: 15px 25px 20px 25px;
+  }
+
+  .login-widget {
+    padding-left: 5px;
   }
 
 }
@@ -69,27 +94,34 @@
     padding: 16.5px 40px 22px 20px;
   }
 
+  .login-widget {
+    padding-left: 0px;
+  }
+
 }
 
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 350px) {
   
   .brand-div {
     padding: 14px 40px 28px 20px;
   }
-
-}
-
-@media only screen and (max-width: 360px) {
   
   .login-widget {
-    position:relative;
-    display:flex;
-    height:auto;
-    margin-top: -10px;
     margin-left: -2px;
-    margin-bottom: 10px;
-    left:0px;
+  }
+
+  .login-name {
+    font-size: 0.7rem;
+  }
+
+  .login-link {
+    font-size: 0.7rem;
+  }
+
+  .language-toggle {
+      font-size: 0.7rem;
   }
 
 }
+
 

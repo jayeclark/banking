@@ -1,50 +1,41 @@
-import FormFormik from '../components/FormFormik';
-import FormReactFinal from '../components/FormReactFinal';
-import FormReactHook from '../components/FormReactHook';
 import Card from '../components/Card';
 import {useContext, useState} from 'react';
 import UserDBContext from '../helpers/UserDBContext';
 import FormContext from '../helpers/FormContext';
 import UserContext from '../helpers/UserContext';
+import LanguageContext from '../helpers/LanguageContext';
 import { now } from 'lodash';
+import formParser from '../helpers/formParser';
+import validationFunctions from '../helpers/validation';
+import { getUser, parseValidation } from '../helpers/library';
+import languages from '../data/languages.js';
 
 function Deposit() {
 
+    // Get user database
     const userDBContext = useContext(UserDBContext);
 
+    // Get logged in user number, determine starting balance, and set balance
     const {loggedInUser} = useContext(UserContext);
-
-    const getUser = (userDBObj, userNum) => {
-        const users = userDBObj.users;
-        let user =  userNum !== null ? users.filter(x=>x.number === userNum)[0] :   
-                    users.length > 0 ? users[0] : null
-        return user;
-    }
-
-    const formObj = useContext(FormContext);
-    const formProvider = formObj.form;
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-    const header = "Make a Deposit";
-    const content = <><p style={{padding:'20px 40px'}}>Enter an amount and click submit to make a deposit to your account!</p><h4 style={{textAlign: 'right',padding:'0px 40px'}}>Current Balance: ${balance.toFixed(2)}</h4></>;
-    let form = '';
+    // Get form preference
+    const {form: formProvider} = useContext(FormContext);
 
-    const valLength = (val) => val.length > 0;
-    const valPositive = (val) => val.toString().search(/^-/) === -1;
-    const typeCheck = (val) => val.toString().search(/[0-9.,-]/) > -1 && val.toString().search(/[^0-9.,-]/) === -1;
-    const decimalCheck = (val) => val.toString().search(/(\.){2,}/) === -1 && val.toString().search(/\.(.){3,}/) === -1;
+    // Get language preference and import content data based on it
+    const {language} = useContext(LanguageContext);
+    const data = languages[language];
+    
+    // Load page content
+    const {header, card: {cardMsg, balanceMsg}, id} = data.pages.deposit;
+    const {formSubmission, formFields, valueIfNotLoggedIn} = data.forms.deposit;
+    const content = <><p style={{padding:'20px 40px'}}>{cardMsg}</p><h4 style={{textAlign: 'right',padding:'0px 40px'}}>{balanceMsg}{balance.toFixed(2)}</h4></>;
 
-    const formFields = [{
-                            name: 'deposit',
-                            display: 'Amount ($)',
-                            type: 'text',
-                            validation: [{function: valLength, error: 'Please enter an amount to deposit'},
-                                         {function: valPositive, error: 'Please enter a positive amount'},
-                                         {function: typeCheck, error: 'Please enter a positive number, with no currency symbol'},
-                                         {function: decimalCheck, error: 'Please only enter 2 decimal points'}  ],
-                        }];
-
+    // Parse validation functions
+    parseValidation(formFields, validationFunctions);
+ 
+    // Add submission instructions
     const submitHelperFunc = (values) => {
 
             if (loggedInUser === null) {return 'failure'}
@@ -53,60 +44,20 @@ function Deposit() {
                 if (isNaN(newBalance)) {return 'failure'};
                 setBalance(newBalance);
                 getUser(userDBContext,loggedInUser).balance = newBalance;
-                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: Number(values.deposit.replace(',','')), debit: null, description: 'Deposit to account', newBalance: balance + Number(Number(values.deposit.replace(',','')).toFixed(2)) })
+                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: Number(values.deposit.replace(',','')), debit: null, description: formSubmission.typeOfAction, newBalance: balance + Number(Number(values.deposit.replace(',','')).toFixed(2)) })
                 return 'success';
             }
     
         }
-    const depositCreated = false;
+    formSubmission.submitHelper = submitHelperFunc;
 
-    const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Deposit', altDisplay: 'Deposit', dependency: () => false, className:'btn btn-primary'}],
-                            submitHelper: submitHelperFunc,
-                            success: 'Your deposit has been recorded!',
-                            failure: 'We were unable to make a deposit. Please try again later.',
-                            idRoot: 'deposit',
-                            accountCreated: depositCreated,
-                            };
-
-    switch (formProvider) {
-
-        case 'formik':
-            form = <FormFormik 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={depositCreated} >
-                    </FormFormik> ;
-            break;
-
-        case 'reactFinal':
-            form = <FormReactFinal 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={depositCreated} >
-                    </FormReactFinal>;
-            break;
-
-        case 'reactHook':
-            form = <FormReactHook 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={depositCreated} >
-                    </FormReactHook>;
-            break;
-        
-        default:
-            form = <FormFormik 
-                        formFields={formFields} 
-                        formSubmission={formSubmission} 
-                        accountCreated={depositCreated} >
-                    </FormFormik>;
-    }
-
+    // Create form component
+    const form = formParser(formProvider, formFields, formSubmission);
 
     return (
             <>
-            {loggedInUser ? <Card header={header} content={content} form={form}></Card> :
-                    <Card header={header} content="You must be logged in to make a deposit!" form=""></Card> }
+            {loggedInUser ? <Card id={id} header={header} content={content} form={form}></Card> :
+                    <Card id={id} header={header} content={valueIfNotLoggedIn} form=""></Card> }
             </>
     )
 
