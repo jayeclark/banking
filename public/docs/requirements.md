@@ -1,5 +1,5 @@
 # Specification
-Grading rubric for React final project, converted into a checklist.
+Grading rubric for React final project, converted into a checklist. Based on grading rubric, instructions, and user stories.
 
 ## GENERAL REQUIREMENTS
 List of the basic requirements for the project.
