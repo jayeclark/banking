@@ -62,7 +62,7 @@ function Withdraw() {
 
     const withdrawalCreated = false;
 
-    const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Submit', altDisplay: 'Submit', dependency: () => false, className:'btn btn-primary'}],
+    const formSubmission = {buttons:[{type:'submit',name:'submit',display:'Withdraw', altDisplay: 'Withdraw', dependency: () => false, className:'btn btn-primary'}],
                             submitHelper: submitHelperFunc,
                             success: 'Your withdrawal has been recorded!',
                             failure: 'We were unable to make a withdrawal. Please try again later.',
