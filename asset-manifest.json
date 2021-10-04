@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/banking/static/css/main.3111d3f4.chunk.css",
-    "main.js": "/banking/static/js/main.c871a2c2.chunk.js",
-    "main.js.map": "/banking/static/js/main.c871a2c2.chunk.js.map",
+    "main.css": "/banking/static/css/main.6af94f87.chunk.css",
+    "main.js": "/banking/static/js/main.a430da7a.chunk.js",
+    "main.js.map": "/banking/static/js/main.a430da7a.chunk.js.map",
     "runtime-main.js": "/banking/static/js/runtime-main.7be7a3f0.js",
     "runtime-main.js.map": "/banking/static/js/runtime-main.7be7a3f0.js.map",
     "static/js/2.b41bc1b7.chunk.js": "/banking/static/js/2.b41bc1b7.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.67fcd62d.chunk.js": "/banking/static/js/3.67fcd62d.chunk.js",
     "static/js/3.67fcd62d.chunk.js.map": "/banking/static/js/3.67fcd62d.chunk.js.map",
     "index.html": "/banking/index.html",
-    "static/css/main.3111d3f4.chunk.css.map": "/banking/static/css/main.3111d3f4.chunk.css.map",
+    "static/css/main.6af94f87.chunk.css.map": "/banking/static/css/main.6af94f87.chunk.css.map",
     "static/js/2.b41bc1b7.chunk.js.LICENSE.txt": "/banking/static/js/2.b41bc1b7.chunk.js.LICENSE.txt",
     "static/media/closeButton.47dd7fbc.svg": "/banking/static/media/closeButton.47dd7fbc.svg",
     "static/media/heroimage.99862984.jpeg": "/banking/static/media/heroimage.99862984.jpeg",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.7be7a3f0.js",
     "static/js/2.b41bc1b7.chunk.js",
-    "static/css/main.3111d3f4.chunk.css",
-    "static/js/main.c871a2c2.chunk.js"
+    "static/css/main.6af94f87.chunk.css",
+    "static/js/main.a430da7a.chunk.js"
   ]
 }
