@@ -6,3 +6,40 @@
 .login-link:hover {
     text-decoration-line: underline;
 }
+
+.language-toggle {
+    outline: none;
+    border: none;
+}
+
+.language-toggle:active {
+    outline: none;
+    border: none;
+}
+
+.language-toggle:focus-within {
+    outline: none;
+    border: none;
+}
+
+.language-toggle {
+    padding: 5px;
+}
+
+.language-toggle-container {
+    padding: 0px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+}
+
+.language-toggle-container::before {
+    content: ' ';
+    height: 13px;
+    display: inline-block;
+    width: 13px;
+    background: url('../assets/globe.svg');
+    background-size: contain;
+    position:relative;
+    top: 2px;
+    padding-right: 0px;
+}

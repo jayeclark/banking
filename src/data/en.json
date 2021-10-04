@@ -45,6 +45,8 @@
 
     "general": {
         "successTitle":"Success",
-        "failureTitle":"Error"
+        "failureTitle":"Error",
+        "signIn":"Sign In",
+        "signOut":"Sign Out"
     }
 }

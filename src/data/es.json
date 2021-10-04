@@ -45,6 +45,8 @@
 
     "general": {
         "successTitle":"",
-        "failureTitle":""
+        "failureTitle":"",
+        "signIn":"Iniciar Sesión",
+        "signOut":"Desconectar"
     }
 }
