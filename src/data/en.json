@@ -8,7 +8,9 @@
             "card": {
                 "cardMsg":"See how Bad Bank of America® banking solutions and Bad Merrill Edge® Investment services can help make your personal financial life easier."
             },
-            "id": "home-page"
+            "id": "home-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
         },
         "createAccount": {
             "nav-button": "Create Account",
@@ -18,7 +20,9 @@
             "card": {
                 "cardMsg": "Enter your name, email, and password and click submit to create a new account!"
             },
-            "id": "create-account-page"
+            "id": "create-account-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
         },
         "deposit": {
             "nav-button": "Deposit",
@@ -29,7 +33,9 @@
                 "cardMsg": "Enter an amount and click submit to make a deposit to your account!",
                 "balanceMsg": "Current Balance: $"
             },
-            "id": "deposit-page"
+            "id": "deposit-page",
+            "valueIfNotLoggedIn": "You must be logged in to deposit.",
+            "valueIfNoData": ""
         },
         "withdraw": {
             "nav-button": "Withdraw",
@@ -40,7 +46,9 @@
                 "cardMsg": "Enter an amount and click the button to make a withdrawal from your account!",
                 "balanceMsg": "Current Balance: $"
             },
-            "id": "withdraw-page"
+            "id": "withdraw-page",
+            "valueIfNotLoggedIn": "You must be logged in and have a positive balance in order to request a withdrawal!",
+            "valueIfNoData": "You must have a positive balance amount in order to make a withdrawal from your account!"
         },
         "allData": {
             "nav-button": "All Data",
@@ -51,7 +59,9 @@
                 "cardMsg": "",
                 "cardCols": ["Date","Description","Credit","Debit","Balance"]
             },
-            "id": "all-data-page"
+            "id": "all-data-page",
+            "valueIfNotLoggedIn": "You must be logged in to see recent transaction data.",
+            "valueIfNoData": "No data available to display."
         }
     },
 

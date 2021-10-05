@@ -28,8 +28,8 @@ function Deposit() {
     const data = languages[language];
     
     // Load page content
-    const {header, card: {cardMsg, balanceMsg}, id} = data.pages.deposit;
-    const {formSubmission, formFields, valueIfNotLoggedIn} = data.forms.deposit;
+    const {header, card: {cardMsg, balanceMsg}, id, valueIfNotLoggedIn} = data.pages.deposit;
+    const {formSubmission, formFields} = data.forms.deposit;
     const content = <><p style={{padding:'20px 40px'}}>{cardMsg}</p><h4 style={{textAlign: 'right',padding:'0px 40px'}}>{balanceMsg}{balance.toFixed(2)}</h4></>;
 
     // Parse validation functions

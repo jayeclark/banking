@@ -8,7 +8,9 @@
             "card": {
                 "cardMsg":"Vea cómo las soluciones bancarias de Bad Bank of America® y los servicios de Bad Merrill Edge® Investment pueden ayudarle a facilitar su vida financiera personal."
             },
-            "id": "home-page"
+            "id": "home-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
         },
         "createAccount": {
             "nav-button": "Crear Cuenta",
@@ -18,7 +20,9 @@
             "card": {
                 "cardMsg": "¡Ingrese su nombre, correo electrónico y contraseña y haga clic en enviar para crear una nueva cuenta!"
             },
-            "id": "create-account-page"
+            "id": "create-account-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
         },
         "deposit": {
             "nav-button": "Depositar",
@@ -29,7 +33,9 @@
                 "cardMsg": "¡Ingrese una cantidad y haga clic en enviar para realizar un depósito en su cuenta!",
                 "balanceMsg": "Saldo Corriente: $"
             },
-            "id": "deposit-page"
+            "id": "deposit-page",
+            "valueIfNotLoggedIn": "Debes iniciar sesión para depositar.",
+            "valueIfNoData": ""
         },
         "withdraw": {
             "nav-button": "Retirar",
@@ -40,7 +46,9 @@
                 "cardMsg": "Ingrese una cantidad y haz clic el botón para realizar un retiro de su cuenta.",
                 "balanceMsg": "Saldo Corriente: $"
             },
-            "id": "withdraw-page"
+            "id": "withdraw-page",
+            "valueIfNotLoggedIn": "Debes iniciar sesión y tener un saldo positivo para solicitar un retiro.",
+            "valueIfNoData": "Debes tener un saldo positivo para poder hacer un retiro de su cuenta."
         },
         "allData": {
             "nav-button": "Todos los Datos",
@@ -51,7 +59,9 @@
                 "cardMsg": "",
                 "cardCols": ["Fecha","Descripción","Crédito","Débito","Saldo"]
             },
-            "id": "all-data-page"
+            "id": "all-data-page",
+            "valueIfNotLoggedIn": "No hay datos disponibles para mostrar.",
+            "valueIfNoData": "Debes iniciar sesión para ver las transacciones recientes."
         }
     },
 

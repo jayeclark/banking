@@ -28,8 +28,8 @@ function Withdraw() {
     const data = languages[language];
     
     // Load page content
-    const {header, card: {cardMsg, balanceMsg}, id} = data.pages.withdraw;
-    const {formSubmission, formFields, valueIfNoData, valueIfNotLoggedIn} = data.forms.withdraw;
+    const {header, card: {cardMsg, balanceMsg}, id, valueIfNoData, valueIfNotLoggedIn} = data.pages.withdraw;
+    const {formSubmission, formFields} = data.forms.withdraw;
     const content = <><p style={{padding:'20px 40px'}}>{cardMsg}</p><h4 style={{textAlign: 'right',padding: '0px 40px'}}>{balanceMsg}{balance.toFixed(2)}</h4></>;
 
     // Parse validation functions

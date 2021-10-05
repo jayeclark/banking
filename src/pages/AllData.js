@@ -22,7 +22,7 @@ function AllData() {
     let transactions = getUser(userDBcontext,loggedInUser) ? getUser(userDBcontext,loggedInUser).transactions : [];
 
     // Load page content
-    const {header, card: {cardCols}, id} = data.pages.allData;
+    const {header, card: {cardCols}, id, valueIfNoData, valueIfNotLoggedIn} = data.pages.allData;
     const chartHeader = <div className="data-grid-header-row"><div className="align-left"><b>{cardCols[0]}</b></div><div className="data-grid-description align-left"><b>{cardCols[1]}</b></div><div className="align-right"><b>{cardCols[2]}</b></div><div className="align-right"><b>{cardCols[3]}</b></div><div className="align-right"><b>{cardCols[4]}</b></div></div>;
 
     const content = <div className="data-grid">{chartHeader}{transactions.reverse().map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}</div>;
@@ -32,7 +32,8 @@ function AllData() {
     return (
         <>
         {loggedInUser !== '' && transactions.length > 0 ? <Card id={id} header={header} content={content} form={form}></Card> :
-                <Card id={id} header={header} content="No transactions available to display" form={form}></Card>}
+                loggedInUser !== ''  ? <Card id={id} header={header} content={valueIfNotLoggedIn || content} form={form}></Card> : 
+                <Card id={id} header={header} content={valueIfNoData || content} form={form}></Card>}
         </>
     )
 
