@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+select {
+  background-color: #fff;
+  -webkit-appearance:none!important;
+}
+
+option {
+  background-color: #fff;
+  -webkit-appearance:none!important;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
