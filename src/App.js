@@ -14,6 +14,7 @@ import FormContext from './helpers/FormContext';
 import UserContext from './helpers/UserContext';
 import UserDBContext from './helpers/UserDBContext';
 import UserLogin from './components/UserLogin';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
                 </FormContext.Provider>
              
             </div>
+            <Footer></Footer>
           </div>
           </LanguageContext.Provider>
           </UserContext.Provider>

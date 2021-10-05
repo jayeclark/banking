@@ -165,7 +165,11 @@
             "valueIfNoData": "You must have a positive balance amount in order to make a withdrawal from your account!"
         }
     },
-
+    "components": {
+       "footer": {
+           "links": ["Locations","Contact Us","Accessible Banking","Careers","Privacy","Security","Sitemap"]
+       }
+    },
     "general": {
         "successTitle":"Success",
         "failureTitle":"Error",
