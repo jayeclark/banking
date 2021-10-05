@@ -15,6 +15,7 @@ import UserContext from './helpers/UserContext';
 import UserDBContext from './helpers/UserDBContext';
 import UserLogin from './components/UserLogin';
 import Footer from './components/Footer';
+import OptionsNav from './components/OptionsNav';
 
 function App() {
 
@@ -45,7 +46,9 @@ function App() {
     <UserDBContext.Provider value={{users, addUser}}>
     <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
         <LanguageContext.Provider value={{language, changeLanguage}}>
+        <OptionsNav></OptionsNav>
           <div className="App">
+            
             <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
             <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
             <AppNav />
@@ -64,6 +67,7 @@ function App() {
             </div>
             <Footer></Footer>
           </div>
+         
           </LanguageContext.Provider>
           </UserContext.Provider>
       </UserDBContext.Provider>

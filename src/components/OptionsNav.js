@@ -1,26 +1,23 @@
+import '../styles/OptionsNav.css';
+
 function OptionsNav() {
     return (
-        <nav class="navbar navbar-default navbar-fixed-top" id="options-nav">
-        <div class="container-fluid sticky">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('.collapse').collapse('show')" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-      
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="index.html#home">Home</a></li>
-              <li class="active"><a href="about.html">About Me</a></li>
-              <li><a href="index.html#projects">Projects</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
+      <div className="black-ribbon">
+        <div className="option-nav-element">
+          <div style={{display: "flex", alignItems:"center"}}>
+            <div className="left-caret"></div><div><a className="option-link" href="https://jayeclark.github.io">Return to jayeclark.github.io</a></div>
           </div>
         </div>
-      </nav>
+        <div className="option-nav-element hideable" style={{flexShrink:1, flexGrow: 1, width: '100%', border:'1px solid transparent'}}></div>
+        <div className="option-nav-element form-provider-toggle right-justify">
+          <div style={{whiteSpace: "nowrap", fontSize: "0.8rem", padding: '5px', fontWeight: 'bold'}}>Form library: </div>
+            <select className="form-select">
+              <option value="formik">Formik</option>
+              <option value="react-hook">React Hook Form</option>
+              <option value="react-final">React Final Form</option>
+            </select>
+        </div>
+      </div>
     )
 }
 export default OptionsNav

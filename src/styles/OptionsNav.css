@@ -1,0 +1,107 @@
+.black-ribbon {
+    min-height: 40px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    background-color: black;
+    background: black;
+    color: #eee;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.4);
+}
+
+.option-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration-line: none;
+    color: #fff;
+    padding: 5px;
+}
+
+.option-link:hover {
+    text-decoration-line: underline;
+    color: #fff;
+}
+
+.option-nav-element {
+    background-color: black;
+    color: #eee;
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 5px 15px;
+    min-width: 265px;
+}
+
+.hideable {
+    min-width:0px!important;
+}
+
+.right-justify {
+    text-align: right;
+}
+
+.left-caret {
+    content: '';
+    box-sizing: content-box;
+    position: relative;
+    border-right: 6px solid white;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    height: 0px;
+    max-height: 0px;
+    width: 0px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    top: 2px;
+}
+
+.form-select {
+    background-color: transparent;
+    background-position-x: calc(100% - 3px);
+    color: white;
+    border: 1px solid #666;
+    font-size: 0.8rem;
+    height: 30px;
+    padding: 3px 20px 5px 4px;
+}
+
+.form-select:focus {
+    border-color: #666;
+    outline: none;
+    box-shadow: none;
+}
+
+.form-select:focus-within {
+    border-color: #666;
+    outline: none;
+    box-shadow: none;
+}
+
+.form-select:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.form-select:visited {
+    outline: none;
+    box-shadow: none;
+}
+
+@media only screen and (max-width: 570px) {
+    .option-nav-element {
+        background-color: black;
+        color: #eee;
+        flex-shrink: 0;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .hideable {
+        display: none;
+    }
+
+    .black-ribbon {
+        flex-wrap: wrap;
+    }
+
+}

@@ -13,10 +13,17 @@
     padding: 40px 0px 20px 0px;
 }
 
+.link-container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
 .fake-link {
     font-size: 0.8rem;
     font-weight: bold;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .fake-link:hover {
@@ -26,8 +33,10 @@
 .divider {
     margin-right: 15px;
     width: 15px;
-    height: auto;
+    height: 12px;
     border-right: 1px solid #fff;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .footer-social {
