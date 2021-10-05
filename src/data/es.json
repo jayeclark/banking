@@ -167,8 +167,10 @@
     },
     "components": {
         "footer": {
-            "links": ["Locations","Contact Us","Accessible Banking","Careers","Privacy","Security","Sitemap"]
-        }
+            "links": ["Ubicaciones","Contáctenos","Banca Accessible","Carreras","Privacidad","Seguridad","Mapa del Sitio"],
+            "connectCTA": "Conéctese con Nosotros",
+            "memberFDIC": "Miembro FDIC.",
+            "rightsReserved": "Todos los derechos reservados."}
      },
     "general": {
         "successTitle":"Éxito",

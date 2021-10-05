@@ -167,7 +167,11 @@
     },
     "components": {
        "footer": {
-           "links": ["Locations","Contact Us","Accessible Banking","Careers","Privacy","Security","Sitemap"]
+           "links": ["Locations","Contact Us","Accessible Banking","Careers","Privacy","Security","Sitemap"],
+           "connectCTA": "Connect with us",
+           "memberFDIC": "Member FDIC.",
+           "rightsReserved": "All rights reserved."
+       
        }
     },
     "general": {

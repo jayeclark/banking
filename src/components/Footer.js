@@ -10,7 +10,7 @@ function Footer() {
     const data = languages[language]
 
     // Get items
-    const {links: footerLinks} = data.components.footer;
+    const {links: footerLinks, connectCTA, memberFDIC, rightsReserved} = data.components.footer;
 
     return (
         <div className="footer-container">
@@ -20,7 +20,7 @@ function Footer() {
             <div className="footer-social">
                 <div id="globalSocialModule">
                     <div class="social">
-                        <h5 class="social-header">Connect with us</h5>
+                        <h5 class="social-header">{connectCTA}</h5>
                         <a href="#globalSocialModule" id="social_follow_facebook_link" class="social-network">
                             <svg focusable="false" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><g><path d="M28.345,0H1.656A1.656,1.656,0,0,0,0,1.656V28.344A1.655,1.655,0,0,0,1.656,30H28.345A1.655,1.655,0,0,0,30,28.344V1.656A1.656,1.656,0,0,0,28.345,0" fill="#fff"></path><path d="M24.6,18.383l0.584-4.527H20.7V10.965c0-1.311.364-2.205,2.244-2.205h2.4V4.709a32.181,32.181,0,0,0-3.492-.178c-3.457,0-5.824,2.109-5.824,5.984v3.34H12.115v4.527h3.908V30H20.7V18.383h3.9Z" fill="#012169"></path></g></svg>
                         </a>
@@ -37,8 +37,8 @@ function Footer() {
                 </div>
             </div>
             <div className="footer-copyright">
-                <p class="legal-text">Bad Bank of America, N.A. Member FDIC.</p>
-                <p class="legal-text">©&nbsp;<span id="dynamic-copyright-year-update">2021</span>&nbsp;Bad Bank of America Corporation. <span>All rights reserved.</span></p>
+                <p class="legal-text">Bad Bank of America, N.A. {memberFDIC}</p>
+                <p class="legal-text">©&nbsp;<span id="dynamic-copyright-year-update">2021</span>&nbsp;Bad Bank of America Corporation. <span>{rightsReserved}</span></p>
             </div>
 
         </div>
