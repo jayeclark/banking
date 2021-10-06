@@ -95,7 +95,7 @@
                         "type" : "text",
                         "validation": [
                             {"functionName": "hasInput", "error":"Please enter your email address"},
-                            {"functionName": "emailFormat", "error": "Please enter a valid email address"}
+                            {"functionName": "isValidEmailFormat", "error": "Please enter a valid email address"}
                         ]
                     },
                     {
@@ -103,8 +103,8 @@
                         "display" : "Password",
                         "type" : "password",
                         "validation": [
-                            {"functionName": "hasInput", "args":[{"name":"len","value":4}], "error":"Must be 8 characters or longer"},
-                            {"functionName": "passwordFormat", "error": "Must include letter, number & special character."}
+                            {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Must be 8 characters or longer"},
+                            {"functionName": "isValidPasswordFormat", "error": "Must include letter, number & special character."}
                         ]
                     }
                 ],

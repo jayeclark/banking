@@ -95,7 +95,7 @@
                         "type" : "text",
                         "validation": [
                             {"functionName": "hasInput", "error":"Ingresa tu dirección de correo electrónico"},
-                            {"functionName": "emailFormat", "error": "Ingresa una dirección de correo electrónico válida"}
+                            {"functionName": "isValidEmailFormat", "error": "Ingresa una dirección de correo electrónico válida"}
                         ]
                     },
                     {
@@ -103,8 +103,8 @@
                         "display" : "Contraseña",
                         "type" : "password",
                         "validation": [
-                            {"functionName": "hasInput", "args":[{"name":"len","value":4}], "error":"Debe tener 8 caracteres o más"},
-                            {"functionName": "passwordFormat", "error": "Debe incluir letra, número y carácter especial"}
+                            {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Debe tener 8 caracteres o más"},
+                            {"functionName": "isValidPasswordFormat", "error": "Debe incluir letra, número y carácter especial"}
                         ]
                     }
                 ],
