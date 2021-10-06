@@ -1,3 +1,5 @@
+import '../styles/Card.css';
+
 function Card({image, header, content, form, className, id}) {
 
     return (

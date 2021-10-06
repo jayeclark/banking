@@ -1,35 +1,27 @@
-import Card from '../components/Card';
-import {useContext} from 'react';
-import UserDBContext from '../helpers/UserDBContext';
-import FormContext from '../helpers/FormContext';
-import UserContext from '../helpers/UserContext';
-import LanguageContext from '../helpers/LanguageContext';
-import formParser from '../helpers/formParser';
+import { useContext } from 'react';
+import { getUserCount, parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
-import { parseValidation } from '../helpers/library';
+import formParser from '../helpers/formParser';
+import Card from '../components/Card';
+import FormContext from '../helpers/FormContext';
+import LanguageContext from '../helpers/LanguageContext';
+import UserContext from '../helpers/UserContext';
+import UserDBContext from '../helpers/UserDBContext';
 import languages from '../data/languages.js';
 
 function CreateAccount() {
 
-    // Get user database
-    const {users, addUser} = useContext(UserDBContext);
-
-    const getUserCount = (users) => users.length;
-
-    // Get logged in user number
+    // Get user database, logged in user, form preference, and language
+    const { users, addUser } = useContext(UserDBContext);
     const { logIn } = useContext(UserContext);
-
-    // Get form preference
-    const {form: formProvider} = useContext(FormContext);
-
-    // Get language preference and import content data based on it
-    const {language} = useContext(LanguageContext);
-    const data = languages[language];
+    const { form: formProvider } = useContext(FormContext);
+    const { language } = useContext(LanguageContext);
 
     // Load page content
-    const {header, card: {cardMsg}, id} = data.pages.createAccount;
-    const {formSubmission, formFields} = data.forms.createAccount;
-    const content = <p style={{padding:'20px 40px'}}>{cardMsg}</p>;
+    const pageName = 'createAccount';
+    const { header, card: {cardMsg}, id } = languages[language].pages[pageName];
+    const { formSubmission, formFields } = languages[language].forms[pageName];
+    const content = <span className="card-content">{ cardMsg }</span>;
  
     // Parse validation functions
     parseValidation(formFields, validationFunctions);
@@ -46,9 +38,9 @@ function CreateAccount() {
             number: getUserCount(users) + 1,
          };
 
-        let filtered = users.filter(x=>x.email === values.email);
+        let usersWithSameEmail = users.filter(user => user.email === values.email);
         
-        if (filtered.length > 0) {return 'failure'}
+        if (usersWithSameEmail.length > 0) {return 'failure';}
         else {
             addUser(user);
             logIn(user.number);

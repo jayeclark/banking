@@ -1,4 +1,4 @@
-import '../styles/notification.css';
+import '../styles/Notification.css';
 import Card from './Card.js';
 import closeButton from '../assets/closeButton.svg';
 

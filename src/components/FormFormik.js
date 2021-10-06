@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import '../styles/formik.css';
+import '../styles/Formik.css';
 import Notification from './Notification.js';
 import { useState } from 'react';
 import data from '../data/en.json';

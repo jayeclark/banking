@@ -1,11 +1,11 @@
+import { useContext } from 'react';
+import { getUser } from '../helpers/library';
 import Card from '../components/Card';
-import {useContext} from 'react';
 import UserDBContext from '../helpers/UserDBContext';
 import UserContext from '../helpers/UserContext';
-import '../styles/alldata.css';
 import LanguageContext from '../helpers/LanguageContext';
-import { getUser } from '../helpers/library';
 import languages from '../data/languages.js';
+import '../styles/AllData.css';
 
 function AllData() {
 

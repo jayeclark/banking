@@ -1,36 +1,36 @@
-import Card from '../components/Card';
-import {useContext, useState} from 'react';
-import UserDBContext from '../helpers/UserDBContext';
-import FormContext from '../helpers/FormContext';
-import UserContext from '../helpers/UserContext';
-import LanguageContext from '../helpers/LanguageContext';
-import { now } from 'lodash';
+import { useContext, useState } from 'react';
 import formParser from '../helpers/formParser';
+import { getUser, parseNumber, parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
-import { getUser, parseValidation } from '../helpers/library';
+import { now } from 'lodash';
+import Card from '../components/Card';
+import FormContext from '../helpers/FormContext';
+import LanguageContext from '../helpers/LanguageContext';
+import UserContext from '../helpers/UserContext';
+import UserDBContext from '../helpers/UserDBContext';
 import languages from '../data/languages.js';
 
 function Deposit() {
 
-    // Get user database
+    // Get user database, logged in user, form preference, and language preference
     const userDBContext = useContext(UserDBContext);
+    const { loggedInUser } = useContext(UserContext);
+    const { form: formProvider } = useContext(FormContext);
+    const { language } = useContext(LanguageContext);
 
-    // Get logged in user number, determine starting balance, and set balance
-    const {loggedInUser} = useContext(UserContext);
+    // Determine starting balance, and set local component balance
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-    // Get form preference
-    const {form: formProvider} = useContext(FormContext);
 
-    // Get language preference and import content data based on it
-    const {language} = useContext(LanguageContext);
+
     const data = languages[language];
     
     // Load page content
-    const {header, card: {cardMsg, balanceMsg}, id, valueIfNotLoggedIn} = data.pages.deposit;
-    const {formSubmission, formFields} = data.forms.deposit;
-    const content = <><p style={{padding:'20px 40px'}}>{cardMsg}</p><h4 style={{textAlign: 'right',padding:'0px 40px'}}>{balanceMsg}{balance.toFixed(2)}</h4></>;
+    const pageName = "deposit";
+    const { header, card: { cardMsg, balanceMsg }, id, valueIfNotLoggedIn } = languages[language].pages[pageName];
+    const { formSubmission, formFields } = data.forms.deposit;
+    const content = <><span className="card-content">{ cardMsg }</span><h4 className="card-balance-msg">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
 
     // Parse validation functions
     parseValidation(formFields, validationFunctions);
@@ -40,11 +40,17 @@ function Deposit() {
 
             if (loggedInUser === null) {return 'failure'}
             else {
-                let newBalance = balance + Number(values.deposit.replace(',',''));
+                let newBalance = balance + parseNumber(values.deposit, 2);
                 if (isNaN(newBalance)) {return 'failure'};
                 setBalance(newBalance);
                 getUser(userDBContext,loggedInUser).balance = newBalance;
-                getUser(userDBContext,loggedInUser).transactions.push({time: now(), credit: Number(values.deposit.replace(',','')), debit: null, description: formSubmission.typeOfAction, newBalance: balance + Number(Number(values.deposit.replace(',','')).toFixed(2)) })
+                getUser(userDBContext,loggedInUser).transactions.push(
+                    {   time: now(), 
+                        credit: Number(values.deposit.replace(',','')), 
+                        debit: null, 
+                        description: formSubmission.typeOfAction, 
+                        newBalance 
+                    })
                 return 'success';
             }
     

@@ -1,7 +1,7 @@
 import { useContext} from "react";
 import LanguageContext from "../helpers/LanguageContext";
 import languages from "../data/languages";
-import '../styles/footer.css';
+import '../styles/Footer.css';
 
 function Footer() {
 

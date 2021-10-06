@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {useContext} from 'react';
 import ReactTooltip from 'react-tooltip';
-import '../styles/appnav.css';
+import '../styles/AppNav.css';
 import LanguageContext from '../helpers/LanguageContext';
 import languages from '../data/languages.js';
 

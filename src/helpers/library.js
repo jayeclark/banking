@@ -6,6 +6,10 @@ export const getUser = (userDBObj, userNum) => {
     return user;
 }
 
+export const getUserCount = (users) => users.length;
+
+export const parseNumber = (str, numDigits) => Number(str.replace(',','')).toFixed(numDigits);
+
 export function parseValidation(formFields,validationFunctions,availableArgs={}) {
 
     formFields.forEach((field,i)=>{
