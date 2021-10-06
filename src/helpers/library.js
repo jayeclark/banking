@@ -8,7 +8,7 @@ export const getUser = (userDBObj, userNum) => {
 
 export const getUserCount = (users) => users.length;
 
-export const parseNumber = (str, numDigits) => Number(str.replace(',','')).toFixed(numDigits);
+export const parseNumber = (str, numDigits) => Number(Number(str.replace(',','')).toFixed(numDigits));
 
 export function parseValidation(formFields,validationFunctions,availableArgs={}) {
 

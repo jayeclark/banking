@@ -22,14 +22,10 @@ function Deposit() {
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-
-
-    const data = languages[language];
-    
     // Load page content
     const pageName = "deposit";
     const { header, card: { cardMsg, balanceMsg }, id, valueIfNotLoggedIn } = languages[language].pages[pageName];
-    const { formSubmission, formFields } = data.forms.deposit;
+    const { formSubmission, formFields } = languages[language].forms[pageName];
     const content = <><span className="card-content">{ cardMsg }</span><h4 className="card-balance-msg">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
 
     // Parse validation functions
@@ -46,7 +42,7 @@ function Deposit() {
                 getUser(userDBContext,loggedInUser).balance = newBalance;
                 getUser(userDBContext,loggedInUser).transactions.push(
                     {   time: now(), 
-                        credit: Number(values.deposit.replace(',','')), 
+                        credit: parseNumber(values.deposit, 2), 
                         debit: null, 
                         description: formSubmission.typeOfAction, 
                         newBalance 
@@ -62,8 +58,8 @@ function Deposit() {
 
     return (
             <>
-            {loggedInUser ? <Card id={id} header={header} content={content} form={form}></Card> :
-                    <Card id={id} header={header} content={valueIfNotLoggedIn} form=""></Card> }
+            { loggedInUser ? <Card id={ id } header={ header } content={ content } form={ form }></Card> :
+                             <Card id={ id } header={ header } content={ valueIfNotLoggedIn } form={ null }></Card> }
             </>
     )
 

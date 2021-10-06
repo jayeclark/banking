@@ -1,23 +1,21 @@
-import heroImg from '../assets/heroimage.jpeg';
-import Card from '../components/Card.js';
 import { useContext } from 'react';
+import Card from '../components/Card.js';
 import LanguageContext from '../helpers/LanguageContext';
 import languages from '../data/languages';
+import heroImg from '../assets/heroimage.jpeg';
 
 function Home() {
 
-    const image = heroImg;
-
     // Get language preference and import content data based on it
-    const {language} = useContext(LanguageContext);
-    const data = languages[language];
+    const { language } = useContext(LanguageContext);
     
     // Load page content
-    const {header, card: {cardMsg}, id} = data.pages.home;
-    const content = <p>{cardMsg}</p>;
+    const pageName = "home";
+    const { header, card: { cardMsg }, id } = languages[language].pages[pageName];
+    const [content, image] = [<span>{ cardMsg }</span>, heroImg];
     
     return (
-        <Card id={id} image={image} header={header} content={content}></Card>
+        <Card id={ id } image={ image } header={ header } content={ content }></Card>
     )
 
 }
