@@ -172,7 +172,17 @@
            "memberFDIC": "Member FDIC.",
            "rightsReserved": "All rights reserved."
        
-       }
+       },
+       "locations": {
+        "labels": {
+            "branch":"Branch",
+            "atm": "ATM",
+            "address": "Address",
+            "hours": "Hours",
+            "directions": "Directions"
+            },  
+        "id": "location-page"
+        }
     },
     "general": {
         "successTitle":"Success",

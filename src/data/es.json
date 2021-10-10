@@ -170,7 +170,17 @@
             "links": ["Ubicaciones","Contáctenos","Banca Accessible","Carreras","Privacidad","Seguridad","Mapa del Sitio"],
             "connectCTA": "Conéctese con Nosotros",
             "memberFDIC": "Miembro FDIC.",
-            "rightsReserved": "Todos los derechos reservados."}
+            "rightsReserved": "Todos los derechos reservados."},
+        "locations": {
+            "labels": {
+                "branch":"Branch",
+                "atm": "ATM",
+                "address": "Address",
+                "hours": "Hours",
+                "directions": "Directions"
+            },
+            "id": "location-page"  
+        }  
      },
     "general": {
         "successTitle":"Éxito",
