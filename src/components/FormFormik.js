@@ -11,7 +11,7 @@ function FormFormik({formFields, formSubmission}) {
     let {buttons, success, failure, idRoot, submitHelper} = formSubmission
     let initialFieldValues = {};
 
-    let manuallyClosed = {idRoot: idRoot, closed: false};
+    let manuallyClosed = {idRoot: null, closed: false};
 
     const [submitted, setSubmitted] = useState(false);
     const notification = {title: successTitle, type: 'success', text: success};
@@ -29,6 +29,7 @@ function FormFormik({formFields, formSubmission}) {
 
             const outcome = submitHelper(values);
             manuallyClosed.closed = false;
+            manuallyClosed.idRoot = idRoot;
 
             if (outcome === 'failure') {
                 notification.type = 'error';
