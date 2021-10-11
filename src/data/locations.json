@@ -24,136 +24,136 @@
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7647288590001,
+        "lon": -122.419499251,
         "address": "2017 Mission St, San Francisco CA 94110",
         "hours": "Hours vary at this location",
         "name": "Mission Plaza",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.770199,
+        "lon": -122.404052,
         "address": "699 8th St, San Francisco CA 94103",
         "hours": "Open 24 Hours",
         "name": "S F Fashion Design",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7847575199999,
+        "lon": -122.407964635,
         "address": "1 Powell St, San Francisco CA 94102",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "One Powell Street",
         "type":"branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.786352348,
+        "lon": -122.408374775,
         "address": "214 Ofarrell, San Francisco CA 94102",
         "hours": "Open 24 Hours",
         "name": "Ofarrell & Powell",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.768555,
+        "lon": -122.435724,
         "address": "45 Castro St, San Francisco CA 94114",
         "hours": "Open 24 Hours",
         "name": "Davies Medical Center",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7853605510001,
+        "lon": -122.432779183,
         "address": "1700 Fillmore St, San Francisco CA 94115",
         "hours": "Open 24 Hours",
         "name": "Fillmore-Post",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.784458,
+        "lon": -122.403973,
         "address": "101 Fourth St, San Francisco CA 94103",
         "hours": "Open 24 Hours",
         "name": "Westfield Metreon",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7737018250000,
+        "lon": -122.439033693,
         "address": "1275 Fell St, San Francisco CA 94117",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "Buena Vista Park",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7910027120001,
+        "lon": -122.422118775,
         "address": "1640 Van Ness Ave, San Francisco CA 94109",
         "hours": "M-F 9:00 AM - 4:00 PM, Sa 9:00 AM - 12:00 PM",
         "name": "Van Ness Financial Center",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7888944449999,
+        "lon": -122.40868651300,
         "address": "445 Powell St, San Francisco CA 94102",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "Union Square",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7779691270000,
+        "lon": -122.39667658899,
         "address": "501 Brannan St, San Francisco CA 94107",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "4th and Brannan",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7607930670001,
+        "lon": -122.43479415500,
         "address": "501 Castro St, San Francisco CA 94105",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "Castro",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.783341,
+        "lon": -122.398362,
         "address": "345 3rd St, San Francisco CA 94105",
         "hours": "Opten 24 Hours",
         "name": "St Francis Place",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7885264590000,
+        "lon": -122.40146,
         "address": "33 New Montgomery St, San Francisco CA 94105",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "Market-New Montgomery",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.77639,
+        "lon": -122.39456,
         "address": "700 4th St, San Francisco CA 94107",
         "hours": "Hours vary at this location",
         "name": "4th & King - Caltrain Station",
         "type": "atm"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7909763250000,
+        "lon": -122.434126818,
         "address": "2310 Fillmore St, San Francisco CA 94115",
         "hours": "M-F 9:00 AM - 4:00 PM",
         "name": "Pacific Heights",
         "type": "branch"
     },
     {
-        "lat": 0,
-        "lon": 0,
+        "lat": 37.7537256780001,
+        "lon": -122.41842329000,
         "address": "2701 Mission St, San Francisco CA 94110",
         "hours": "M-F 9:00 AM - 4:00 PM, Sa 9:00 AM - 12:00 PM",
         "name": "Mission-23rd St",
