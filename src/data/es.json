@@ -49,11 +49,11 @@
             "id": "withdraw-page",
             "valueIfNotLoggedIn": "Debes iniciar sesión y tener un saldo positivo para solicitar un retiro.",
             "valueIfNoData": "Debes tener un saldo positivo para poder hacer un retiro de su cuenta."
-        },
-        "allData": {
-            "nav-button": "Todos los Datos",
-            "nav-tool-tip": "Ver todos los Datos de Transacciones",
-            "nav-route": "/all-data/",
+        }, 
+        "transactions": {
+            "nav-button": "Transacciones",
+            "nav-tool-tip": "Ver todas sus Transacciones",
+            "nav-route": "/transactions/",
             "header": "Transacciones Recientes",
             "card": {
                 "cardMsg": "",
@@ -62,6 +62,19 @@
             "id": "all-data-page",
             "valueIfNotLoggedIn": "No hay datos disponibles para mostrar.",
             "valueIfNoData": "Debes iniciar sesión para ver las transacciones recientes."
+        },
+        "allData": {
+            "nav-button": "Todos los Datos",
+            "nav-tool-tip": "Ver todos los Datos del Usuario",
+            "nav-route": "/all-data/",
+            "header": "Datos de los Usuarios",
+            "card": {
+                "cardMsg": "",
+                "cardCols": ["Fecha","Nombre","Correo Electronica","Contraseña"]
+            },
+            "id": "user-data-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": "No data available to display."
         }
     },
 

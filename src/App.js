@@ -6,6 +6,7 @@ import Home from './pages/Home.js';
 import CreateAccount from './pages/CreateAccount.js';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
+import Transactions from './pages/Transactions';
 import AllData from './pages/AllData';
 import AppNav from './components/AppNav';
 import logo from './assets/logo.svg';
@@ -60,6 +61,7 @@ function App() {
                       <Route path="/create-account/" exact component={CreateAccount}></Route>
                       <Route path="/deposit/" exact component={Deposit}></Route>
                       <Route path="/withdraw/" exact component={Withdraw}></Route>
+                      <Route path="/transactions/" exact component={Transactions}></Route>
                       <Route path="/all-data/" exact component={AllData}></Route>
                     
                 </FormContext.Provider>

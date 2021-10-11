@@ -1,26 +1,22 @@
-.data-grid {
-    display: block;
+.user-data-grid {
+    display: grid;
+    grid-template-columns:  3fr 4fr 4fr 5fr;
+    grid-template-rows: auto;
+    column-gap: 6px;
 }
 
-.data-grid-header-row {
-    display: grid;
-    grid-template-columns:  3fr 5fr 2fr 2fr 2fr;
-    grid-template-rows: auto;
-    column-gap: 5px;
+.user-data-grid-header-row {
     background-color: #666;
     padding: 3px 5px;
     color: #fff;
 }
 
-.data-grid-row {
-    display: grid;
-    grid-template-columns:  3fr 5fr 2fr 2fr 2fr;
-    grid-template-rows: auto;
+.user-data-grid-row {
     column-gap: 5px;
     padding: 3px 5px;
 }
 
-.data-grid-row:nth-child(odd) {
+.user-data-grid-row:nth-child(odd) {
     background-color: #eee;
 }
 
@@ -35,11 +31,11 @@
 
 
 @media only screen and (max-width: 770px) {
-    .data-grid-row {
+    .user-data-grid-row {
         font-size: 0.8em;
     }
 
-    .data-grid-header-row {
+    .user-data-grid-header-row {
         font-size: 0.8em;
     }
 
@@ -47,29 +43,18 @@
 
 @media only screen and (max-width: 470px) {
 
-    .data-grid-header-row {
+    .user-data-grid-header-row {
         max-width: 400px;
         font-size: 0.5em;
         grid-template-columns: 3fr 5fr 2fr 2fr 2fr;
 
     }
 
-    .data-grid-row {
+    .user-data-grid-row {
         max-width: 400px;
         font-size: 0.5em;
         grid-template-columns: 3fr 5fr 2fr 2fr 2fr;
 
     }
 
-    .data-grid-description {
-        max-width: 80px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        vertical-align: top;
-    }
-
-    .data-grid-description-text {
-        width: max-content;
-    }
 }

@@ -50,10 +50,10 @@
             "valueIfNotLoggedIn": "You must be logged in and have a positive balance in order to request a withdrawal!",
             "valueIfNoData": "You must have a positive balance amount in order to make a withdrawal from your account!"
         },
-        "allData": {
-            "nav-button": "All Data",
-            "nav-tool-tip": "View All Transaction Data",
-            "nav-route": "/all-data/",
+        "transactions": {
+            "nav-button": "Transactions",
+            "nav-tool-tip": "View Your Transaction Data",
+            "nav-route": "/transactions/",
             "header": "Recent Transactions",
             "card": {
                 "cardMsg": "",
@@ -61,6 +61,19 @@
             },
             "id": "all-data-page",
             "valueIfNotLoggedIn": "You must be logged in to see recent transaction data.",
+            "valueIfNoData": "No data available to display."
+        },
+        "allData": {
+            "nav-button": "All Data",
+            "nav-tool-tip": "View All User Data",
+            "nav-route": "/all-data/",
+            "header": "All User Data",
+            "card": {
+                "cardMsg": "",
+                "cardCols": ["Date","Name","Email","Password"]
+            },
+            "id": "user-data-page",
+            "valueIfNotLoggedIn": "",
             "valueIfNoData": "No data available to display."
         }
     },

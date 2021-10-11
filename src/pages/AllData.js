@@ -1,8 +1,6 @@
-import { useContext } from 'react';
-import { getUser } from '../helpers/library';
+import { useContext, useState } from 'react';
 import Card from '../components/Card';
 import UserDBContext from '../helpers/UserDBContext';
-import UserContext from '../helpers/UserContext';
 import LanguageContext from '../helpers/LanguageContext';
 import languages from '../data/languages.js';
 import '../styles/AllData.css';
@@ -10,39 +8,47 @@ import '../styles/AllData.css';
 function AllData() {
 
     // Get user database
-    const userDBcontext = useContext(UserDBContext);
-
-    // Get logged in user number
-    const {loggedInUser} = useContext(UserContext);
+    const { users } = useContext(UserDBContext);
 
     // Get language preference and import content data based on it
-    const {language} = useContext(LanguageContext);
+    const { language } = useContext(LanguageContext);
     const data = languages[language];
 
-    let transactions = getUser(userDBcontext,loggedInUser) ? getUser(userDBcontext,loggedInUser).transactions : [];
-
     // Load page content
-    const {header, card: {cardCols}, id, valueIfNoData, valueIfNotLoggedIn} = data.pages.allData;
-    const chartHeader = <div className="data-grid-header-row"><div className="align-left"><b>{cardCols[0]}</b></div><div className="data-grid-description align-left"><b>{cardCols[1]}</b></div><div className="align-right"><b>{cardCols[2]}</b></div><div className="align-right"><b>{cardCols[3]}</b></div><div className="align-right"><b>{cardCols[4]}</b></div></div>;
+    const { header, card: {cardCols}, id, valueIfNoData } = data.pages.allData;
+    const chartHeader = <><div className="align-left"><b>{cardCols[0]}</b></div><div className="align-left"><b>{cardCols[1]}</b></div><div className="align-left"><b>{cardCols[2]}</b></div><div className="align-left"><b>{cardCols[3]}</b></div></>;
 
-    const content = <div className="data-grid">{chartHeader}{transactions.reverse().map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}</div>;
+    const content = <div className="user-data-grid">{chartHeader}{users.map((user,i)=><UserChartRow key={i} data={user}></UserChartRow>)}</div>;
     let form = '';
-
 
     return (
         <>
-        {loggedInUser !== '' && transactions.length > 0 ? <Card id={id} header={header} content={content} form={form}></Card> :
-                loggedInUser !== ''  ? <Card id={id} header={header} content={valueIfNotLoggedIn || content} form={form}></Card> : 
-                <Card id={id} header={header} content={valueIfNoData || content} form={form}></Card>}
+        {users.length > 0 ? <Card id={ id } header={ header } content={ content } form={ form }></Card> :
+                <Card id={ id } header={ header } content={ valueIfNoData || content } form={ form }></Card>}
         </>
     )
 
 }
 
-function ChartRow({data}) {
+function UserChartRow({data}) {
     const txnDate = new Date(data.time);
+    const [showPwd, setShowPwd] = useState(false);
+
+    const togglePwd = () => {
+
+        if (showPwd === false) {
+            setShowPwd(true);
+        }
+        else if (showPwd === true) {
+            setShowPwd(false);
+        }
+
+    }
+
+    const maskPwd = (pwd) => pwd.substring(0,1) + '*'.repeat(pwd.length - 1);
+
     return (
-        <div className="data-grid-row"><div className="align-left">{txnDate.toLocaleDateString()}</div><div className="data-grid-description align-left">{data.description}</div>{data.credit !== null ? <div className="align-right">${data.credit.toFixed(2)}</div> : <div></div>}{data.debit !== null ? <div className="align-right">-${data.debit.toFixed(2)}</div> : <div></div>}<div className="align-right">${data.newBalance.toFixed(2)}</div></div>
+        <><div className="align-left">{ txnDate.toLocaleDateString() }</div><div className="align-left">{ data.name }</div><div className="align-left">{ data.email }</div><div style={{position:"relative"}} className="align-left"><span style={{display:"inline-block",padding:"0px 3px 0px 0px"}}>{ showPwd ? data.password : maskPwd(data.password) }</span><span onClick={ togglePwd } style={{ display: "inline-block", padding:"2px", position: "absolute", right: "0px", minWidth: "39px", textAlign:"center", margin:"2px", border:"1px solid #ddd", color:"#666", borderRadius:"5px", fontSize:"0.7em" }}>{ showPwd ? "Hide" : "Show" }</span></div></>
     )
 }
 

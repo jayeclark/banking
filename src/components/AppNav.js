@@ -39,11 +39,12 @@ function AppNav() {
                     createAccount: pageUrl === '#/create-account/' ? ' active' :  '',
                     deposit: pageUrl === '#/deposit/' ? ' active' :  '',
                     withdraw: pageUrl === '#/withdraw/' ? ' active' :  '',
+                    transactions: pageUrl === '#/transactions/' ? ' active' :  '',
                     allData: pageUrl === '#/all-data/' ? ' active' :  ''
                     }
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark responsive-nav" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
+        <nav className="navbar navbar-expand-md navbar-dark responsive-nav" style={{backgroundColor:"#c41230", fontWeight: "500"}}>
             <div className="container-fluid" style={{justifyContent:"left"}}>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

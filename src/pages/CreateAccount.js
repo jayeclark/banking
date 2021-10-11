@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { getUserCount, parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
 import formParser from '../helpers/formParser';
+import { now } from 'lodash';
 import Card from '../components/Card';
 import FormContext from '../helpers/FormContext';
 import LanguageContext from '../helpers/LanguageContext';
@@ -35,6 +36,7 @@ function CreateAccount() {
             password: values.password,
             transactions: [],
             balance: 0,
+            time: now(),
             number: getUserCount(users) + 1,
          };
 
