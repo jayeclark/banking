@@ -32,8 +32,8 @@ function Transactions() {
     return (
         <>
         {loggedInUser !== '' && transactions.length > 0 ? <Card id={id} header={header} content={content} form={form}></Card> :
-                loggedInUser !== ''  ? <Card id={id} header={header} content={valueIfNotLoggedIn || content} form={form}></Card> : 
-                <Card id={id} header={header} content={valueIfNoData || content} form={form}></Card>}
+                loggedInUser !== ''  ? <Card id={id} header={header} content={ valueIfNoData || content } form={form}></Card> : 
+                <Card id={id} header={header} content={ valueIfNotLoggedIn || content } form={form}></Card>}
         </>
     )
 
