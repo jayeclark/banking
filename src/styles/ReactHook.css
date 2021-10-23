@@ -1,0 +1,103 @@
+.react-hook {
+    min-width: 290px;
+    padding: 10px 30px;
+}
+
+.react-hook input:-internal-direct-focus {
+    outline-color:rgba(0, 128, 0, 0.5);
+}
+
+.react-hook .input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.react-hook .input-container .field-name {
+    margin-right: 10px;
+    width: 80px;
+    min-width: 90px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.react-hook .input-container .input-lockup {
+    flex-grow: 4;
+    position: relative;
+}
+
+.react-hook .input-container input {
+    width: 100%;
+    min-width: 120px;
+}
+
+.react-hook .input-error:focus {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.react-hook .input-visible-error {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.react-hook .input-noerror:focus {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
+}
+
+.react-hook .input-visible-noerror {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
+}
+
+.react-hook .input-container .error {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: red;
+    font-size: 0.75em;
+    font-weight: 500;
+    flex-grow: 4;
+    text-align: right;
+    top: -18px;
+    display: none;
+}
+
+.react-hook .input-container:focus-within .error {
+    display: block;
+}
+
+.react-hook .buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-items: right;
+    justify-content: right;
+    padding: 10px;
+    width: 100%;
+}
+
+.react-hook .button-container {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.react-hook .button-buffer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .react-hook .input-container .error {
+        white-space: nowrap;
+        font-size: 0.6em;
+        top: -14px;
+    }
+}
+
+@media only screen and (max-width: 418px) {
+    .react-hook .input-container .error {
+        position: absolute;
+        top: 30px;
+        font-size: 0.6em;
+    }
+}
