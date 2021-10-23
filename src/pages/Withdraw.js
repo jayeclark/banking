@@ -26,7 +26,7 @@ function Withdraw() {
     const pageName = "withdraw";
     const { header, card: {cardMsg, balanceMsg }, id, valueIfNoData, valueIfNotLoggedIn} = languages[language].pages[pageName];
     const { formSubmission, formFields } = languages[language].forms[pageName];
-    const content = <><span className="card-content">{cardMsg}</span><h4 className="card-balance-ms">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
+    const content = <><span className="card-content">{cardMsg}</span><h4 className="card-balance-msg">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
 
     // Parse validation functions
     const availableArgs = { balance };
