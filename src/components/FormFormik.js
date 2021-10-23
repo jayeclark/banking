@@ -8,7 +8,7 @@ function FormFormik({formFields, formSubmission}) {
 
     const {successTitle, failureTitle} = data.general;
 
-    let {buttons, success, failure, idRoot, submitHelper} = formSubmission
+    let { buttons, success, failure, idRoot, submitHelper } = formSubmission;
     let initialFieldValues = {};
 
     let manuallyClosed = {idRoot: null, closed: false};
@@ -115,7 +115,9 @@ function FormFormik({formFields, formSubmission}) {
                 {buttons.map((buttonEl,i)=>{
                     return (
                         <div key={i} className="button-container">
-                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>{buttonEl.dependency && buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}</button>
+                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
+                                {buttonEl.dependency && buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}
+                            </button>
                         </div>
                     )
                     
