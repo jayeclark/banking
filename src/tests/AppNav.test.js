@@ -1,17 +1,6 @@
 import { render , screen } from '@testing-library/react';
-import { HashRouter, Link } from 'react-router-dom';
-import TestRenderer from 'react-test-renderer';
-import {ReactDOM} from 'react-dom';
+import userEvent from '@testing-library/user-event';
 import App from '../App.js';
-import { simulate } from 'enzyme';
-import AppNav from '../components/AppNav.js';
-import Home from '../pages/Home.js';
-import CreateAccount from '../pages/CreateAccount.js';
-import Deposit from '../pages/Deposit.js';
-import Withdraw from '../pages/Withdraw.js';
-import AllData from '../pages/AllData.js';
-
-
 
 test('Renders navigation link with \'Home\', \'Create Account\', \'Deposit\', \'Withdraw\', and \'All Data\' visible.', () => {
   render(<App />);
@@ -70,30 +59,38 @@ test('When a user hovers their cursor, a tooltip appears with words describing t
     })
 });
 
-test('The navigation bar highlights the element of the current page that the user is on.', () => {
+
+test('The navigation bar highlights the home page on load.', () => {
 
     render(<App />);
 
     // Home should be the active link initially
-
-    const [home,create,deposit,withdraw,allData] = [ document.getElementById('home-link').getElementsByTagName('a')[0],
+    const [home, create, deposit, withdraw, transactions, allData ] = [ document.getElementById('home-link').getElementsByTagName('a')[0],
                     document.getElementById('create-account-link').getElementsByTagName('a')[0],
                     document.getElementById('deposit-link').getElementsByTagName('a')[0],
                     document.getElementById('withdraw-link').getElementsByTagName('a')[0],
-                    document.getElementById('all-data-link').getElementsByTagName('a')[0] ];
+                    document.getElementById('all-data-link').getElementsByTagName('a')[0],
+                    document.getElementById('user-data-link').getElementsByTagName('a')[0] ];
 
     expect(home.classList).toContain('active');
     expect(create.classList).not.toContain('active');
     expect(withdraw.classList).not.toContain('active');
     expect(deposit.classList).not.toContain('active');
+    expect(transactions.classList).not.toContain('active');
     expect(allData.classList).not.toContain('active');
 
-    // TODO: Click on link and check if the nav changes to 'active' via the makeActive function. Use react-test-renderer and Act
- //   create.getAttribute('href').simulate('click');
- //   expect(makeActive.mock.calls.length).toEqual(1);
- //   links.forEach(link => {
- //       link.find('href').simulate('click');
- //       expect(makeActive.mock.calls.length).toEqual(1);
- //   })
+});
+
+test('When a user clicks on a link, that nav link becomes active and the other nav links become inactive.', () => {
+
+    const { getByText } = render(<App />);
+    let links = ['Home', 'Create Account', 'Deposit', 'Withdraw', 'Transactions', 'All Data'];
+    links.forEach(label => {
+        const link = getByText(label);
+        userEvent.click(link);
+        expect(link.classList).toContain('active');
+        const filtered = links.filter(l => l !== label);
+        filtered.forEach(item => expect(getByText(item).classList).not.toContain('active'));
+    });
 
 });
