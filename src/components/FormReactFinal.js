@@ -36,7 +36,7 @@ function FormReactFinal({formFields, formSubmission}) {
                 if (itemArgValues.length > 1) {
                     return validatorFunction(value, ...itemArgValues) ? undefined : errorMsg
                 }
-                else if (itemArgValues.length == 1) {
+                else if (itemArgValues.length === 1) {
                     return validatorFunction(value, itemArgValues[0]) ? undefined : errorMsg
                 }
                 return validatorFunction(value) ? undefined : errorMsg;
@@ -48,7 +48,6 @@ function FormReactFinal({formFields, formSubmission}) {
 
     const composeValidators = (validators) => (value) => {
         let reduced = validators.reduce((error, validator) => error || validator(value), undefined);
-        console.log(reduced);
         return reduced;
     }
         

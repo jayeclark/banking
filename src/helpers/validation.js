@@ -2,9 +2,9 @@ const hasInput = (val, len=1) => val.length >= len;
 
 const isPositive = val => val.toString().search(/^-/) === -1;
 
-const isNumber = val => val.toString().replace(/[,\.]/g,'').search(/^(\d+)$/) > -1;
+const isNumber = val => val.toString().replace(/[,.]/g,'').search(/^(\d+)$/) > -1;
 
-const hasTwoSigFigs = val => val.toString().search(/([\.]){1,}(\d){3,}/) === -1;
+const hasTwoSigFigs = val => val.toString().search(/([.]){1,}(\d){3,}/) === -1;
 
 const isLessThanBalance = (val, balance) => Number(val.replaceAll(',','')) <= balance ||  val.toString().search(/^(\d{1,3}){0,1}(,\d\d\d){0,}((\.)((\d){0,2})){0,1}$/)  === -1;
 

@@ -122,8 +122,6 @@ function FormFormik({formFields, formSubmission}) {
                     )
                     
                 })}
-                
-            
             </div>
         </form>
     )

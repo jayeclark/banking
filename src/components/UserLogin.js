@@ -10,12 +10,12 @@ function UserLogin() {
 
     const userDBContext = useContext(UserDBContext);
 
-    const {loggedInUser, logIn, logOut} = useContext(UserContext);
+    const { loggedInUser, logIn, logOut } = useContext(UserContext);
 
     // Get language context and set language data
-    const {language, changeLanguage} = useContext(LanguageContext);
+    const { language, changeLanguage } = useContext(LanguageContext);
     const data = languages[language];
-    const {signOut, signIn} = data.general;
+    const { signOut, signIn } = data.general;
 
     const getUser = (userDBContext, loggedInUser) => {
         return userDBContext.users.filter(x=>x.number === loggedInUser)[0];

@@ -4,39 +4,39 @@ import FormReactHook from '../components/FormReactHook';
 
 function formParser(formType, fields, submission) {
 
-    let form;
+    let formComponent;
 
     switch (formType) {
 
         case 'formik':
-            form = <FormFormik 
+            formComponent = <FormFormik 
                         formFields={fields} 
                         formSubmission={submission} >
                     </FormFormik> ;
             break;
 
         case 'reactFinal':
-            form = <FormReactFinal 
+            formComponent = <FormReactFinal 
                         formFields={fields} 
                         formSubmission={submission}  >
                     </FormReactFinal>;
             break;
 
         case 'reactHook':
-            form = <FormReactHook 
+            formComponent = <FormReactHook 
                         formFields={fields} 
                         formSubmission={submission} >
                     </FormReactHook>;
             break;
         
         default:
-            form = <FormFormik 
+            formComponent = <FormFormik 
                         formFields={fields} 
                         formSubmission={submission} >
                     </FormFormik>;
     }
     
-    return form;
+    return formComponent;
     
 }
 
