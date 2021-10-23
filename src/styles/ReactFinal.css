@@ -1,0 +1,103 @@
+.react-final {
+    min-width: 290px;
+    padding: 10px 30px;
+}
+
+.react-final input:-internal-direct-focus {
+    outline-color:rgba(0, 128, 0, 0.5);
+}
+
+.react-final .input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.react-final .input-container .field-name {
+    margin-right: 10px;
+    width: 80px;
+    min-width: 90px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.react-final .input-container .input-lockup {
+    flex-grow: 4;
+    position: relative;
+}
+
+.react-final .input-container input {
+    width: 100%;
+    min-width: 120px;
+}
+
+.react-final .input-error:focus {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.react-final .input-visible-error {
+    outline: 5px auto rgba(255, 0, 0, 0.6);
+}
+
+.react-final .input-noerror:focus {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
+}
+
+.react-final .input-visible-noerror {
+    outline: 5px auto rgba(0, 128, 0, 0.6);
+}
+
+.react-final .input-container .error {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: red;
+    font-size: 0.75em;
+    font-weight: 500;
+    flex-grow: 4;
+    text-align: right;
+    top: -18px;
+    display: none;
+}
+
+.react-final .input-container:focus-within .error {
+    display: block;
+}
+
+.react-final .buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-items: right;
+    justify-content: right;
+    padding: 10px;
+    width: 100%;
+}
+
+.react-final .button-container {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.react-final .button-buffer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .react-final .input-container .error {
+        white-space: nowrap;
+        font-size: 0.6em;
+        top: -14px;
+    }
+}
+
+@media only screen and (max-width: 418px) {
+    .react-final .input-container .error {
+        position: absolute;
+        top: 30px;
+        font-size: 0.6em;
+    }
+}
