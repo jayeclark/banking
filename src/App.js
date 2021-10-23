@@ -24,6 +24,12 @@ function App() {
   const [language, setLanguage] = useState('en');
   const [users, setUsers] = useState([]);
 
+  const [form, setForm] = useState('formik');
+
+  function setNewForm(val) {
+    setForm(val);
+  }
+
   function addUser(user) {
     let currentUsers = [...users];
     currentUsers.push(user);
@@ -46,30 +52,28 @@ function App() {
     <HashRouter>
     <UserDBContext.Provider value={{users, addUser}}>
     <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
-        <LanguageContext.Provider value={{language, changeLanguage}}>
-        <OptionsNav></OptionsNav>
-          <div className="App">
-            
-            <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
-            <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
-            <AppNav />
-            <div className="container" style={{padding:'20px'}}>
-           
-                <FormContext.Provider value={{form:'formik'}}>
+        <LanguageContext.Provider value={{ language, changeLanguage }}>
+          <FormContext.Provider value={{ form, setNewForm }}>
+            <OptionsNav></OptionsNav>
+              <div className="App">
+              
+                  <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
+                  <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
+                  <AppNav />
+                  <div className="container" style={{padding:'20px'}}>
                   
-                      <Route path="/" exact component={Home}></Route>
-                      <Route path="/create-account/" exact component={CreateAccount}></Route>
-                      <Route path="/deposit/" exact component={Deposit}></Route>
-                      <Route path="/withdraw/" exact component={Withdraw}></Route>
-                      <Route path="/transactions/" exact component={Transactions}></Route>
-                      <Route path="/all-data/" exact component={AllData}></Route>
-                    
-                </FormContext.Provider>
-             
-            </div>
-            <Footer></Footer>
-          </div>
-         
+                    <Route path="/" exact component={Home}></Route>
+                    <Route path="/create-account/" exact component={CreateAccount}></Route>
+                    <Route path="/deposit/" exact component={Deposit}></Route>
+                    <Route path="/withdraw/" exact component={Withdraw}></Route>
+                    <Route path="/transactions/" exact component={Transactions}></Route>
+                    <Route path="/all-data/" exact component={AllData}></Route>
+
+                  </div>
+                  <Footer></Footer>
+                
+              </div>
+            </FormContext.Provider>
           </LanguageContext.Provider>
           </UserContext.Provider>
       </UserDBContext.Provider>
