@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import UserDBContext from "./UserDBContext";
 
 export const getUser = (userDBObj, userNum) => {
     const users = userDBObj.users;
@@ -8,9 +10,14 @@ export const getUser = (userDBObj, userNum) => {
 
 export const getUserCount = (users) => users.length;
 
+export const UsersExist = () => {
+    const { users } = useContext(UserDBContext);
+    return users.length > 0;
+}
+
 export const parseNumber = (str, numDigits) => Number(Number(str.replace(',','')).toFixed(numDigits));
 
-export function parseValidation(formFields,validationFunctions,availableArgs={}) {
+export function parseValidation(formFields, validationFunctions, availableArgs={}) {
 
     formFields.forEach((field,i)=>{
 
@@ -37,3 +44,5 @@ export function parseValidation(formFields,validationFunctions,availableArgs={})
     })
 
 }
+
+export const Helpers = { getUser, getUserCount, UsersExist, parseNumber, parseValidation}

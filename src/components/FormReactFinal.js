@@ -2,22 +2,28 @@ import { Form, Field } from 'react-final-form';
 import Notification from './Notification';
 import { useState } from 'react';
 import data from '../data/en.json';
+import { Helpers } from '../helpers/library';
 import '../styles/ReactFinal.css';
+import { now } from 'lodash';
 
 function FormReactFinal({formFields, formSubmission}) {
 
+    const [submitted, setSubmitted] = useState(false);
+
+    const { buttons, success, failure, idRoot, submitHelper } = formSubmission;
     const { successTitle, failureTitle } = data.general;
 
-    let { buttons, success, failure, idRoot, submitHelper } = formSubmission;
-    let initialFieldValues = {};
-
-    let manuallyClosed = {idRoot: null, closed: false};
-    const [submitted, setSubmitted] = useState(false);
-    const notification = { title: successTitle, type: 'success', text: success };
-
+    const initialFieldValues = {};
     for (let field in formFields) {
         const fieldName = formFields[field].name;
         initialFieldValues[fieldName] = '';
+    }
+
+    let notification = { title: successTitle, type: 'success', text: success, time: 5000 };
+    let manuallyClosed = { closed: false, timeStamp: null };
+    const handleClick = () => {
+        if (manuallyClosed.closed === false) {setSubmitted(false);}
+        manuallyClosed.closed = true;
     }
 
     const getValidators = (field, value) => {
@@ -53,25 +59,26 @@ function FormReactFinal({formFields, formSubmission}) {
         
 
     const onSubmit = values => {
+
         const outcome = submitHelper(values);
+
+        const timeStamp = now();
         manuallyClosed.closed = false;
-        manuallyClosed.idRoot = idRoot;
+        manuallyClosed.timeStamp = timeStamp.toString();
 
         if (outcome === 'failure') {
-            notification.type = 'error';
-            notification.title = failureTitle;
-            notification.text = failure;
+            const [type, title, text, time] = ['error', failureTitle, failure, notification.time];
+            notification = { type, title, text, time };
             setSubmitted(true);
         }
         else {
             formSubmission.accountCreated = true;
-            const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
+            const buttonArr = formSubmission.buttons.filter(x => x.type="submit")[0];
             let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
-            if (buttonArr.hasOwnProperty("altDisplay")) {buttonEl.innerHTML = buttonArr.altDisplay;}
+            if (buttonArr.hasOwnProperty("altDisplay")) { buttonEl.innerHTML = buttonArr.altDisplay; }
             
-            notification.type = 'success';
-            notification.title = successTitle;
-            notification.text = success;
+            const [type, title, text, time] = ['success', successTitle, success, notification.time];
+            notification = { type, title, text, time};
             setSubmitted(true);
         }
 
@@ -81,25 +88,20 @@ function FormReactFinal({formFields, formSubmission}) {
             values[formFields[field].name] = '';
         }
 
-        setTimeout(()=>{if (manuallyClosed.closed === false && manuallyClosed.idRoot === idRoot) {setSubmitted(false)}},5000);
+        setTimeout(()=>{
+            const createdTime = timeStamp;
+            if (manuallyClosed.closed === false && manuallyClosed.timeStamp === createdTime) { setSubmitted(false) }
+        }, notification.time);
     
     }
-
-    const handleClick = () => {
-        if (manuallyClosed.closed === false) {setSubmitted(false);}
-        manuallyClosed.closed = true;
-        manuallyClosed.idRoot = idRoot;
-    }
-
-    //validate={composeValidators(...getValidators(field, values[field.name]))}
 
     return (
         <Form 
             onSubmit={onSubmit}
             initialValues={initialFieldValues}
-            render={({ handleSubmit, submitting, pristine, values }) => (
+            render={({ handleSubmit, submitting, pristine, values, hasValidationErrors }) => (
                 <form id={idRoot} className="react-final" onSubmit={handleSubmit}>
-                    {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick}></Notification> : null}
+                    {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick} time={notification.time}></Notification> : null}
                     {formFields.map((field,i)=> {
                         return (
                             <Field key={i} name={field.name} validate={composeValidators(getValidators(field, values[field.name]))}>
@@ -124,10 +126,10 @@ function FormReactFinal({formFields, formSubmission}) {
                                     <button 
                                         id={idRoot + "-" + buttonEl.name} 
                                         type={buttonEl.type}
-                                        disabled={submitting || pristine}
+                                        disabled={submitting || pristine || hasValidationErrors}
                                         className={buttonEl.className}
                                     >
-                                        {buttonEl.dependency && buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}
+                                        {buttonEl.dependency && Helpers[buttonEl.dependency]() ? buttonEl.altDisplay : buttonEl.display}
                                     </button>
                                 </div>
                             )

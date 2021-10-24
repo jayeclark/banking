@@ -3,22 +3,27 @@ import '../styles/Formik.css';
 import Notification from './Notification.js';
 import { useState } from 'react';
 import data from '../data/en.json';
+import { Helpers } from '../helpers/library';
+import { now } from 'lodash';
 
-function FormFormik({formFields, formSubmission}) {
-
-    const {successTitle, failureTitle} = data.general;
-
-    let { buttons, success, failure, idRoot, submitHelper } = formSubmission;
-    let initialFieldValues = {};
-
-    let manuallyClosed = {idRoot: null, closed: false};
+function FormFormik({ formFields, formSubmission }) {
 
     const [submitted, setSubmitted] = useState(false);
-    const notification = {title: successTitle, type: 'success', text: success};
 
+    const { buttons, success, failure, idRoot, submitHelper } = formSubmission;
+    const { successTitle, failureTitle } = data.general;
+
+    const initialFieldValues = {};
     for (let field in formFields) {
         const fieldName = formFields[field].name;
         initialFieldValues[fieldName] = '';
+    }
+
+    let notification = { title: successTitle, type: 'success', text: success, time: 5000 };
+    let manuallyClosed = { closed: false, timeStamp: now().toString() };
+    const handleClick = () => {
+        if (manuallyClosed.closed === false) { setSubmitted(false); }
+        manuallyClosed.closed = true;
     }
 
     const formik = useFormik({
@@ -28,13 +33,13 @@ function FormFormik({formFields, formSubmission}) {
         onSubmit: values => {
 
             const outcome = submitHelper(values);
+            const timeStamp = now().toString();
             manuallyClosed.closed = false;
-            manuallyClosed.idRoot = idRoot;
+            manuallyClosed.timeStamp = timeStamp;
 
             if (outcome === 'failure') {
-                notification.type = 'error';
-                notification.title = failureTitle;
-                notification.text = failure;
+                const [type, title, text, time] = ['error', failureTitle, failure, notification.time];
+                notification = { type, title, text, time};
                 setSubmitted(true);
             }
             else {
@@ -43,9 +48,8 @@ function FormFormik({formFields, formSubmission}) {
                 let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
                 if (buttonArr.hasOwnProperty("altDisplay")) {buttonEl.innerHTML = buttonArr.altDisplay;}
                 
-                notification.type = 'success';
-                notification.title = successTitle;
-                notification.text = success;
+                const [type, title, text, time] = ['success', successTitle, success, notification.time];
+                notification = { type, title, text, time };
                 setSubmitted(true);
             }
 
@@ -55,7 +59,10 @@ function FormFormik({formFields, formSubmission}) {
                 values[formFields[field].name] = '';
             }
 
-            setTimeout(()=>{if (manuallyClosed.closed === false && manuallyClosed.idRoot === idRoot) {setSubmitted(false)}},5000);
+            setTimeout(()=>{
+                const createdTime = timeStamp;
+                if (manuallyClosed.closed === false && manuallyClosed.timeStamp === createdTime) { setSubmitted(false) }
+            }, notification.time);
         },
 
         validate: values => {
@@ -90,15 +97,9 @@ function FormFormik({formFields, formSubmission}) {
 
     })
 
-    const handleClick = () => {
-        if (manuallyClosed.closed === false) {setSubmitted(false);}
-        manuallyClosed.closed = true;
-        manuallyClosed.idRoot = idRoot;
-    }
-
     return (
         <form id={idRoot} className="form-formik" onSubmit={formik.handleSubmit}>
-            {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick}></Notification> : null}
+            {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick} time={notification.time}></Notification> : null}
             {formFields.map((field,i)=>{
                 return (
                     <div key={i} className="input-container">
@@ -116,7 +117,7 @@ function FormFormik({formFields, formSubmission}) {
                     return (
                         <div key={i} className="button-container">
                             <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
-                                {buttonEl.dependency && buttonEl.dependency() ? buttonEl.altDisplay : buttonEl.display}
+                                {buttonEl.dependency && Helpers[buttonEl.dependency]() ? buttonEl.altDisplay : buttonEl.display}
                             </button>
                         </div>
                     )

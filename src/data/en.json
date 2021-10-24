@@ -86,7 +86,7 @@
                                 "display":"Create Account",
                                 "altDisplay": "Add Another Account",
                                 "className":"btn btn-primary",
-                                "dependency":false}],
+                                "dependency":"UsersExist"}],
                     "success": "Your account has been created and you have automatically been logged in. You may now make deposits and withdrawals.",
                     "failure": "An account is already associated with that email! Please use a different one.",
                     "idRoot": "create-account",

@@ -86,7 +86,7 @@
                                 "display":"Crear Cuenta",
                                 "altDisplay": "Agregar Otra Cuenta",
                                 "className":"btn btn-primary",
-                                "dependency":false}],
+                                "dependency":"UsersExist"}],
                     "success": "Se ha creado su cuenta y ha iniciado sesión automáticamente. Ahora puede realizar depósitos y retiros.",
                     "failure": "¡Ya hay una cuenta asociada a ese correo electrónico! Utilice una diferente.",
                     "idRoot": "create-account",
