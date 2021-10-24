@@ -17,7 +17,7 @@ function Notification({title, text, type, handleClick, time}) {
         setStyle({width: '100%', transitionDuration: '10ms'});
         setStyle({width: '100%', transitionDuration: seconds + 's'});
         setTimeout(()=> setStyle({width: '0%', transitionDuration: seconds + 's'}), 10);
-    }, []);
+    }, [seconds]);
 
     return (
         <div className="notification-container" >

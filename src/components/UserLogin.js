@@ -54,7 +54,7 @@ function UserLogin() {
     return (
         <div style={{padding:'10px',fontSize:"0.8rem", height: 'auto', margin:'auto 0px', display:'flex',flexWrap:'nowrap',alignItems:'center'}}>
             {(loggedInUser !== '') ? <div className="login-name">{getUser(userDBContext,loggedInUser).name}</div> : null}
-            <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : userDBContext.users.length > 0 ? handleSignIn : changeActive}>{loggedInUser !== '' ? signOut : userDBContext.users.length > 0 ? signIn : <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/create-account/">{signIn}</Link>}
+            <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : null}>{loggedInUser !== '' ? signOut : userDBContext.users.length > 0 ? <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/">{signIn}</Link>: <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/create-account/">{signIn}</Link>}
             </div>
             <div className="language-toggle-container">
                 <select id="language-toggler"  className="language-toggle" defaultValue={language} onChange={handleChange} tabIndex="0">
