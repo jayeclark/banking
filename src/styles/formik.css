@@ -95,6 +95,15 @@ input:-internal-direct-focus {
 }
 
 @media only screen and (max-width: 418px) {
+
+    .form-formik {
+        min-width: 240px;
+    }
+
+    .form-formik .input-container {
+        min-width: 240px;
+    }
+
     .form-formik .input-container .error {
         position: absolute;
         top: 30px;

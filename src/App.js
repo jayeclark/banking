@@ -58,7 +58,7 @@ function App() {
               <div className="App">
               
                   <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
-                  <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
+                  <div className="login-widget">{users.length > 0 ? <UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin> : null}</div>
                   <AppNav />
                   <div className="container" style={{padding:'20px'}}>
                   

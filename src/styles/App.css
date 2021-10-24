@@ -37,7 +37,8 @@ option {
 
 #all-data-page, 
 #withdraw-page,
-#deposit-page {
+#deposit-page,
+#user-data-page {
   min-height: 44vh;
 }
 
@@ -69,6 +70,24 @@ option {
   border-right: 1px solid #ccc;
 }
 
+.home-splash {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#home-page {
+  margin: 10px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+#sign-in-card {
+  margin: 10px;
+  flex-shrink: 0;
+  flex-grow: 1;
+  min-width: 480px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -78,6 +97,18 @@ option {
   }
 }
 
+
+@media only screen and (max-width: 991px) {
+  .home-splash {
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #sign-in-card {
+    max-width: 400px;
+  }
+}
 
 @media only screen and (max-width: 680px) {
   
@@ -93,10 +124,15 @@ option {
 
   #all-data-page, 
   #withdraw-page,
-  #deposit-page {
+  #deposit-page,
+  #user-data-page  {
     min-height: 34vh;
   }
 
+  .home-splash {
+    flex-wrap: wrap;
+  }
+  
 }
 
 @media only screen and (max-width: 575px) {
@@ -107,6 +143,15 @@ option {
 
   .login-widget {
     padding-left: 5px;
+  }
+
+  #sign-in-card {
+    min-width: 300px;
+    max-width: 515px;
+  }
+
+  #sign-in {
+    padding: 10px;
   }
 
 }
@@ -123,8 +168,28 @@ option {
 
   #all-data-page, 
   #withdraw-page,
-  #deposit-page {
+  #deposit-page,
+  #user-data-page  {
     min-height: 33vh;
+  }
+
+  #sign-in-card {
+    min-width: 200px;
+    max-width: 385px;
+  }
+
+  #sign-in .input-container {
+    min-width: 200px !important;
+    max-width: 385px;
+  }
+
+  #sign-in .buttons {
+    min-width: 200px;
+    max-width: 385px;
+  }
+
+  .form-formik, .react-final, .react-hook {
+    min-width: 200px !important;
   }
 
 }
@@ -153,8 +218,17 @@ option {
 
   #all-data-page, 
   #withdraw-page,
-  #deposit-page {
+  #deposit-page,
+  #user-data-page  {
     min-height: 30vh;
+  }
+
+  #sign-in-card {
+    min-width: 200px;
+  }
+
+  #sign {
+    max-width: 200px;
   }
 
 }
