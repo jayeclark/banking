@@ -42,7 +42,7 @@ function CreateAccount() {
 
         let usersWithSameEmail = users.filter(user => user.email === values.email);
         
-        if (usersWithSameEmail.length > 0) {return 'failure';}
+        if (usersWithSameEmail.length > 0) { return 'failure'; }
         else {
             addUser(user);
             logIn(user.number);
