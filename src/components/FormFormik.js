@@ -24,6 +24,7 @@ function FormFormik({ formFields, formSubmission }) {
     const handleClick = () => {
         if (manuallyClosed.closed === false) { setSubmitted(false); }
         manuallyClosed.closed = true;
+        manuallyClosed.timeStamp = now().toString();
     }
 
     const formik = useFormik({
@@ -61,7 +62,7 @@ function FormFormik({ formFields, formSubmission }) {
 
             setTimeout(()=>{
                 const createdTime = timeStamp;
-                if (manuallyClosed.closed === false && manuallyClosed.timeStamp === createdTime) { setSubmitted(false) }
+                if (manuallyClosed.timeStamp === createdTime && manuallyClosed.closed === false) { setSubmitted(false) }
             }, notification.time);
         },
 
@@ -86,7 +87,6 @@ function FormFormik({ formFields, formSubmission }) {
                         if(validationFunction(value) === false) { errors[thisField.name] = errorMsg }
                     }
  
-                    
                 }
 
             }
