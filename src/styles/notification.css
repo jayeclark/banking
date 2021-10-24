@@ -122,9 +122,9 @@
     cursor: pointer;
     width: fit-content;
     margin-left: auto;
+    opacity: 0.6;
 }
 
 .close-x:hover {
-    color: darkgray;
-    fill-rule: darkgray;
+    opacity: 1;
 }

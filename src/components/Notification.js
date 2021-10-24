@@ -11,16 +11,20 @@ function Notification({title, text, type, handleClick, time}) {
 
     const seconds = time / 1000;
 
-    const [width, setWidth] = useState('100%');
+    const [style, setStyle] = useState({width: '100%', transitionDuration: '10ms'})
 
-    useEffect(()=> setWidth('0%'),[])
+    useEffect(()=> {
+        setStyle({width: '100%', transitionDuration: '10ms'});
+        setStyle({width: '100%', transitionDuration: seconds + 's'});
+        setTimeout(()=> setStyle({width: '0%', transitionDuration: seconds + 's'}), 10);
+    }, []);
 
     return (
         <div className="notification-container" >
             <div className={type === 'success' ? "notification-card green" : type === 'error' ? "notification-card red" : "notification-card"}>
                 <Card content={parsedContent} style={{padding: '50px', fontWeight:'500'}}></Card> 
                 <div className={type === 'success' ? "notification-countdown-green" : type === 'error' ? "notification-countdown-red" : "notification-countdown"}>
-                    <div className={type === 'success' ? "countdown-progress-green" : type === 'error' ? "countdown-progress-red" : "countdown-progress"} style={{ width, transitionDuration: seconds + 's' }}></div>
+                    <div className={type === 'success' ? "countdown-progress-green" : type === 'error' ? "countdown-progress-red" : "countdown-progress"} style={style}></div>
                 </div>
             </div> 
         </div>

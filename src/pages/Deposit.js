@@ -30,6 +30,7 @@ function Deposit() {
 
     // Parse validation functions
     parseValidation(formFields, validationFunctions);
+    console.log("fields: " , formFields);
  
     // Add submission instructions
     const submitHelperFunc = (values) => {
@@ -58,8 +59,8 @@ function Deposit() {
 
     return (
             <>
-            { loggedInUser ? <Card id={ id } header={ header } content={ content } form={ form }></Card> :
-                             <Card id={ id } header={ header } content={ valueIfNotLoggedIn } form={ null }></Card> }
+            {loggedInUser ? <Card id={id} header={header} content={content} form={form}></Card> :
+                            <Card id={id} header={header} content={valueIfNotLoggedIn} form={null}></Card>}
             </>
     )
 

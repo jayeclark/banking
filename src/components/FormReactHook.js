@@ -9,12 +9,16 @@ import { Helpers } from '../helpers/library';
 function FormReactHook({formFields, formSubmission}) {
 
     const [submitted, setSubmitted] = useState(false);
-    const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, getValues, setValue, formState: { errors, isDirty } } = useForm({
         mode: 'onChange',
       });
 
     const { buttons, success, failure, idRoot, submitHelper } = formSubmission;
     const { successTitle, failureTitle } = data.general; 
+
+    console.log(Object.values(errors).every(x => x.message === '' ));
+    console.log(Object.values(getValues()));
+    console.log(Object.values(getValues()).some(x => x !== ''));
 
     const initialFieldValues = {};
     for (let field in formFields) {
@@ -25,9 +29,8 @@ function FormReactHook({formFields, formSubmission}) {
     const [notification, setNotification] = useState({ title: successTitle, type: 'success', text: success, time: 5000 })
     let manuallyClosed = { closed: false, timeStamp: now().toString() };
     const handleClick = () => {
-        if (manuallyClosed.closed === false) {setSubmitted(false);}
+        if (manuallyClosed.closed === false) { setSubmitted(false); }
         manuallyClosed.closed = true;
-        manuallyClosed.idRoot = idRoot;
     }
 
     const getValidators = (field, value) => {
@@ -56,7 +59,7 @@ function FormReactHook({formFields, formSubmission}) {
         return validators;
     }
 
-    const composeValidators = (validators) => (value) => {
+    const composeValidators = (validators, value) => (value) => {
         let reduced = validators.reduce((error, validator) => error || validator(value), undefined);
         return reduced;
     }
@@ -103,7 +106,13 @@ function FormReactHook({formFields, formSubmission}) {
                     <div key={i} className="input-container">
                         <div className='field-name'><b>{field.display}</b></div>
                         <div className='input-lockup'>
-                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} className={errors.hasOwnProperty(field.name) && getValues()[field.name] ? 'input-visible-error' : errors.hasOwnProperty(field.name) ? 'input-error' : getValues()[field.name] ?  'input-visible-noerror' : 'input-noerror'} {...register(field.name, { validate: composeValidators(getValidators(field, getValues()[field.name])) })} />
+                            <input 
+                                type={field.type} 
+                                autoComplete="off" 
+                                id={field.name} 
+                                name={field.name} 
+                                className={errors.hasOwnProperty(field.name) && getValues()[field.name] ? 'input-visible-error' : errors.hasOwnProperty(field.name) ? 'input-error' : getValues()[field.name] ?  'input-visible-noerror' : 'input-noerror'} 
+                                {...register(field.name, { validate: composeValidators(getValidators(field, getValues()[field.name]), getValues()[field.name]) })} />
                             {errors.hasOwnProperty(field.name) ? <div id={idRoot + "-" + field.name + "Error"} className="error">{errors[field.name].message}</div> : null}
                         </div>
                     </div>
@@ -114,7 +123,7 @@ function FormReactHook({formFields, formSubmission}) {
                 {buttons.map((buttonEl,i)=>{
                     return (
                         <div key={i} className="button-container">
-                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(errors).every(x => x.message === '' ) && Object.values(getValues()).some(x => x !== '') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
+                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(errors).length === 0 && (isDirty || Object.values(getValues()).length > 0) ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
                                 {buttonEl.dependency && Helpers[buttonEl.dependency]() ? buttonEl.altDisplay : buttonEl.display}
                             </button>
                         </div>

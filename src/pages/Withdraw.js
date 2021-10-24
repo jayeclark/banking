@@ -58,7 +58,7 @@ function Withdraw() {
 
     return (
             <>
-            {   loggedInUser !== '' && balance > 0 ? <Card id={ id } header={ header } content={ content } form={ form }></Card> :
+            {   loggedInUser !== '' && balance > 0 ? <Card id={id} header={header} content={content} form={form}></Card> :
                 loggedInUser !== ''  ? <Card id={ id } header={ header } content={ <><p>{ valueIfNoData }</p><h4>{ balanceMsg }{ balance.toFixed(2) }</h4></> } form=""></Card> : 
                                        <Card id={ id } header={ header } content={ <p>{ valueIfNotLoggedIn }</p> } form=""></Card> }
             </>
