@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { getUser } from '../helpers/library';
 import Card from '../components/Card';
+import { Pagination, paginate } from '../components/Pagination';
 import UserDBContext from '../helpers/UserDBContext';
 import UserContext from '../helpers/UserContext';
 import LanguageContext from '../helpers/LanguageContext';
@@ -24,8 +25,24 @@ function Transactions() {
     // Load page content
     const {header, card: {cardCols}, id, valueIfNoData, valueIfNotLoggedIn} = data.pages.transactions;
     const chartHeader = <div className="data-grid-header-row"><div className="align-left"><b>{cardCols[0]}</b></div><div className="data-grid-description align-left"><b>{cardCols[1]}</b></div><div className="align-right"><b>{cardCols[2]}</b></div><div className="align-right"><b>{cardCols[3]}</b></div><div className="align-right"><b>{cardCols[4]}</b></div></div>;
+    const itemsPerPage = 5;
+    const [page, setPage] = useState(0);
+    const handleSetPage = (e) => {
+        const targetText = e.target.textContent;
+        const pageNum = Math.ceil(transactions.length / itemsPerPage);
+        if (targetText === "First Page" || targetText === "<<") { setPage(0) } 
+        else if (targetText === "Previous Page" || targetText === "<") { setPage(page - 1) }
+        else if (targetText === "Next Page" || targetText === ">") { setPage(page + 1) }
+        else if (targetText === "Last Page" || targetText === ">>") { setPage(pageNum - 1) }
+        else {setPage(Number(targetText) - 1)}
+    };
+    const filteredTransactions = paginate(transactions, itemsPerPage, page);
 
-    const content = <div className="data-grid">{chartHeader}{transactions.reverse().map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}</div>;
+    const content = <div className="data-grid">
+                        {chartHeader}
+                        {filteredTransactions.reverse().map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}
+                        <Pagination data={transactions} maxPages={5} verbose="no" itemsPerPage={itemsPerPage} minimal={false} currentPage={page} onPageChange={handleSetPage} />
+                    </div>;
     let form = '';
 
 

@@ -1,0 +1,47 @@
+.page-button-container {
+    padding: 10px 0px;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+}
+
+.page-button {
+    background-color: rgb(228, 228, 228);
+    margin: 5px;
+    border: none;
+    border-radius: 15px;
+    height: 30px;
+    padding: 5px 10px;
+    width: fit-content;
+    min-width: 30px;
+    text-align: center;
+    vertical-align:middle;
+    font-size: 0.8rem;
+}
+
+.page-button:disabled {
+    color: #666;
+    background-color: rgb(245, 245, 245);
+}
+
+.page-button:hover {
+    background-color: lightgray;
+}
+
+.page-button.current-page {
+    color: black;
+    font-weight: bold;
+    background-color: rgb(190, 190, 190);
+}
+
+.page-button.disabled:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.page-button.disabled.current-page:hover {
+    background-color: rgb(190, 190, 190) !important;
+}
+
+button div {
+    line-height: 1rem;
+}
