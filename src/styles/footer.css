@@ -45,6 +45,11 @@
 
 .social-network {
     padding: 10px;
+    opacity: 0.8;
+}
+
+.social-network:hover {
+    opacity: 1;
 }
 
 .social-header {
