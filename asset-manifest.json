@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/banking/static/css/main.3c16057c.chunk.css",
-    "main.js": "/banking/static/js/main.93a6db18.chunk.js",
-    "main.js.map": "/banking/static/js/main.93a6db18.chunk.js.map",
-    "runtime-main.js": "/banking/static/js/runtime-main.4b5602c9.js",
-    "runtime-main.js.map": "/banking/static/js/runtime-main.4b5602c9.js.map",
-    "static/js/2.3bf39920.chunk.js": "/banking/static/js/2.3bf39920.chunk.js",
-    "static/js/2.3bf39920.chunk.js.map": "/banking/static/js/2.3bf39920.chunk.js.map",
-    "static/js/3.d939fe2d.chunk.js": "/banking/static/js/3.d939fe2d.chunk.js",
-    "static/js/3.d939fe2d.chunk.js.map": "/banking/static/js/3.d939fe2d.chunk.js.map",
+    "main.css": "/banking/static/css/main.a13a68d9.chunk.css",
+    "main.js": "/banking/static/js/main.2d174a39.chunk.js",
+    "main.js.map": "/banking/static/js/main.2d174a39.chunk.js.map",
+    "runtime-main.js": "/banking/static/js/runtime-main.f6b030d1.js",
+    "runtime-main.js.map": "/banking/static/js/runtime-main.f6b030d1.js.map",
+    "static/js/2.4baf37e2.chunk.js": "/banking/static/js/2.4baf37e2.chunk.js",
+    "static/js/2.4baf37e2.chunk.js.map": "/banking/static/js/2.4baf37e2.chunk.js.map",
+    "static/js/3.c9322276.chunk.js": "/banking/static/js/3.c9322276.chunk.js",
+    "static/js/3.c9322276.chunk.js.map": "/banking/static/js/3.c9322276.chunk.js.map",
     "index.html": "/banking/index.html",
-    "static/css/main.3c16057c.chunk.css.map": "/banking/static/css/main.3c16057c.chunk.css.map",
-    "static/js/2.3bf39920.chunk.js.LICENSE.txt": "/banking/static/js/2.3bf39920.chunk.js.LICENSE.txt",
+    "static/css/main.a13a68d9.chunk.css.map": "/banking/static/css/main.a13a68d9.chunk.css.map",
+    "static/js/2.4baf37e2.chunk.js.LICENSE.txt": "/banking/static/js/2.4baf37e2.chunk.js.LICENSE.txt",
     "static/media/closeButton.47dd7fbc.svg": "/banking/static/media/closeButton.47dd7fbc.svg",
-    "static/media/userLogin.css": "/banking/static/media/globe.7ce67d7d.svg",
+    "static/media/UserLogin.css": "/banking/static/media/globe.7ce67d7d.svg",
     "static/media/heroimage.99862984.jpeg": "/banking/static/media/heroimage.99862984.jpeg",
     "static/media/logo.3d10f139.svg": "/banking/static/media/logo.3d10f139.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b5602c9.js",
-    "static/js/2.3bf39920.chunk.js",
-    "static/css/main.3c16057c.chunk.css",
-    "static/js/main.93a6db18.chunk.js"
+    "static/js/runtime-main.f6b030d1.js",
+    "static/js/2.4baf37e2.chunk.js",
+    "static/css/main.a13a68d9.chunk.css",
+    "static/js/main.2d174a39.chunk.js"
   ]
 }
