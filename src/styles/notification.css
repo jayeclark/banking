@@ -29,7 +29,7 @@
 .notification-card .card {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    border-color: inherit;
+    border-color: #666;
     border-width: 2px;
     border-bottom: none;
 }
@@ -42,9 +42,9 @@
     background-color: #fff;
     border-radius: 0.25rem;
     overflow: hidden;
-    border-right: 1px solid rgba(0,0,0,.125);
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    border-left: 2px solid #666;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
@@ -55,7 +55,7 @@
     position: relative;
     top: 0px;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 0.25rem;
     overflow: hidden;
     border-right: 2px solid red;
     border-bottom: 2px solid red;

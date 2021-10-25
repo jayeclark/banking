@@ -1,8 +1,7 @@
 import '../styles/Notification.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Card from './Card.js';
 import closeButton from '../assets/closeButton.svg';
-import { useEffect } from 'react/cjs/react.development';
 
 function Notification({title, text, type, handleClick, time}) {
 
@@ -21,10 +20,10 @@ function Notification({title, text, type, handleClick, time}) {
 
     return (
         <div className="notification-container" >
-            <div className={type === 'success' ? "notification-card green" : type === 'error' ? "notification-card red" : "notification-card"}>
+            <div className={type === 'success' ? "notification-card green" : type === 'failure' ? "notification-card red" : "notification-card"}>
                 <Card content={parsedContent} style={{padding: '50px', fontWeight:'500'}}></Card> 
-                <div className={type === 'success' ? "notification-countdown-green" : type === 'error' ? "notification-countdown-red" : "notification-countdown"}>
-                    <div className={type === 'success' ? "countdown-progress-green" : type === 'error' ? "countdown-progress-red" : "countdown-progress"} style={style}></div>
+                <div className={type === 'success' ? "notification-countdown-green" : type === 'failure' ? "notification-countdown-red" : "notification-countdown"}>
+                    <div className={type === 'success' ? "countdown-progress-green" : type === 'failure' ? "countdown-progress-red" : "countdown-progress"} style={style}></div>
                 </div>
             </div> 
         </div>
