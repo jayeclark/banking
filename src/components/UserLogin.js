@@ -8,7 +8,7 @@ import languages from '../data/languages';
 
 function UserLogin() {
 
-    const userDBContext = useContext(UserDBContext);
+    const { users } = useContext(UserDBContext);
 
     const { loggedInUser, logOut } = useContext(UserContext);
 
@@ -17,8 +17,8 @@ function UserLogin() {
     const data = languages[language];
     const { signOut, signIn } = data.general;
 
-    const getUser = (userDBContext, loggedInUser) => {
-        return userDBContext.users.filter(x=>x.number === loggedInUser)[0];
+    const getUser = (users, loggedInUser) => {
+        return users.filter(x=>x.number === loggedInUser)[0];
     }
 
     const handleSignOut = () => {
@@ -35,8 +35,8 @@ function UserLogin() {
 
     return (
         <div style={{padding:'10px',fontSize:"0.8rem", height: 'auto', margin:'auto 0px', display:'flex',flexWrap:'nowrap',alignItems:'center'}}>
-            {(loggedInUser !== '') ? <div className="login-name">{getUser(userDBContext,loggedInUser).name}</div> : null}
-            <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : null}>{loggedInUser !== '' ? signOut : userDBContext.users.length > 0 ? <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/">{signIn}</Link>: <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/create-account/">{signIn}</Link>}
+            {(loggedInUser !== '') ? <div className="login-name">{getUser(users, loggedInUser).name}</div> : null}
+            <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : null}>{loggedInUser !== '' ? signOut : users.length > 0 ? <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/">{signIn}</Link>: null}
             </div>
             <div className="language-toggle-container">
                 <select id="language-toggler"  className="language-toggle" defaultValue={language} onChange={handleChange} tabIndex="0">

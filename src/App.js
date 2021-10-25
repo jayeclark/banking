@@ -79,7 +79,7 @@ function App() {
               <div className="App">
               
                   <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
-                  <div className="login-widget">{users.length > 0 ? <UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin> : null}</div>
+                  <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
                   <AppNav />
                   <NotificationContext.Provider value={{ displayNotification }}>
                     {notification && notification.display ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}
