@@ -10,7 +10,7 @@ function UserLogin() {
 
     const userDBContext = useContext(UserDBContext);
 
-    const { loggedInUser, logIn, logOut } = useContext(UserContext);
+    const { loggedInUser, logOut } = useContext(UserContext);
 
     // Get language context and set language data
     const { language, changeLanguage } = useContext(LanguageContext);
@@ -26,25 +26,7 @@ function UserLogin() {
             logOut();
         }
     }
-
-    const handleSignIn = () => {
-        if (loggedInUser === '' && userDBContext.users.length > 0) {
-            let userNum = userDBContext.users[userDBContext.users.length - 1].number;
-            logIn(userNum);
-        }
-        else {
-            console.log('error!! no user exists to log in');
-        }
-    }
-    
-    const changeActive = () => {
-        let targetEl = document.getElementById('create-account-link');
-        let link = targetEl.getElementsByClassName('nav-link')[0];
-        let currentlyActive = Array.from(document.getElementsByClassName('active'));
-         currentlyActive.forEach(el => el.classList.remove('active'));
-         link.classList.add('active');
-     }  
-
+ 
     const handleChange = e => {
         const selectBox = document.getElementById("language-toggler");
         const selectedValue = selectBox.options[selectBox.selectedIndex].value;
