@@ -39,7 +39,9 @@ export function SignIn() {
     
             let usersWithSameEmail = users.filter(user => user.email === values.email);
             
-            if (usersWithSameEmail.length === 0) { return 'failure'; }
+            if (usersWithSameEmail.length === 0) { 
+                displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
+                return 'failure'; }
             else {
                 let matchingUser = usersWithSameEmail[0];
                 let userPwd = matchingUser.password;
