@@ -49,7 +49,7 @@ function CreateAccount() {
         let usersWithSameEmail = users.filter(user => user.email === values.email);
         
         if (usersWithSameEmail.length > 0) { 
-            displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 500000 });
+            displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
             return 'failure'; 
         }
         else {
