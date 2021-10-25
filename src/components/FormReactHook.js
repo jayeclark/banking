@@ -1,36 +1,19 @@
 import { useForm } from 'react-hook-form';
 import '../styles/ReactHook.css';
-import Notification from './Notification.js';
-import { useState } from 'react';
-import data from '../data/en.json';
-import { now } from 'lodash';
 import { Helpers } from '../helpers/library';
 
 function FormReactHook({formFields, formSubmission}) {
 
-    const [submitted, setSubmitted] = useState(false);
     const { register, handleSubmit, getValues, setValue, formState: { errors, isDirty } } = useForm({
         mode: 'onChange',
       });
 
-    const { buttons, success, failure, idRoot, submitHelper } = formSubmission;
-    const { successTitle, failureTitle } = data.general; 
-
-    console.log(Object.values(errors).every(x => x.message === '' ));
-    console.log(Object.values(getValues()));
-    console.log(Object.values(getValues()).some(x => x !== ''));
+    const { buttons, idRoot, submitHelper } = formSubmission;
 
     const initialFieldValues = {};
     for (let field in formFields) {
         const fieldName = formFields[field].name;
         initialFieldValues[fieldName] = '';
-    }
-
-    const [notification, setNotification] = useState({ title: successTitle, type: 'success', text: success, time: 5000 })
-    let manuallyClosed = { closed: false, timeStamp: now().toString() };
-    const handleClick = () => {
-        if (manuallyClosed.closed === false) { setSubmitted(false); }
-        manuallyClosed.closed = true;
     }
 
     const getValidators = (field, value) => {
@@ -67,40 +50,19 @@ function FormReactHook({formFields, formSubmission}) {
     const onSubmit = values => {
 
         const outcome = submitHelper(values);
-        const timeStamp = now().toString();
-        const notificationTime = notification.time;
-        manuallyClosed.closed = false;
-        manuallyClosed.timeStamp = timeStamp;
 
-        if (outcome === 'failure') {
-            const [type, title, text, time] = ['error', failureTitle, failure, notification.time];
-            setNotification({ type, title, text, time });
-            setSubmitted(true);
+        // Only change the button and reset the form if submission was successful
+        if (outcome === 'success') {
+            for (let field in formFields) {
+                let element = document.getElementById(formFields[field].name);
+                element.value = '';
+                setValue(formFields[field].name, '');
+            }
         }
-        else {
-            const [type, title, text, time] = ['success', successTitle, success, notification.time];
-            setNotification({ type, title, text, time });
-            setSubmitted(true);
-        }
-
-        for (let field in formFields) {
-            let element = document.getElementById(formFields[field].name);
-            element.value = '';
-            setValue(formFields[field].name, '');
-        }
-
-        console.log(getValues());
-
-        setTimeout(()=>{
-            const createdTime = timeStamp;
-            if (manuallyClosed.closed === false && manuallyClosed.timeStamp === createdTime) { setSubmitted(false) }
-        }, notificationTime);
-
     }
 
     return (
         <form id={idRoot} className="react-hook" onSubmit={handleSubmit(onSubmit)}>
-            {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick} time={notification.time}></Notification> : null}
             {formFields.map((field,i)=>{
                 return (
                     <div key={i} className="input-container">

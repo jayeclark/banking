@@ -1,30 +1,15 @@
 import { useFormik } from 'formik';
 import '../styles/Formik.css';
-import Notification from './Notification.js';
-import { useState } from 'react';
-import data from '../data/en.json';
 import { Helpers } from '../helpers/library';
-import { now } from 'lodash';
 
 function FormFormik({ formFields, formSubmission }) {
 
-    const [submitted, setSubmitted] = useState(false);
-
-    const { buttons, success, failure, idRoot, submitHelper } = formSubmission;
-    const { successTitle, failureTitle } = data.general;
+    const { buttons, idRoot, submitHelper } = formSubmission;
 
     const initialFieldValues = {};
     for (let field in formFields) {
         const fieldName = formFields[field].name;
         initialFieldValues[fieldName] = '';
-    }
-
-    let notification = { title: successTitle, type: 'success', text: success, time: 5000 };
-    let manuallyClosed = { closed: false, timeStamp: now().toString() };
-    const handleClick = () => {
-        if (manuallyClosed.closed === false) { setSubmitted(false); }
-        manuallyClosed.closed = true;
-        manuallyClosed.timeStamp = now().toString();
     }
 
     const formik = useFormik({
@@ -34,36 +19,23 @@ function FormFormik({ formFields, formSubmission }) {
         onSubmit: values => {
 
             const outcome = submitHelper(values);
-            const timeStamp = now().toString();
-            manuallyClosed.closed = false;
-            manuallyClosed.timeStamp = timeStamp;
 
-            if (outcome === 'failure') {
-                const [type, title, text, time] = ['error', failureTitle, failure, notification.time];
-                notification = { type, title, text, time};
-                setSubmitted(true);
-            }
-            else {
+            // Only change the button and reset the form if submission was successful
+            if (outcome === 'success') {
+
                 formSubmission.accountCreated = true;
                 const buttonArr = formSubmission.buttons.filter(x=> x.type="submit")[0];
                 let buttonEl = document.getElementById(idRoot+"-"+buttonArr.name);
                 if (buttonArr.hasOwnProperty("altDisplay")) {buttonEl.innerHTML = buttonArr.altDisplay;}
                 
-                const [type, title, text, time] = ['success', successTitle, success, notification.time];
-                notification = { type, title, text, time };
-                setSubmitted(true);
+                for (let field in formFields) {
+                    let element = document.getElementById(formFields[field].name);
+                    element.value = '';
+                    values[formFields[field].name] = '';
+                }
+
             }
 
-            for (let field in formFields) {
-                let element = document.getElementById(formFields[field].name);
-                element.value = '';
-                values[formFields[field].name] = '';
-            }
-
-            setTimeout(()=>{
-                const createdTime = timeStamp;
-                if (manuallyClosed.timeStamp === createdTime && manuallyClosed.closed === false) { setSubmitted(false) }
-            }, notification.time);
         },
 
         validate: values => {
@@ -99,7 +71,6 @@ function FormFormik({ formFields, formSubmission }) {
 
     return (
         <form id={idRoot} className="form-formik" onSubmit={formik.handleSubmit}>
-            {submitted === true ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={handleClick} time={notification.time}></Notification> : null}
             {formFields.map((field,i)=>{
                 return (
                     <div key={i} className="input-container">

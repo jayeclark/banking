@@ -4,10 +4,12 @@ import formParser from '../helpers/formParser';
 import { getUser, parseNumber, parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
 import Card from '../components/Card';
-import UserDBContext from '../helpers/UserDBContext';
 import FormContext from '../helpers/FormContext';
-import UserContext from '../helpers/UserContext';
 import LanguageContext from '../helpers/LanguageContext';
+import NotificationContext from '../helpers/NotificationContext';
+import UserContext from '../helpers/UserContext';
+import UserDBContext from '../helpers/UserDBContext';
+
 import languages from '../data/languages.js';
 
 function Withdraw() {
@@ -17,16 +19,21 @@ function Withdraw() {
     const { loggedInUser } = useContext(UserContext);
     const { form: formProvider } = useContext(FormContext);
     const { language } = useContext(LanguageContext);
+    const { displayNotification } = useContext(NotificationContext);
 
     // Get logged in user number, determine starting balance, and set local balance state
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-    // Load page content
+    // Get page content
     const pageName = "withdraw";
     const { header, card: {cardMsg, balanceMsg }, id, valueIfNoData, valueIfNotLoggedIn} = languages[language].pages[pageName];
     const { formSubmission, formFields } = languages[language].forms[pageName];
     const content = <><span className="card-content">{cardMsg}</span><h4 className="card-balance-msg">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
+
+    // Get notification content
+    const { success, failure } = formSubmission;
+    const { successTitle, failureTitle } = languages[language].general;
 
     // Parse validation functions
     const availableArgs = { balance };
@@ -35,7 +42,10 @@ function Withdraw() {
     // Add submission instructions
     const submitHelperFunc = (values) => {
 
-            if (loggedInUser === '') {return 'failure'}
+            if (loggedInUser === '') {
+                displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
+                return 'failure';
+            }
             else {
                 let newBalance = balance - parseNumber(values.withdraw, 2);
                 if (isNaN(newBalance)) {return 'failure'};
@@ -47,6 +57,7 @@ function Withdraw() {
                                                                         description: formSubmission.typeOfAction, 
                                                                         newBalance
                                                                       })
+                displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
                 return 'success';
             }
     

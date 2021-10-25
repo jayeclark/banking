@@ -6,6 +6,7 @@ import { now } from 'lodash';
 import Card from '../components/Card';
 import FormContext from '../helpers/FormContext';
 import LanguageContext from '../helpers/LanguageContext';
+import NotificationContext from '../helpers/NotificationContext';
 import UserContext from '../helpers/UserContext';
 import UserDBContext from '../helpers/UserDBContext';
 import languages from '../data/languages.js';
@@ -17,16 +18,21 @@ function Deposit() {
     const { loggedInUser } = useContext(UserContext);
     const { form: formProvider } = useContext(FormContext);
     const { language } = useContext(LanguageContext);
+    const { displayNotification } = useContext(NotificationContext);
 
     // Determine starting balance, and set local component balance
     const startingBalance = loggedInUser ? getUser(userDBContext,loggedInUser).balance : 0.00;
     const [balance, setBalance] = useState(startingBalance);
 
-    // Load page content
+    // Get page content
     const pageName = "deposit";
     const { header, card: { cardMsg, balanceMsg }, id, valueIfNotLoggedIn } = languages[language].pages[pageName];
     const { formSubmission, formFields } = languages[language].forms[pageName];
     const content = <><span className="card-content">{ cardMsg }</span><h4 className="card-balance-msg">{ balanceMsg }{ balance.toFixed(2) }</h4></>;
+
+    // Get notification content
+    const { success, failure } = formSubmission;
+    const { successTitle, failureTitle } = languages[language].general;
 
     // Parse validation functions
     parseValidation(formFields, validationFunctions);
@@ -35,7 +41,10 @@ function Deposit() {
     // Add submission instructions
     const submitHelperFunc = (values) => {
 
-            if (loggedInUser === null) {return 'failure'}
+            if (loggedInUser === null) {
+                displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
+                return 'failure';
+            }
             else {
                 let newBalance = balance + parseNumber(values.deposit, 2);
                 if (isNaN(newBalance)) {return 'failure'};
@@ -48,6 +57,7 @@ function Deposit() {
                         description: formSubmission.typeOfAction, 
                         newBalance 
                     })
+                displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
                 return 'success';
             }
     

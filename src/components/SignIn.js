@@ -5,6 +5,7 @@ import formParser from '../helpers/formParser';
 import Card from '../components/Card';
 import FormContext from '../helpers/FormContext';
 import LanguageContext from '../helpers/LanguageContext';
+import NotificationContext from '../helpers/NotificationContext';
 import UserContext from '../helpers/UserContext';
 import UserDBContext from '../helpers/UserDBContext';
 import languages from '../data/languages.js';
@@ -16,11 +17,15 @@ export function SignIn() {
         const { logIn } = useContext(UserContext);
         const { form: formProvider } = useContext(FormContext);
         const { language } = useContext(LanguageContext);
+        const { displayNotification } = useContext(NotificationContext);
     
         // Load page content
         const { formSubmission, formFields } = languages[language].forms['signIn'];
         const content = <span className="card-content"></span>;
      
+        const { success, failure } = formSubmission;
+        const { successTitle, failureTitle } = languages[language].general;
+
         // Parse validation functions
         parseValidation(formFields, validationFunctions);
     
@@ -39,13 +44,15 @@ export function SignIn() {
                 let matchingUser = usersWithSameEmail[0];
                 let userPwd = matchingUser.password;
                 if (userPwd !== user.password) {
+                    displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
                     return 'failure';
                 }
                 else {
                     logIn(matchingUser.number);
+                    displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
                     return 'success';
                 }
-                return 'failure';
+
             }
     
         }
