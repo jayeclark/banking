@@ -21,6 +21,7 @@
     min-width: 200px;
     border-width: 1px;
     border-radius: 0.25rem;
+    border-color: #666;
     box-shadow: 3px 3px 8px 0px rgba(0,0,0,0.4);
     flex-grow: 1;
     flex-shrink: 1;
@@ -29,7 +30,7 @@
 .notification-card .card {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    border-color: #666;
+    border-color: inherit;
     border-width: 2px;
     border-bottom: none;
 }
