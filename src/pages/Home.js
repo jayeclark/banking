@@ -14,21 +14,19 @@ function Home() {
 
     const { loggedInUser } = useContext(UserContext);
     const { users } = useContext(UserDBContext);
-    console.log(loggedInUser);
     
     // Load page content
     const pageName = "home";
     let { header, card: { cardMsg }, id } = languages[language].pages[pageName];
     const [content, image] = [<span>{ cardMsg }</span>, heroImg];
 
-    if (loggedInUser) { header += ", " + users[loggedInUser]};
+    if (loggedInUser) { header += ", " + users.filter(x => x.number === loggedInUser)[0].name + "!"; }
     
     return (
         <div className="home-splash">  
             { loggedInUser ? null : users.length > 0 ? <SignIn /> : null} 
             <Card id={ id } image={ image } header={ header } content={ content }></Card>
-        </div>
-        
+        </div> 
     )
 
 }
