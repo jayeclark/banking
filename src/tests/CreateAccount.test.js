@@ -1,11 +1,6 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App.js';
-import FormFormik from '../components/FormFormik';
-import data from '../data/en.json';
-import { getUserCount, parseValidation } from '../helpers/library';
-import validationFunctions from '../helpers/validation';
-
 
 test('Includes a bootstrap card with a form.', () => {
 
