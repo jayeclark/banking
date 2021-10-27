@@ -146,8 +146,9 @@ option {
   }
 
   #sign-in-card {
-    min-width: 300px;
-    max-width: 515px;
+    max-width: 100%;
+    min-width: 200px;
+    flex-shrink: 1;
   }
 
   #sign-in {
@@ -171,21 +172,6 @@ option {
   #deposit-page,
   #user-data-page  {
     min-height: 33vh;
-  }
-
-  #sign-in-card {
-    min-width: 200px;
-    max-width: 385px;
-  }
-
-  #sign-in .input-container {
-    min-width: 200px !important;
-    max-width: 385px;
-  }
-
-  #sign-in .buttons {
-    min-width: 200px;
-    max-width: 385px;
   }
 
   .form-formik, .react-final, .react-hook {
@@ -223,12 +209,8 @@ option {
     min-height: 30vh;
   }
 
-  #sign-in-card {
-    min-width: 200px;
-  }
-
-  #sign {
-    max-width: 200px;
+  .input-container {
+    min-width: 200px !important;
   }
 
 }
