@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext, useState } from 'react';
 import formParser from '../helpers/formParser';
 import { getUser, parseNumber, parseValidation } from '../helpers/library';

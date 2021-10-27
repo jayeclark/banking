@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/Card.css';
 
 function Card({image, header, content, form, className, id}) {

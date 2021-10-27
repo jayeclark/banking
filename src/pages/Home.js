@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext } from 'react';
 import Card from '../components/Card.js';
 import LanguageContext from '../helpers/LanguageContext';

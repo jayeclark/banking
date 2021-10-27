@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext, useState } from 'react';
 import { getUser } from '../helpers/library';
 import Card from '../components/Card';

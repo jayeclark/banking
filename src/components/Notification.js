@@ -1,5 +1,5 @@
 import '../styles/Notification.css';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card.js';
 import closeButton from '../assets/closeButton.svg';
 

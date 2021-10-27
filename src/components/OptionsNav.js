@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/OptionsNav.css';
 import { useContext } from 'react';
 import FormContext from '../helpers/FormContext';

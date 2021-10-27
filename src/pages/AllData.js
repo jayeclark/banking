@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext, useState } from 'react';
 import Card from '../components/Card';
 import UserDBContext from '../helpers/UserDBContext';

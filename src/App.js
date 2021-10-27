@@ -1,7 +1,7 @@
 import './styles/App.css';
 import './styles/bootstrap.min.css';
 import { HashRouter, Route } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Notification from './components/Notification';
 import Home from './pages/Home.js';
 import CreateAccount from './pages/CreateAccount.js';

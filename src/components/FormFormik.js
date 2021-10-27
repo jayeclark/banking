@@ -1,3 +1,4 @@
+import React from 'react';
 import { useFormik } from 'formik';
 import '../styles/Formik.css';
 import { Helpers } from '../helpers/library';
@@ -74,7 +75,7 @@ function FormFormik({ formFields, formSubmission }) {
             {formFields.map((field,i)=>{
                 return (
                     <div key={i} className="input-container">
-                        <div className='field-name'><b>{field.display}</b></div>
+                        <label className='field-name' htmlFor={field.name}><b>{field.display}</b></label>
                         <div className='input-lockup'>
                             <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]} className={formik.errors[field.name] && formik.values[field.name] ? 'input-visible-error' : formik.errors[field.name] ? 'input-error' : formik.values[field.name] ? 'input-visible-noerror' : 'input-noerror'} />
                             {formik.errors[field.name] ? <div id={idRoot + "-" + field.name + "Error"} className="error">{formik.errors[field.name]}</div> : null }

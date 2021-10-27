@@ -1,3 +1,4 @@
+import React from 'react';
 import UserContext from "../helpers/UserContext";
 import UserDBContext from "../helpers/UserDBContext";
 import LanguageContext from '../helpers/LanguageContext';
