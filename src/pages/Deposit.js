@@ -36,7 +36,6 @@ function Deposit() {
 
     // Parse validation functions
     parseValidation(formFields, validationFunctions);
-    console.log("fields: " , formFields);
  
     // Add submission instructions
     const submitHelperFunc = (values) => {
