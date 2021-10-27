@@ -1,23 +1,54 @@
-import { render , screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../App.js';
+import App from '../App';
 
+const allLinks = ['Home', 'Create Account', 'Deposit', 'Withdraw', 'Transactions', 'All Data'];
+    
 test('Renders navigation link with \'Home\', \'Create Account\', \'Deposit\', \'Withdraw\', and \'All Data\' visible.', () => {
-  render(<App />);
-  const home = screen.getByText(/Home/i);
-  const createAccount = screen.getByText(/Create\sAccount/i);
-  const deposit = screen.getByText(/Deposit/i);
-  const withdraw = screen.getByText(/Withdraw/i);
-  const allData = screen.getByText(/All\sData/i);
-  expect(home).toBeInTheDocument();
-  expect(deposit).toBeInTheDocument();
-  expect(withdraw).toBeInTheDocument();
-  expect(allData).toBeInTheDocument();
-  expect(createAccount).toBeInTheDocument();
+  const { getByText } = render(<App />);
+  allLinks.forEach(label => {
+      const link = getByText(label);
+      expect(link).toBeInTheDocument();
+  })
+});
+
+test('The navigation bar highlights the home page on load.', () => {
+
+    const { getByText } = render(<App />);
+
+    // Home should be the active link initially
+    const home = getByText('Home');
+    expect(home.classList).toContain('active');
+
+    // No other links should be active initially
+    const otherLinks = allLinks.filter(label => label !== 'Home');
+    otherLinks.forEach(label => {
+        const link = getByText(label);
+        expect(link.classList).not.toContain('active');
+    })
+
+});
+
+test('When selected, each element on the navigation bar displays the correct page.', () => {
+
+    const { getByText } = render(<App />);
+    const componentClasses = {'Home': 'home-page', 
+                    'Create Account': 'create-account-page',
+                    'Deposit': 'deposit-page',
+                    'Withdraw': 'withdraw-page',
+                    'Transactions': 'all-data-page',
+                    'All Data': 'user-data-page'};
+    allLinks.forEach(label => {
+        const link = getByText(label);
+        userEvent.click(link);
+
+        const component = document.getElementById(componentClasses[label]);
+        expect(component).toBeDefined();
+   });
+
 });
 
 test('Navigation bar is styled with bootstrap.', () => {
-
     // Check that bootstrap is in the styles section as a file
     const checkForBootstrap = () => {
         const fs = require('fs');
@@ -37,59 +68,33 @@ test('Navigation bar is styled with bootstrap.', () => {
     expect(Array.from(document.getElementsByClassName(class1)).length).toBeGreaterThan(0);
     expect(Array.from(document.getElementsByClassName(class2)).length).toBeGreaterThan(0);
 
-    // TODO: Check that bootstrap is imported to the App
-
 });
 
 test('When a user hovers their cursor, a tooltip appears with words describing that page.', () => {
 
     render(<App />);
-    const links = [ document.getElementById('create-account-link'),
-                    document.getElementById('deposit-link'),
-                    document.getElementById('withdraw-link'),
-                    document.getElementById('all-data-link') ];
-
-    // Check for on-hover element in each navigation button
-    links.forEach(link => {
-        expect(link.getAttribute('data-toggle')).toBeTruthy;
-        if (link.getAttribute('data-toggle')) {
-            expect(link.getAttribute('data-toggle')).toEqual('tooltip');
-            expect(link.getAttribute('title')).toBeDefined();
-        }
-    })
-});
-
-
-test('The navigation bar highlights the home page on load.', () => {
-
-    render(<App />);
-
-    // Home should be the active link initially
-    const [home, create, deposit, withdraw, transactions, allData ] = [ document.getElementById('home-link').getElementsByTagName('a')[0],
-                    document.getElementById('create-account-link').getElementsByTagName('a')[0],
-                    document.getElementById('deposit-link').getElementsByTagName('a')[0],
-                    document.getElementById('withdraw-link').getElementsByTagName('a')[0],
-                    document.getElementById('all-data-link').getElementsByTagName('a')[0],
-                    document.getElementById('user-data-link').getElementsByTagName('a')[0] ];
-
-    expect(home.classList).toContain('active');
-    expect(create.classList).not.toContain('active');
-    expect(withdraw.classList).not.toContain('active');
-    expect(deposit.classList).not.toContain('active');
-    expect(transactions.classList).not.toContain('active');
-    expect(allData.classList).not.toContain('active');
-
+    const linkIds = {'Home': 'home-link', 
+    'Create Account': 'create-account-link',
+    'Deposit': 'deposit-link',
+    'Withdraw': 'withdraw-link',
+    'Transactions': 'all-data-link',
+    'All Data': 'user-data-link'};
+    allLinks.forEach(label => {
+        const link = document.getElementById(linkIds[label]);
+        expect(link.getAttribute('data-tip')).toBeDefined();
+        const toolTip = document.getElementById(linkIds[label] + '-tooltip');
+        expect(toolTip).toBeInTheDocument();
+    });
 });
 
 test('When a user clicks on a link, that nav link becomes active and the other nav links become inactive.', () => {
 
     const { getByText } = render(<App />);
-    let links = ['Home', 'Create Account', 'Deposit', 'Withdraw', 'Transactions', 'All Data'];
-    links.forEach(label => {
+    allLinks.forEach(label => {
         const link = getByText(label);
         userEvent.click(link);
         expect(link.classList).toContain('active');
-        const filtered = links.filter(l => l !== label);
+        const filtered = allLinks.filter(l => l !== label);
         filtered.forEach(item => expect(getByText(item).classList).not.toContain('active'));
     });
 
