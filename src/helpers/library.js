@@ -17,7 +17,9 @@ export const UsersExist = () => {
 
 export const parseNumber = (str, numDigits) => Number(Number(str.replace(',','')).toFixed(numDigits));
 
-export function parseValidation(formFields, validationFunctions, availableArgs={}) {
+export function parseValidation(formFields, validationFunctions, availableArgs) {
+
+    if (!availableArgs) {availableArgs = {}};
 
     formFields.forEach((field,i)=>{
 
@@ -32,11 +34,13 @@ export function parseValidation(formFields, validationFunctions, availableArgs={
             // Import any additional arguments beyond 'value', as needed
             if (v.hasOwnProperty("args")) {
 
+                let args = v["args"];
                 // Add relevant value to each arg object
-                v["args"].forEach((a,k)=>{
+                formFields[i].validation[j].args = args.map((a,k)=>{
                     if (availableArgs.hasOwnProperty(a.name)) {
-                       formFields[i].validation[j]["args"][k].value = availableArgs[a.name];
+                       a.value = availableArgs[a.name];
                     }
+                    return a;
                 })
             }
 

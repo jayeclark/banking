@@ -6,7 +6,7 @@ const isNumber = val => val.toString().replace(/[,.]/g,'').search(/^(\d+)$/) > -
 
 const hasTwoSigFigs = val => val.toString().search(/([.]){1,}(\d){3,}/) === -1;
 
-const isLessThanBalance = (val, balance) => Number(val.replaceAll(',','')) <= balance ||  val.toString().search(/^(\d{1,3}){0,1}(,\d\d\d){0,}((\.)((\d){0,2})){0,1}$/)  === -1;
+const isLessThanBalance = (val, balance) => Number(val.replaceAll(',','')) <= balance || !isNumber(val) ;
 
 const isValidEmailFormat = email => {
         const emlRegex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,'i');
