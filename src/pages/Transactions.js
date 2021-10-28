@@ -22,6 +22,7 @@ function Transactions() {
     const data = languages[language];
 
     let transactions = getUser(userDBcontext,loggedInUser) ? getUser(userDBcontext,loggedInUser).transactions : [];
+    transactions.sort((a,b) => b.time - a.time);
 
     // Load page content
     const {header, card: {cardCols}, id, valueIfNoData, valueIfNotLoggedIn} = data.pages.transactions;
@@ -41,7 +42,7 @@ function Transactions() {
 
     const content = <div className="data-grid">
                         {chartHeader}
-                        {filteredTransactions.reverse().map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}
+                        {filteredTransactions.map((txn,i)=><ChartRow key={i} data={txn}></ChartRow>)}
                         <Pagination data={transactions} maxPages={5} verbose="no" itemsPerPage={itemsPerPage} minimal={false} currentPage={page} onPageChange={handleSetPage} />
                     </div>;
     let form = '';
