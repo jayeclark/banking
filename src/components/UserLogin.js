@@ -16,7 +16,7 @@ function UserLogin() {
     // Get language context and set language data
     const { language, changeLanguage } = useContext(LanguageContext);
     const data = languages[language];
-    const { signOut, signIn } = data.general;
+    const { signOut, signIn, en, es } = data.general;
 
     const getUser = (users, loggedInUser) => {
         return users.filter(x=>x.number === loggedInUser)[0];
@@ -41,8 +41,8 @@ function UserLogin() {
             </div>
             <div className="language-toggle-container">
                 <select id="language-toggler"  className="language-toggle" defaultValue={language} onChange={handleChange} tabIndex="0">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
+                    <option value="en">{en}</option>
+                    <option value="es">{es}</option>
                 </select>
             </div>
         </div>

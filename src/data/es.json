@@ -176,23 +176,24 @@
             }],
             "valueIfNotLoggedIn": "¡Debes iniciar sesión y tener un saldo positivo para solicitar un retiro!",
             "valueIfNoData": "¡Debe tener un saldo positivo para poder hacer un retiro de su cuenta!"
-        },        "signIn": {
+        },
+        "signIn": {
             "formSubmission" : {
                     "buttons": [ {"type":"submit",
                                 "name":"submit",
-                                "display":"Sign In",
-                                "altDisplay": "Sign In",
+                                "display":"Iniciar Sesión",
+                                "altDisplay": "Iniciar Sesión",
                                 "className":"btn btn-primary",
                                 "dependency":false}],
-                    "success": "You have been logged in. You may now make deposits and withdrawals.",
-                    "failure": "There was a problem with your credentials. Please try again.",
+                    "success": "Ha iniciado sesión. Ahora puede realizar depósitos y retiros.",
+                    "failure": "Hubo un problema con su correo electrónico o contraseña. Inténtalo de nuevo.",
                     "idRoot": "sign-in",
-                    "typeOfAction" : "Sign In Successful"
+                    "typeOfAction" : "Iniciar Sesión Exitoso"
             },
             "formFields" : [
                     {
                         "name" : "email",
-                        "display" : "Email",
+                        "display" : "Correo Electrónico",
                         "type" : "text",
                         "validation": [
                             {"functionName": "hasInput", "error":"Please enter your email address"},
@@ -201,7 +202,7 @@
                     },
                     {
                         "name" : "password",
-                        "display" : "Password",
+                        "display" : "Contraseña",
                         "type" : "password",
                         "validation": [
                             {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Must be 8 characters or longer"},
@@ -234,6 +235,9 @@
         "successTitle":"Éxito",
         "failureTitle":"Error",
         "signIn":"Iniciar Sesión",
-        "signOut":"Desconectar"
+        "signInHeader": "Iniciear Sesión a su Cuenta",
+        "signOut":"Desconectar",
+        "en":"Inglės",
+        "es":"Español"
     }
 }

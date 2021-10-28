@@ -25,7 +25,7 @@ export function SignIn() {
         const content = <span className="card-content"></span>;
      
         const { success, failure } = formSubmission;
-        const { successTitle, failureTitle } = languages[language].general;
+        const { successTitle, failureTitle, signInHeader } = languages[language].general;
 
         // Parse validation functions
         parseValidation(formFields, validationFunctions);
@@ -65,7 +65,7 @@ export function SignIn() {
         const form = formParser(formProvider, formFields, formSubmission);
     
         return (
-            <Card id="sign-in-card" header="Sign In to Your Account" content={content} form={form}></Card>
+            <Card id="sign-in-card" header={signInHeader} content={content} form={form}></Card>
         )
     
 

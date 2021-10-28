@@ -237,6 +237,9 @@
         "successTitle":"Success",
         "failureTitle":"Error",
         "signIn":"Sign In",
-        "signOut":"Sign Out"
+        "signInHeader": "Sign In to Your Account",
+        "signOut":"Sign Out",
+        "en":"English",
+        "es":"Spanish"
     }
 }
