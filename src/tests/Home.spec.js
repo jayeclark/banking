@@ -5,7 +5,9 @@ import App from '../App.js';
 
 const pageName = 'Home';
 
-test('Includes a bootstrap card.', () => {
+describe('1. HOME PAGE', () => {
+
+  test('1.1. Includes a Bootstrap card', () => {
 
     const { getByText } = render(<App />);
     const page = getByText(pageName);
@@ -31,15 +33,27 @@ test('Includes a bootstrap card.', () => {
   });
 
 
-test('Includes an image and a welcome message.', () => {
+  test('1.2. Includes bank title image', () => {
+
+      const { getByText } = render(<App />);
+      const page = getByText(pageName);
+      userEvent.click(page);
+      
+      const images = document.getElementsByClassName('card-img-top');
+      expect(images.length > 0).toBeTruthy();
+
+  });
+
+
+  test('1.3. Includes welcome message', () => {
 
     const { getByText } = render(<App />);
     const page = getByText(pageName);
     userEvent.click(page);
     
     const welcome = getByText('Welcome to Bad', {exact: false});
-    const images = document.getElementsByClassName('card-img-top');
     expect(welcome).toBeInTheDocument();
-    expect(images.length > 0).toBeTruthy();
 
   });
+
+})
