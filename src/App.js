@@ -65,6 +65,9 @@ function App() {
 
   function displayNotification({title, text, type, time}) {
 
+    // Remove old notification
+    setNotification({display: false});
+
     // Set new notification
     const timestamp = now().toString();
     setNotification({display: true, title, text, type, time, timestamp});

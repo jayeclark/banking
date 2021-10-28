@@ -13,10 +13,11 @@ function Notification({title, text, type, handleClick, time, id}) {
     const [style, setStyle] = useState({width: '100%', transitionDuration: '10ms'})
 
     useEffect(()=> {
-        setStyle({width: '100%', transitionDuration: '10ms'});
+        setStyle({width: '0%', transitionDuration: '1ms'});
+        setStyle({width: '100%', transitionDuration: '1ms'});
         setStyle({width: '100%', transitionDuration: seconds + 's'});
-        setTimeout(()=> setStyle({width: '0%', transitionDuration: seconds + 's'}), 10);
-    }, [seconds]);
+        setTimeout(()=> setStyle({width: '0%', transitionDuration: seconds + 's'}), 5);
+    }, [seconds, id]);
 
     return (
         <div className="notification-container" id={id}>
