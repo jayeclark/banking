@@ -18,6 +18,7 @@ import UserContext from './helpers/UserContext';
 import UserDBContext from './helpers/UserDBContext';
 import UserLogin from './components/UserLogin';
 import Footer from './components/Footer';
+import { now } from 'lodash';
 import OptionsNav from './components/OptionsNav';
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState('');
   const [language, setLanguage] = useState('en');
   const [users, setUsers] = useState([]);
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState({ display: false, title: null, text: null, time: 5000, type: null, timestamp: now().toString()});
 
   const [form, setForm] = useState('formik');
 
@@ -52,19 +53,24 @@ function App() {
 
   const closeNotification = () => {
     let { title, text, type, time } = notification;
-    setNotification({ title, text, type, time, display: false })
+    setNotification({ title, text, type, time, timestamp: now().toString(), display: false })
+  }
+
+  const closeAfterDelay = ({timestamp}) => {
+    let elements = document.getElementsByClassName('notification-container');
+    if (elements && elements.length > 0 && elements[0].id === timestamp) {
+      setNotification({});
+    } 
   }
 
   function displayNotification({title, text, type, time}) {
 
-    // Clear any existing notification
-    setNotification({});
-
     // Set new notification
-    setNotification({display: true, title, text, type, time});
+    const timestamp = now().toString();
+    setNotification({display: true, title, text, type, time, timestamp});
 
     // Remove notification after timeout
-    setTimeout(()=>setNotification({}), time);
+    setTimeout(()=>closeAfterDelay({timestamp}), time);
 
   }
 
@@ -82,7 +88,7 @@ function App() {
                   <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
                   <AppNav />
                   <NotificationContext.Provider value={{ displayNotification }}>
-                    {notification && notification.display ? <Notification title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}
+                    {notification && notification.display ? <Notification id={notification.timestamp} title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}
                     <div className="container" style={{padding:'20px'}}>
                       <Route path="/" exact component={Home}></Route>
                       <Route path="/create-account/" exact component={CreateAccount}></Route>
