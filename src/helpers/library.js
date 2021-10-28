@@ -12,7 +12,7 @@ export const getUserCount = (users) => users.length;
 
 export const UsersExist = () => {
     const { users } = useContext(UserDBContext);
-    return users.length > 0;
+    return users ? users.length > 0 : false;
 }
 
 export const parseNumber = (str, numDigits) => Number(Number(str.replace(',','')).toFixed(numDigits));
