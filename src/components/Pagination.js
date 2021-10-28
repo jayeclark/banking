@@ -33,7 +33,7 @@ export function Pagination({ data,  itemsPerPage, maxPages, verbose, minimal, cu
             {pageNum > 1 ? <button id="previous" className={currentPage === getStartPage(currentPage) ? "page-button disabled" : "page-button"} type="button" onClick={onPageChange} disabled={currentPage === getStartPage(currentPage) ? true : false}>{verbose === "yes" ? "Previous Page" : "<"}</button> : null}
             {minimal === false ? pageArray.slice(getStartPage(currentPage), getStartPage(currentPage) + pagesToShow).map((x,i)=><button className={currentPage === Number(x) - 1 ? "page-button disabled current-page" : "page-button"} key={i} onClick={onPageChange} disabled={currentPage === Number(x) - 1 ? true : false}>{x}</button>) : <div style={{minWidth: "40px", flexGrow: 1}}></div>}
             {pageNum > 1 ? <button id="previous" className={currentPage === getStartPage(currentPage) + pagesToShow - 1 ? "page-button disabled" : "page-button"} type="button" onClick={onPageChange} disabled={currentPage === getStartPage(currentPage) + pagesToShow - 1 ? true : false}>{verbose === "yes" ? "Next Page" : ">"}</button> : null}
-            {pageNum > 3 ? <button id="last" disabled={currentPage === pageNum - 1 ? true : false} className={currentPage === pageNum - 1 ? "page-button disabled" : "page-button"} onClick={onPageChange}>{verbose === "yes" ? "Last Page" : ">>"}</button> : null}
+            {pageNum > 5 ? <button id="last" disabled={currentPage === pageNum - 1 ? true : false} className={currentPage === pageNum - 1 ? "page-button disabled" : "page-button"} onClick={onPageChange}>{verbose === "yes" ? "Last Page" : ">>"}</button> : null}
         </div>
     )
 
