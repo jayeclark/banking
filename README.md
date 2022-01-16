@@ -10,7 +10,25 @@ The Bad Bank of America app demonstrates basic front-end React functionality, in
 * Toggle between languages
 * Toggle among different form libraries
 
-A full specification of functionality can be found in the [Requirements](https://jayeclark.github.io/banking/docs/requirements.md) doc. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and completed as part of MIT xPro's MERN stack certificate program.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and completed as part of MIT xPro's MERN stack certificate program.
+
+## Installation
+* Fork repository 
+* Clone locally
+* Install dependencies using ```npm install``` or ```yarn install```
+* Start development server using ```npm start``` or ```yarn start```
+* Run test suite using ```npm run test``` or ```yarn test```
+
+
+## Technology Used
+This project uses React, Express, and MongoDB.
+
+## Features
+A full specification of functionality can be found in the [Requirements](https://jayeclark.github.io/banking/docs/requirements.md) doc. 
+
+## License
+This project is licensed under the [MIT](https://jayeclark.github.io/banking/LICENSE.MD) license.
 
 ## Deploy on GitHub Pages
 In order to deploy, you must have node installed. Get it [here](https://nodejs.org/). Recommended: use yarn instead of npm for package management. Get yarn [here](https://getyarn.io/).
@@ -19,13 +37,6 @@ In order to deploy, you must have node installed. Get it [here](https://nodejs.o
 * Install dependencies using ```npm install``` or ```yarn install```
 * In package.json, update homepage to reflect your homepage and the desired directory where you would like the banking app to appear
 * Run ```yarn deploy``` or ```npm deploy```
-
-## Develop
-* Fork repository 
-* Clone locally
-* Install dependencies using ```npm install``` or ```yarn install```
-* Start development server using ```npm start``` or ```yarn start```
-* Run test suite using ```npm run test``` or ```yarn test```
 
 ## Contributing
 Contributions to open issues are welcomed. Please sign off on your commits and ensure that any feature enhancements are accompanied by the appropriate tests.
