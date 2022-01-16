@@ -24,11 +24,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Technology Used
 This project uses React, Express, and MongoDB.
 
+## Screenshots
+![screenshot](https://github.com/jayeclark/banking/blob/main/BankBank.png)
+
 ## Features
 A full specification of functionality can be found in the [Requirements](https://jayeclark.github.io/banking/docs/requirements.md) doc. 
 
 ## License
-This project is licensed under the [MIT](https://jayeclark.github.io/banking/LICENSE.MD) license.
+This project is licensed under the [MIT](https://github.com/jayeclark/banking/blob/main/LICENSE) license.
 
 ## Deploy on GitHub Pages
 In order to deploy, you must have node installed. Get it [here](https://nodejs.org/). Recommended: use yarn instead of npm for package management. Get yarn [here](https://getyarn.io/).
