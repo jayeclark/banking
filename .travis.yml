@@ -1,0 +1,3 @@
+language: node
+nvm:
+ - 14.17.0
