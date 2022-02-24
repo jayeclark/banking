@@ -1,0 +1,29 @@
+.top-ribbon {
+  background-color: rgb(242, 242, 242);
+  height: 28px;
+  padding: 0px 10px;
+  display: flex;
+  color: #000;
+  font-size: 0.85rem;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-content: bottom;
+}
+
+.top-ribbon ul {
+  display: flex;
+  height: 100%;
+  flex-wrap: nowrap;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  align-content: bottom;
+}
+
+.top-ribbon li {
+  padding: 0px 12px;
+  line-height: 28px;
+}
+.active-ribbon {
+  border-bottom: 2px solid #000;
+}

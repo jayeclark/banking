@@ -10,6 +10,8 @@ import Withdraw from './pages/Withdraw';
 import Transactions from './pages/Transactions';
 import AllData from './pages/AllData';
 import AppNav from './components/AppNav';
+import AnonNav from './components/AnonNav';
+import { TopRibbon } from './components/TopRibbon';
 import logo from './assets/logo.svg';
 import LanguageContext from './helpers/LanguageContext';
 import FormContext from './helpers/FormContext';
@@ -86,10 +88,10 @@ function App() {
           <FormContext.Provider value={{ form, setNewForm }}>
             <OptionsNav></OptionsNav>
               <div className="App">
-              
+                  <TopRibbon />
                   <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
                   <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
-                  <AppNav />
+                  { loggedInUser ? <AppNav /> : <AnonNav />}
                   <NotificationContext.Provider value={{ displayNotification }}>
                     {notification && notification.display ? <Notification id={notification.timestamp} title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}
                     <div className="container" style={{padding:'20px'}}>
