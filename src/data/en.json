@@ -1,4 +1,86 @@
 {
+    "anonpages": {
+        "checking": {
+            "nav-button": "Checking",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "checking-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        },
+        "savings": {
+            "nav-button": "Savings",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "savings-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        },
+        "creditcards": {
+            "nav-button": "Credit Cards",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "creditcards-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        },
+        "homeloans": {
+            "nav-button": "Home Loans",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "homeloans-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        }
+        ,
+        "autoloans": {
+            "nav-button": "Auto Loans",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "autoloans-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        }
+        ,
+        "investing": {
+            "nav-button": "Investing",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "investing-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        }
+        ,
+        "betterhabits": {
+            "nav-button": "Better Money Habits®",
+            "nav-route": "/",
+            "header": "",
+            "card": {
+                "cardMsg":""
+            },
+            "id": "betterhabits-page",
+            "valueIfNotLoggedIn": "",
+            "valueIfNoData": ""
+        }
+    },
     "pages": {
         "home": {
             "nav-button": "Home",
@@ -183,7 +265,7 @@
                                 "name":"submit",
                                 "display":"Sign In",
                                 "altDisplay": "Sign In",
-                                "className":"btn btn-primary",
+                                "className":"login-button",
                                 "dependency":false}],
                     "success": "You have been logged in. You may now make deposits and withdrawals.",
                     "failure": "There was a problem with your credentials. Please try again.",
@@ -193,8 +275,9 @@
             "formFields" : [
                     {
                         "name" : "email",
-                        "display" : "Email",
+                        "display" : "",
                         "type" : "text",
+                        "placeholder": "User ID",
                         "validation": [
                             {"functionName": "hasInput", "error":"Please enter your email address"},
                             {"functionName": "isValidEmailFormat", "error": "Please enter a valid email address"}
@@ -202,7 +285,8 @@
                     },
                     {
                         "name" : "password",
-                        "display" : "Password",
+                        "display" : "",
+                        "placeholder": "Password",
                         "type" : "password",
                         "validation": [
                             {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Must be 8 characters or longer"},

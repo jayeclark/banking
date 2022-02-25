@@ -57,12 +57,11 @@ option {
 }
 
 .login-widget {
-  position:absolute;
   display:flex;
-  height:60px;
+  flex-wrap: nowrap;
   right:0px;
   top:0px;
-  padding-right: 40px;
+  margin: 0px;
 }
 
 .login-name {

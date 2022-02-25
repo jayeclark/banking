@@ -25,7 +25,7 @@ function Home() {
     
     return (
         <div className="home-splash">  
-            { loggedInUser ? null : users.length > 0 ? <SignIn /> : null} 
+            { loggedInUser ? null :  <SignIn /> } 
             <Card id={ id } image={ image } header={ header } content={ content }></Card>
         </div> 
     )

@@ -63,9 +63,12 @@ export function SignIn() {
     
         // Create form component
         const form = formParser(formProvider, formFields, formSubmission);
-    
+        const style = {
+            backgroundColor: "rgb(202, 49, 57)"
+        }
+
         return (
-            <Card id="sign-in-card" header={signInHeader} content={content} form={form}></Card>
+            <Card style={style} id="sign-in-card" header={null} content={content} form={form}></Card>
         )
     
 

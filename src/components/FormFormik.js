@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import '../styles/Formik.css';
 import { Helpers } from '../helpers/library';
+import '../styles/forms.css';
 
 function FormFormik({ formFields, formSubmission }) {
 
@@ -43,7 +44,7 @@ function FormFormik({ formFields, formSubmission }) {
             let errors = {};
             for (let field in formFields) {
                 const thisField = formFields[field];
-                const validation = thisField.validation;
+                const {validation} = thisField;
 
                 for (let item of validation) {
                     let validationFunction = item.function;
@@ -77,7 +78,7 @@ function FormFormik({ formFields, formSubmission }) {
                     <div key={i} className="input-container">
                         <label className='field-name' htmlFor={field.name}><b>{field.display}</b></label>
                         <div className='input-lockup'>
-                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} onChange={formik.handleChange} value={formik.values[field.name]} className={formik.errors[field.name] && formik.values[field.name] ? 'input-visible-error' : formik.errors[field.name] ? 'input-error' : formik.values[field.name] ? 'input-visible-noerror' : 'input-noerror'} />
+                            <input type={field.type} autoComplete="off" id={field.name} name={field.name} placeholder={field.placeholder} onChange={formik.handleChange} value={formik.values[field.name]} className={formik.errors[field.name] && formik.values[field.name] ? 'input-visible-error' : formik.errors[field.name] ? 'input-error' : formik.values[field.name] ? 'input-visible-noerror' : 'input-noerror'} />
                             {formik.errors[field.name] ? <div id={idRoot + "-" + field.name + "Error"} className="error">{formik.errors[field.name]}</div> : null }
                         </div>
                     </div>

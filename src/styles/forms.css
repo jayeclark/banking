@@ -1,0 +1,12 @@
+.login-button {
+  background-color: rgb(202, 49, 57)!important;
+  border: 1px solid white!important;
+  color: white!important;
+  min-width: 100%;
+  padding: 5px 40px;
+}
+.login-button:disabled {
+  background-color: rgb(202, 49, 57)!important;
+  border: 1px solid white!important;
+  color: white!important;
+}

@@ -1,7 +1,9 @@
+import React from 'react';
+import UserLogin from './UserLogin';
 import '../styles/TopRibbon.css';
 import flag from '../assets/flag.svg';
 
-export function TopRibbon() {
+export default function TopRibbon({ loggedInUser, setLoggedInUser }) {
   return (
     <div className="top-ribbon">
         <ul>
@@ -12,10 +14,10 @@ export function TopRibbon() {
           <li>Security</li>
           <li><div style={{display: "flex", flexWrap: "nowrap"}}><img width="26px" alt="logo" src={flag} float="left" /><div>&nbsp;About Us</div></div></li>
         </ul>
-        <ul>
-          <li>Contact Us</li>
-          <li>Help</li>
-        </ul>           
+        <div className="login-widget">
+          <UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin>
+        </div>        
     </div>
+    
   )
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/Card.css';
 
-function Card({image, header, content, form, className, id}) {
+function Card({image, header, content, form, className, id, style}) {
 
     return (
 
-        <div id={id ? id : null} className={className ? "card " + className : "card"}>
+        <div style={style} id={id ? id : null} className={className ? "card " + className : "card"}>
             {image ?  <img alt="" src={image} width="100%" className="card-img-top" /> : null}
             {header ?  <div className="card-header"><h4>{header}</h4></div> : null}
             <div className="card-body">

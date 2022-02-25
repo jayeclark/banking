@@ -8,7 +8,9 @@ function AnonNav() {
     
     // Get language preference and import content data based on it
     const {language} = useContext(LanguageContext);
+    console.log(language);
     const data = languages[language];
+    console.log(data);
 
     // Build list of nav links
     const pages = Object.keys(data.anonpages);
@@ -20,6 +22,7 @@ function AnonNav() {
                 navButton: page["nav-button"],
                 }
     });
+    console.log('navs', navs);
 
     return (
         <nav className="navbar navbar-expand-md navbar-light responsive-nav" style={{fontWeight: "500"}}>
@@ -29,11 +32,11 @@ function AnonNav() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent2">
                     <ul id="app-navigation" className="navbar-nav me-auto mb-2 mb-lg-0" style={{margin: "0px 0px 0px -15px", justifyContent: "space-between", boxSizing:"border-box", width: "calc(100% + 15px)", marginTop:'4px'}}>
-                        {navs.map((nav,i)=> <li id={nav.id} key={i} style={{padding:"0px 25px", textShadow: "0.5px 0px 0px #000", fontColor: "#000", fontWeight: "300", fontSize: "1.2rem", fontFamily: "Rubik, Arial, sans-serif"}} className="nav-item"><div className={"nav-link"} style={{paddingLeft: "0px", paddingRight: "0px"}}>{nav.navButton}</div></li>)}
+                        {navs.map((nav,i)=> <li id={nav.id} key={i} style={{padding:"0px 20px", textShadow: "1px 0px 0px #000", fontColor: "#000", fontWeight: "300", fontSize: "1.2rem", fontFamily: "Rubik, Arial, sans-serif"}} className="nav-item"><div className={"nav-link"} style={{paddingLeft: "0px", paddingRight: "0px"}}>{nav.navButton}</div></li>)}
                     </ul>
                 </div>
             </div>
-            {navs.map((nav,i)=> <ReactTooltip id={nav.dataFor} key={i} place="bottom" type="dark" effect="solid" multiline={true} />)}
+            {navs ? navs.map((nav,i)=> <ReactTooltip id={nav.dataFor} key={i} place="bottom" type="dark" effect="solid" multiline={true} />) : null}
         </nav>
     )
 }

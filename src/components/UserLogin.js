@@ -35,7 +35,7 @@ function UserLogin() {
     }
 
     return (
-        <div style={{padding:'10px',fontSize:"0.8rem", height: 'auto', margin:'auto 0px', display:'flex',flexWrap:'nowrap',alignItems:'center'}}>
+        <div style={{fontSize:"0.8rem", height: 'auto', border: "none", margin:'auto 0px', display:'flex',flexWrap:'nowrap',alignItems:'center'}}>
             {(loggedInUser !== '') ? <div className="login-name">{getUser(users, loggedInUser).name}</div> : null}
             <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : null}>{loggedInUser !== '' ? signOut : users.length > 0 ? <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/">{signIn}</Link>: null}
             </div>
@@ -45,6 +45,8 @@ function UserLogin() {
                     <option value="es">{es}</option>
                 </select>
             </div>
+            <div style={{paddingLeft: "15px", paddingRight: "28px"}}>Contact Us</div>
+            <div style={{paddingRight: "10px"}}>Help</div>
         </div>
     )
 }
