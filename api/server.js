@@ -23,6 +23,6 @@ app.use("/api/account", user);
 app.use("/api/customer", user);
 app.use("/api/transaction", user);
 app.use("/api/user", user);
-app.use("*", (res) => res.status(404).json({ error: "not found" }));
+app.use("/api/*", (req, res) => res.status(404).json({ error: "not found" }));
 
 export default app;

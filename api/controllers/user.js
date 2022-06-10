@@ -14,6 +14,7 @@ export async function create(request, response) {
     return;
   }
 
+  await user.addPassword(request.body.password);
   // Check if username is taken and return an error if taken
   const existingUserData = await findDoc(user);
 

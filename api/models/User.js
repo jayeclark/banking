@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { log } from "console";
 import { nanoid } from "nanoid";
 import { fromCamelCase } from "../services/helpers/formatting.js";
 
@@ -13,7 +14,7 @@ class User {
     this.firstName = props.firstName;
     this.middleName = props.middleName || "";
     this.lastName = props.lastName;
-    this.password = bcrypt.hash(props.password, saltRounds);
+    this.password = "";
     this.suffix = props.suffix || "";
     this.prefix = props.prefix || "";
     this.birthDate = props.birthDate;
@@ -28,6 +29,17 @@ class User {
     this.customerID = props.customerID || null;
     this.access_token = props.access_token || null;
     this.refresh_token = props.refresh_token || null;
+  }
+
+  async createPasswordHash(str) {
+    const hashed = await bcrypt.hash(str, saltRounds);
+    console.log(hashed);
+    return hashed;
+  }
+
+  async addPassword(str) {
+    const hashed = await this.createPasswordHash(str);
+    this.password = hashed;
   }
 
   isValid() {

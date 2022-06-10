@@ -4,21 +4,22 @@ import controller from "../controllers/auth.js";
 const router = express.Router();
 
 router.route("/register")
-  .post(controller.registerUser)
+  .post(controller.registerUser);
 
 router.route("/forgot/username")
-  .get(controller.remindUsername)
+  .get(controller.remindUsername);
 
 router.route("/forgot/password")
-  .get(controller.initiatePasswordReset)
+  .get(controller.initiatePasswordReset);
 
 router.route("/reset/password")
-  .post(controller.completePasswordReset)
+  .post(controller.completePasswordReset);
 
 router.route("/login")
-  .post(controller.loginUser)
+  .post(controller.loginUser);
 
 router.route("/logout")
-  .post(controller.logoutUser)
+  .get((req, res) => res.send("Invalid route"))
+  .post(controller.logoutUser);
 
 export default router;

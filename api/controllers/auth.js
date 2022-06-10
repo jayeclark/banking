@@ -37,20 +37,20 @@ async function loginUser(request, response) {
     response.status(500).json({ error: { type: "db", message: "Database error.", data: e } })
     return;
   }
-  if (result.status !== 200) {
-    response.status(result.status).json(result, data);
+  if (result.code !== 200) {
+    response.status(result.code).json(result.data);
     return;
   }
 
   const user = result.data;
-  const { password } = user;
+  const { password: hashedPassword } = user;
 
   // compare passwords
-  bcrypt.compare(password, hash, async (err, result) => {
+  bcrypt.compare(request.body.password, hashedPassword, async (err, result) => {
     if (result) {
       // generate new access token & refresh token
       user.access_token = makeAccessToken({ username: user.username, id: user.id, email: user.email[user.primaryEmail] }, 14);
-      user.refresh_token = makeRefreshToken({ username: user.username, id: user.id, email: user.email[user.primaryEmail] }, 365);
+      user.refresh_token = makeAccessToken({ username: user.username, id: user.id, email: user.email[user.primaryEmail] }, 365);
       
       // save in db
       const filter = { username: user.username };
@@ -64,6 +64,8 @@ async function loginUser(request, response) {
       let updateResult;
       try {
         updateResult = await updateDoc(filter, updates, options);
+        updateResult.data.access_token = user.access_token;
+        updateResult.data.refresh_token = user.refresh_token;
       } catch (e) {
         response.status(500).json({ error: { type: "db", message: "Database connection error.", data: e } });
         return;
@@ -71,6 +73,7 @@ async function loginUser(request, response) {
 
       // send back new auth credentials or error message
       response.status(updateResult.code).json(updateResult.data);
+      return;
     }
     else {
       // send error info
@@ -81,9 +84,9 @@ async function loginUser(request, response) {
 }
 
 async function logoutUser(request, response) {
-  const auth = request.headers.Authorization;
+  const auth = request.headers.authorization;
   if (auth && isAuthenticated(auth.split(" ")[1])) {
-    const token = request.headers.Authorization.split(" ")[1];
+    const token = request.headers.authorization.split(" ")[1];
     const decoded = decodeAccessToken(token);
 
     const filter = { username: decoded.username };
@@ -96,13 +99,13 @@ async function logoutUser(request, response) {
 
     let result;
     try {
-      result = await userCollection.updateOne(filter, updates, options);
+      result = await updateDoc(filter, updates, options);
     } catch (e) {
       response.status(500).json({ error: { type: "db", message: "Database error", data: e }})
     }
     response.status(200).json({ result });
   } else {
-    response.redirect("/");
+    response.status(500).json({ error: { type: "auth", message: "Not logged in." }});
   }
 }
 
