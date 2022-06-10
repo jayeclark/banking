@@ -9,6 +9,6 @@ router.route("/")
   .put(controller.update)
   .delete(controller.del)
 
-
+export default router;
 
   
