@@ -12,6 +12,7 @@ class Transaction {
     this.syncToken = 1;
     this.log = [];
     this.accountID = props.accountID;
+    this.userID = props.userID;
   }
 }
 
