@@ -1,13 +1,16 @@
-function create(request, response) {
+async function create(request, response) {
 
 }
-function read(request, response) {
+
+async function read(request, response) {
   
 }
-function update(request, response) {
+
+async function update(request, response) {
   
 }
-function del(request, response) {
+
+async function del(request, response) {
   
 }
 
