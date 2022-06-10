@@ -20,3 +20,5 @@ router.route("/login")
 
 router.route("/logout")
   .post(controller.logoutUser)
+
+export default router;
