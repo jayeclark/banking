@@ -15,38 +15,45 @@ const userCollection = db.collections.user;
 /* findAllCustomerUsers - finds all users associated with a specific customer (ie a business)   
 /* updateDoc - updates the user record in the database
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-export async function findDoc(query, auth_token) {
+export async function findDoc(query) {
   let result = {
     data: null,
     code: 200
   };
+
+  // If there are no filters, return an error
   if (query == undefined) {
-    // If there are no filters, see if the user is authed to get all for their org or the bank
-    // TODO: complete logic here
-    result = findAll(auth_token);
-  } else {
-    const filter = {};
-    switch (query) {
-      case query.hasOwnProperty("username"):
-        filter.username = query.username;
-        break;
-      case query.hasOwnProperty("primaryEmail" && query.hasOwnProperty("email")):
-        filter.email = query.email[primaryEmail];
-        break;
-      case query.hasOwnProperty("id"):
-        filter.id = query.id;
-        break;
-      default:
-        filter.username = query.username;
-    }
-    try {
-      // retrieve user info from database
-      result.data = await userCollection.findOne(filter);
-      result.code = result.data == null ? 500 : 200;
-    } catch (e) {
-      result.code = 500;
-      result.data = { error: { type: "db", message: "Database error.", data: e } };
-    }
+    result.code = 500;
+    result.data = { error: { type: "db", message: "No query data provided to retrieve user." } };
+    return result;
+  }
+
+  // Create filter
+  const filter = {};
+  switch (query) {
+    case query.hasOwnProperty("username"):
+      filter.username = query.username;
+      break;
+    case query.hasOwnProperty("primaryEmail" && query.hasOwnProperty("email")):
+      filter.email = query.email[primaryEmail];
+      break;
+    case query.hasOwnProperty("id"):
+      filter.id = query.id;
+      break;
+    case query.hasOwnProperty("_id"):
+      filter.id = query.id;
+      break;
+    default:
+      filter.username = query.username;
+  }
+
+  // Search for doc in database
+  try {
+    result.data = await userCollection.findOne(filter);
+    result.code = result.data == null ? 500 : 200;
+  } catch (e) {
+    result.code = 500;
+    result.data = { error: { type: "db", message: "Database error.", data: e } };
   }
   return result;
 }

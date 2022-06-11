@@ -4,15 +4,41 @@ import { generateAccountChecksum } from "./helpers/auth.js";
 
 const customerCollection = db.collections.customer;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* DATA ABSTRACTION METHODS  
 /*  Return an object: {
 /*                      code: number 
 /*                      data: payload or error as object
 /*                    }     
 /* CONTENTS   
+/* findDoc - finds a customer
 /* insertDoc - creates a new customer
+/* updateDoc - updates a customer
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+export async function findDoc(query) {
+  let result = { data: null, code: 200 };
+  
+  // If there are no filters, return an error
+  if (query == undefined || !query.hasOwnProperty("id")) {
+    result.code = 500;
+    result.data = { error: { type: "db", message: "No query data provided to retrieve customer." } };
+    return result;
+  }
+  
+  const filter = { id: query.id };
+
+  // Retrieve account info from database
+  try {
+    result.data = await customerCollection.findOne(filter);
+    result.code = result.data == null ? 500 : 200;
+  } catch (e) {
+    result.code = 500;
+    result.data = { error: { type: "db", message: "Database error.", data: e } };
+  }
+
+  return result;
+}
+
 export async function insertDoc({ type, name }) {
   let result = {
     code: 200,
