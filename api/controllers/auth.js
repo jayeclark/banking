@@ -2,9 +2,7 @@ import bcrypt from "bcrypt";
 import controller from "../controllers/user.js";
 import { findDoc, updateDoc } from "../services/user.js";
 import { isAuthenticated, makeAccessToken, decodeAccessToken } from "../services/helpers/auth.js";
-import db from "../database.js";
 
-const userCollection = db.collections.user;
 const { create: createUser } = controller;
 
 async function registerUser(request, response) { 
