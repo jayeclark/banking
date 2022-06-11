@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
-import { log } from "console";
 import { nanoid } from "nanoid";
 import { fromCamelCase } from "../services/helpers/formatting.js";
 
 const saltRounds = 10;
 class User {
+  static required = ["id", "username", "firstName", "lastName", "birthDate", "primaryEmail", "primaryPhone", "primaryAddress"];
+
   constructor(props) {
     this._id = props._id;
     this.id = nanoid(20);
@@ -43,14 +44,14 @@ class User {
   }
 
   isValid() {
-    const required = ["id", "username", "firstName", "lastName", "birthDate", "primaryEmail", "primaryPhone", "primaryAddress"];
-    for (let i = 0; i < required.length; i++) {
-      if (required[i].includes("primary")) {
-        const arr = required[i].replace("primary", "").toLowerCase();
-        if (this[required[i]] == null || typeof this[required[i]] == "undefined" || this[arr].length == 0) {
+    for (let i = 0; i < this.required.length; i++) {
+      const property = this.required[i];
+      if (property.includes("primary")) {
+        const arr = property.replace("primary", "").toLowerCase();
+        if (this[property] == null || typeof this[property] == "undefined" || this[arr].length == 0) {
           return false;
         }
-      } else if (!this[required[i]]) {
+      } else if (this[property] == null || typeof this[property] == "undefined") {
         return false;
       }
     }
@@ -59,25 +60,25 @@ class User {
 
   missingData() {
     const missingData = [];
-    const required = ["id", "username", "firstName", "lastName", "birthDate", "primaryEmail", "primaryPhone", "primaryAddress"];
-    for (let i = 0; i < required.length; i++) {
-      if (required[i].includes("primary")) {
-        const arr = required[i].replace("primary", "").toLowerCase();
+    for (let i = 0; i < this.required.length; i++) {
+      const property = this.required[i];
+      if (property.includes("primary")) {
+        const arr = property.replace("primary", "").toLowerCase();
         if (this[arr].length == 0) {
           missingData.push({
             field: fromCamelCase(arr),
             message: "No available options."
           })
         }
-        if (this[required[i]] == null || typeof this[required[i]] == "undefined") {
+        if (this[property] == null || typeof this[property] == "undefined") {
           missingData.push({
             field: fromCamelCase(required[i]),
             message: "No preference provided."
           })
         }
-      } else if (!this[required[i]]) {
+      } else if (this[property] == null || typeof this[property] == "undefined") {
         missingData.push({
-            field: fromCamelCase(required[i]),
+            field: fromCamelCase(property),
             message: "No data provided."
           })
       }

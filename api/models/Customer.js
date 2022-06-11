@@ -7,6 +7,7 @@ class Customer {
     this.name = props.name;
     this.status = "active";
     this.checkSum = props.checkSum;
+    this.creator = props.userID;
   }
 }
 
