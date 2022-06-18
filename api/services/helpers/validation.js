@@ -1,4 +1,4 @@
-import { fromCamelCase } from "./formatting"
+import { fromCamelCase } from "./formatting.js";
 
 export const checkRequiredFields = (required, instance, resultsArray) => {
   required.forEach(property => {
@@ -13,7 +13,7 @@ export const checkRequiredFields = (required, instance, resultsArray) => {
 
 export const checkRequiredArrays = (required, instance, resultsArray) => {
   required.forEach(property => {
-    if (instance[property].length == 0 || typeof instance[property] == "undefined") {
+    if (instance[property].length == 0 || typeof instance[property] == "undefined" || instance[property].length == 0) {
       resultsArray.push({
         field: fromCamelCase(property),
         message: "No value provided to array."

@@ -15,7 +15,7 @@ class CheckingAccount extends Account {
 
   missingAccountData() {
     const initialMissingData = this.missingData();
-    checkRequiredFields(this.required, this, initialMissingData);
+    checkRequiredFields(CheckingAccount.required, this, initialMissingData);
     return initialMissingData;
   }
 }

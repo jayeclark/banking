@@ -1,6 +1,7 @@
 import Customer from "../models/Customer.js";
 import db from "../database.js";
 import { generateAccountChecksum } from "./helpers/auth.js";
+import APIError from "./helpers/error.js";
 
 const customerCollection = db.collections.customer;
 
@@ -17,7 +18,6 @@ const customerCollection = db.collections.customer;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 export async function findDoc(query) {
   let result = { data: null, code: 200 };
-  
   // If there are no filters, return an error
   if (query == undefined || !query.hasOwnProperty("id")) {
     result.code = 500;
@@ -30,7 +30,7 @@ export async function findDoc(query) {
   // Retrieve account info from database
   try {
     result.data = await customerCollection.findOne(filter);
-    result.code = result.data == null ? 500 : 200;
+   // result.code = result.data == null ? 500 : 200;
   } catch (e) {
     result.code = 500;
     result.data = { error: { type: "db", message: "Database error.", data: e } };
@@ -56,7 +56,7 @@ export async function insertDoc({ type, name, userID }) {
         checkSum: checkSum
       }
     };
-    await updateDoc({ id: result.data.id }, updates)
+    await updateDoc({ id: customer.id }, updates);
     result.data.customer = customer;
   } catch (e) {
     result.data = e;
@@ -70,7 +70,63 @@ export async function updateDoc(filter, updates, options) {
     code: 200,
     data: null
   }
-  result.data = await customerCollection.updateOne(filter, updates, options || { upsert: false });
+  try {
+    result.data = await customerCollection.updateOne(filter, updates, options || { upsert: false });
+  } catch (e) {
+    result.data = e;
+    result.code = 500;
+  }
   // TODO: Send garbage data and check what the response is from mongo, update this function accordingly
   return result;
 }
+
+export async function deleteDoc(filter) {
+  let result = {
+    code: 200,
+    data: null
+  }
+  try {
+    result.data = await customerCollection.deleteOne(filter);
+  } catch (e) {
+    result.data = e;
+    result.code = 500;
+  }
+  return result;
+}
+
+export async function getRequestedCustomer(requestedID, response) {
+  let requestedCustomer;
+  try {
+    const result = await findDoc({ id: requestedID });
+    if (result.code !== 200) {
+      APIError.authorization(response);
+      return result.data;
+    }
+    requestedCustomer = result.data;
+  } catch (e) {
+    console.log(e);
+  }
+  return requestedCustomer;
+}
+
+export async function checkPermissions({ response, config, requestingUser, requestedCustomer }) {
+
+  if (typeof requestingUser == "undefined" || requestingUser == null) {
+    APIError.db(response);
+    return false;
+  }
+  if (typeof requestedCustomer == "undefined" || requestedCustomer == null) {
+    APIError.db(response);
+    return false;
+  }
+  for (let i = 0; i < config.length; i++) {
+    const test = config[i];
+    const result = await test(requestingUser, requestedCustomer);
+    if (result == true) {
+      return true;
+    }
+  }
+
+  APIError.authorization(response);
+  return false;
+};

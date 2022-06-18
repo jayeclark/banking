@@ -1,15 +1,16 @@
 import { checkRequiredFields, checkRequiredArrays } from "../../services/helpers/validation.js";
+import { nanoid } from "nanoid";
 class Account {
-  static required = ["id", "type", "customerID", "checksum", "authedUsers"];
+  static required = ["id", "type", "customerID", "checkSum"];
   static requiredArrays = ["authedUsers"];
   
   constructor(props) {
     this._id = props._id;
-    this.id = props.id;
+    this.id = nanoid(15);
     this.nickname = props.nickname;
     this.type = props.type;
     this.interestRate = props.interestRate || 0;
-    this.createdTime = props.createdTime;
+    this.createdTime = Date.now();
     this.interestRateHistory = [{
       start: this.createdTime,
       end: null,
@@ -27,9 +28,15 @@ class Account {
   }
 
   isValid() {
-    for (let i = 0; i < this.required.length; i++) {
-      const property = this.required[i];
+    for (let i = 0; i < Account.required.length; i++) {
+      const property = Account.required[i];
       if (this[property] == null || typeof this[property] == undefined) {
+        return false;
+      }
+    }
+    for (let i = 0; i < Account.requiredArrays.length; i++) {
+      const property = Account.required[i];
+      if (this[property] == null || typeof this[property] == undefined || this[property].length == 0) {
         return false;
       }
     }
@@ -38,8 +45,8 @@ class Account {
 
   missingData() {
     const missingData = [];
-    checkRequiredFields(this.required, this, missingData);
-    checkRequiredArrays(this.requiredArrays, this, missingData);
+    checkRequiredFields(Account.required, this, missingData);
+    checkRequiredArrays(Account.requiredArrays, this, missingData);
     return missingData;
   }
 }

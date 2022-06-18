@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { findDoc, updateDoc, deleteDoc, getRequestedUser, checkPermissions } from "../services/user.js";
-import { insertDoc as addCustomer } from "../services/customer.js";
+import { insertDoc as addCustomer, deleteDoc as deleteCustomer } from "../services/customer.js";
+import { deleteMany as deleteAccounts } from "../services/account.js";
 import APIError from "../services/helpers/error.js";
 import db from "../database.js";
 import {
@@ -8,7 +9,7 @@ import {
   authenticate,
   isSameUser,
   isCustomerAdmin,
-  isSuperadmin
+  isUserSuperadmin
 } from "../services/helpers/auth.js";
 
 
@@ -65,14 +66,14 @@ export async function create(request, response) {
 
 export async function read(request, response) {
   // Reject non-authenticated requests
-  const auth_token = request.headers.authorization.split(" ")[1];
+  const auth_token = request.headers.authorization?.split(" ")[1];
   const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
   if (!userIsAuthenticated) {
     APIError.authentication(response);
     return;
   }
   // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isSuperadmin];
+  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
 
   // Get requesting and requested user
   const requestedUser = await getRequestedUser(request.query.id, response);
@@ -121,7 +122,7 @@ export async function update(request, response) {
   }
 
   // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isSuperadmin];
+  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
 
   // Get requesting and requested user
   const requestedUser = await getRequestedUser(request.body.data.id, response);
@@ -151,7 +152,7 @@ export async function del(request, response) {
     return;
   }
   // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isSuperadmin];
+  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
 
   // Get requesting and requested user
   const requestedUser = await getRequestedUser(request.body.id, response);
@@ -164,6 +165,10 @@ export async function del(request, response) {
   // Delete user
   const result = await deleteDoc({ id: request.body.id })
   console.log('deleted:\n', result);
+  if (requestingUser.admin == true) {
+    deleteAccounts({ customerID: requestingUser.customerID });
+    deleteCustomer({ id: requestingUser.customerID });
+  }
   response.status(result.code).json(result);
   return;
 }

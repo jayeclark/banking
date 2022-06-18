@@ -92,18 +92,15 @@ export async function getRequestedUser(requestedID, response) {
   let requestedUser;
   let error = null;
   try {
-    const result2 = await findDoc({ id: requestedID });
-    if (result2.code !== 200) {
+    const result = await findDoc({ id: requestedID });
+    if (result.code !== 200) {
       APIError.authorization(response);
-      return result2.data;
+      return result.data;
     }
-    requestedUser = result2.data;
+    requestedUser = result.data;
   } catch (e) {
-    error = e;
+    console.log(e);
   }
-  if (error) {
-    console.log(error);
-  } 
   return requestedUser;
 }
 

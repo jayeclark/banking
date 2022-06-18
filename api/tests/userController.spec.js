@@ -1,61 +1,9 @@
-const axios = require("axios");
+const setup = require("./setup.js");
+const { createUser, getUser, updateUser, deleteUser } = require("./sharedFunctions.js");
 
+const initialData = setup.initialUserData;
 let user;
 let headers;
-let initialData = {
-  username: Date.now(),
-  firstName: "Test",
-  middleName: "Ish",
-  lastName: "Person",
-  birthDate: "1980-02-10",
-  primaryEmail: 0,
-  primaryPhone: 0,
-  primaryAddress: 0,
-  email: ["me@me.com"],
-  phone: ["617 555 5555"],
-  address: ['1234 Street City State 00000'],
-  password: "fakefakefake",
-}
-
-async function createUser(data) {
-  let result;
-  try {
-    result = await axios.post("http://localhost:8080/api/auth/register", { ...data }, {});
-  } catch (e) {
-    result = e.response;
-  }
-  return result;
-}
-
-async function getUser(data, auth) {
-  let result;
-  try {
-    result = await axios.get(`http://localhost:8080/api/user/`, { params: data, headers: { Authorization: auth } });
-  } catch (e) {
-    result = e.response;
-  }
-  return result;
-}
-
-async function updateUser(data, auth) {
-  let result;
-  try {
-    result = await axios.put(`http://localhost:8080/api/user/`, { data }, { headers: { Authorization: auth } });
-  } catch (e) {
-    result = e.response;
-  }
-  return result;
-}
-
-async function deleteUser(data, auth) {
-  let result;
-  try {
-    result = await axios.delete("http://localhost:8080/api/user/", { data, headers: { Authorization: auth } });
-  } catch (e) {
-    result = e.response;
-  }
-  return result;
-}
 
 describe('USER CONTROLLER', () => {
   describe('create()', () => {

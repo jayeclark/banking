@@ -14,6 +14,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "bootstrap": "^5.1.1",
@@ -30,6 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash-es": "^4.17.21",
     "mongodb": "^4.7.0",
+    "nanoid": "^4.0.0",
     "postcss": "^8.3.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -47,6 +49,7 @@
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:api": "jest --testPathPattern=api/tests/ --detectOpenHandles",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

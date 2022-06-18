@@ -29,13 +29,33 @@ export const isSameUser = async (requestingUser, requestedUser) => {
   return requestingUser.id == requestedUser.id;
 }
 
+export const hasAccountAccess = async (requestingUser, authedUsers) => {
+  return authedUsers.filter(x => x.id == requestingUser.id).length > 0;
+}
+
 export const isCustomerAdmin = async (requestingUser, requestedUser) => {
   const customer = (await findCustomer({ id: requestedUser.customerID })).data;
   return (requestingUser.customerID == requestedUser.customerID) && requestingUser.admin && customer.creator !== requestedUser.id;
 }
 
-export const isSuperadmin = async (requestingUser, requestedUser) => {
-  return requestingUser.superadmin && !requestedUser.superadmin;
+export const ownsCustomer = async (requestingUser, requestedCustomer) => {
+  return requestingUser.admin == true && requestingUser.customerID == requestedCustomer.id;
+}
+
+export const ownsAccountCustomer = async (requestingUser, requestedAccount) => {
+  return requestingUser.admin == true && requestingUser.customerID == requestedAccount.customerID;
+}
+
+export const isUserSuperadmin = async (requestingUser, requestedUser) => {
+  return requestingUser.superAdmin && !requestedUser.superAdmin;
+}
+
+export const isAccountSuperadmin = async (requestingUser, requestedAccount) => {
+  return requestingUser.superAdmin;
+}
+
+export const isCustomerSuperadmin = async (requestingUser, requestedAccount) => {
+  return requestingUser.superAdmin;
 }
 
 export const makeAccessToken = (payload, expires_in_days) => {
