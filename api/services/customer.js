@@ -39,13 +39,13 @@ export async function findDoc(query) {
   return result;
 }
 
-export async function insertDoc({ type, name }) {
+export async function insertDoc({ type, name, userID }) {
   let result = {
     code: 200,
     data: null,
   };
 
-  const customer = new Customer({ type, name });
+  const customer = new Customer({ type, name, userID });
   try {
     result.data = await customerCollection.insertOne(customer);
     // add checksum and update record
@@ -70,7 +70,7 @@ export async function updateDoc(filter, updates, options) {
     code: 200,
     data: null
   }
-  result.data = await customerCollection.updateOne(filter, updates, options = { upsert: false });
+  result.data = await customerCollection.updateOne(filter, updates, options || { upsert: false });
   // TODO: Send garbage data and check what the response is from mongo, update this function accordingly
   return result;
 }

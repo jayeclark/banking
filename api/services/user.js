@@ -1,4 +1,5 @@
 import { isAuthenticated } from "../services/helpers/auth.js";
+import APIError from "./helpers/error.js";
 import db from "../database.js";
 
 const userCollection = db.collections.user;
@@ -30,21 +31,12 @@ export async function findDoc(query) {
 
   // Create filter
   const filter = {};
-  switch (query) {
-    case query.hasOwnProperty("username"):
-      filter.username = query.username;
+  const options = ["username", "email", "id", "_id"];
+  for (let i = 0; i < options.length; i++) {
+    if (query.hasOwnProperty(options[i])) {
+      filter[options[i]] = query[options[i]];
       break;
-    case query.hasOwnProperty("primaryEmail" && query.hasOwnProperty("email")):
-      filter.email = query.email[primaryEmail];
-      break;
-    case query.hasOwnProperty("id"):
-      filter.id = query.id;
-      break;
-    case query.hasOwnProperty("_id"):
-      filter.id = query.id;
-      break;
-    default:
-      filter.username = query.username;
+    }
   }
 
   // Search for doc in database
@@ -75,9 +67,64 @@ export async function updateDoc(filter, updates, options) {
     code: 200,
     data: null
   }
-  result.data = await userCollection.updateOne(filter, updates, options);
-  // TODO: Send garbage data and check what the response is from mongo, update this function accordingly
+  try {
+    const response = await userCollection.findOneAndUpdate(filter, { $set: {...updates } }, options);
+    result.data = response;
+  } catch (e) {
+    result.code = 500;
+    result.data = { error: { type: "db", message: "Database error.", data: e } };
+  
+  }
   return result;
 }
 
-// TODO: Add update validation functions
+export async function deleteDoc(filter) {
+  let result = {
+    code: 200,
+    data: null
+  }
+  result.data = await userCollection.deleteOne(filter);
+  return result;
+}
+
+export async function getRequestedUser(requestedID, response) {
+
+  let requestedUser;
+  let error = null;
+  try {
+    const result2 = await findDoc({ id: requestedID });
+    if (result2.code !== 200) {
+      APIError.authorization(response);
+      return result2.data;
+    }
+    requestedUser = result2.data;
+  } catch (e) {
+    error = e;
+  }
+  if (error) {
+    console.log(error);
+  } 
+  return requestedUser;
+}
+
+export async function checkPermissions({ response, config, requestingUser, requestedUser }) {
+
+  if (typeof requestingUser == "undefined" || requestingUser == null) {
+    APIError.db(response);
+    return false;
+  }
+  if (typeof requestedUser == "undefined" || requestedUser == null) {
+    APIError.db(response);
+    return false;
+  }
+  for (let i = 0; i < config.length; i++) {
+    const test = config[i];
+    const result = await test(requestingUser, requestedUser);
+    if (result == true) {
+      return true;
+    }
+  }
+
+  APIError.authorization(response);
+  return false;
+};

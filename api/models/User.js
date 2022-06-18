@@ -4,7 +4,7 @@ import { fromCamelCase } from "../services/helpers/formatting.js";
 
 const saltRounds = 10;
 class User {
-  static required = ["id", "username", "firstName", "lastName", "birthDate", "primaryEmail", "primaryPhone", "primaryAddress"];
+  static required = ["id", "username", "firstName", "lastName", "birthDate", "primaryEmail", "primaryPhone", "primaryAddress", "password"];
 
   constructor(props) {
     this._id = props._id;
@@ -15,7 +15,7 @@ class User {
     this.firstName = props.firstName;
     this.middleName = props.middleName || "";
     this.lastName = props.lastName;
-    this.password = "";
+    this.password = null;
     this.suffix = props.suffix || "";
     this.prefix = props.prefix || "";
     this.birthDate = props.birthDate;
@@ -33,19 +33,25 @@ class User {
   }
 
   async createPasswordHash(str) {
+    if (str == null) {
+      return null;
+    }
     const hashed = await bcrypt.hash(str, saltRounds);
-    console.log(hashed);
     return hashed;
   }
 
   async addPassword(str) {
+    if (str == null || str == "") {
+      this.password = null;
+      return;
+    }
     const hashed = await this.createPasswordHash(str);
     this.password = hashed;
   }
 
   isValid() {
-    for (let i = 0; i < this.required.length; i++) {
-      const property = this.required[i];
+    for (let i = 0; i < User.required.length; i++) {
+      const property = User.required[i];
       if (property.includes("primary")) {
         const arr = property.replace("primary", "").toLowerCase();
         if (this[property] == null || typeof this[property] == "undefined" || this[arr].length == 0) {
@@ -60,8 +66,8 @@ class User {
 
   missingData() {
     const missingData = [];
-    for (let i = 0; i < this.required.length; i++) {
-      const property = this.required[i];
+    for (let i = 0; i < User.required.length; i++) {
+      const property = User.required[i];
       if (property.includes("primary")) {
         const arr = property.replace("primary", "").toLowerCase();
         if (this[arr].length == 0) {
@@ -72,7 +78,7 @@ class User {
         }
         if (this[property] == null || typeof this[property] == "undefined") {
           missingData.push({
-            field: fromCamelCase(required[i]),
+            field: fromCamelCase(User.required[i]),
             message: "No preference provided."
           })
         }
