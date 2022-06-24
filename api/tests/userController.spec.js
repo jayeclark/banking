@@ -116,7 +116,7 @@ describe('USER CONTROLLER', () => {
       const statusCode = result.status;
       expect(statusCode.toString()).toEqual("400");
     });
-    test('Deletes user if user is authed and has permission', async () => {
+    test('Deletes user if user is authenticated and authorized', async () => {
       const result = await deleteUser({ id: user.id }, headers.Authorization);
       const statusCode = result.status;
       expect(statusCode.toString()).toEqual("200");

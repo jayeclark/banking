@@ -1,9 +1,8 @@
 {
   "name": "banking",
-  "homepage": "https://jayeclark.github.io/banking/",
+  "homepage": "https://jayeclark.github.io/",
   "version": "0.1.0",
   "private": true,
-  "main": "index.js",
   "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -49,7 +48,7 @@
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:api": "jest --testPathPattern=api/tests/ --detectOpenHandles",
+    "test:api": "jest --testPathPattern=api/tests/ --detect-open-handles --verbose",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
