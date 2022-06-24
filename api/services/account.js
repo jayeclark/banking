@@ -4,7 +4,6 @@ import SavingsAccount from "../models/Account/SavingsAccount.js";
 import InstallmentLoanAccount from "../models/Account/InstallmentLoanAccount.js";
 import { findAll as findAllTransactions } from "./transaction.js";
 import { generateAccountChecksum } from "./helpers/auth.js";
-import APIError from "./helpers/error.js";
 
 const accountCollection = db.collections.account;
 
@@ -66,48 +65,13 @@ export async function findAll(query) {
   return result;
 }
 
-export async function insertDoc({
-  type,
-  nickname,
-  interestRate,
-  monthlyFee,
-  customerID,
-  checkSum,
-  onlineOnly,
-  monthlyTransactionLimit,
-  interestAccrualStarts,
-  paymentsStart,
-  totalPayments,
-  paymentPeriod
-}) {
+export async function addDoc(data) {
   let result = {
     code: 200,
     data: null,
   }
-  let account;
-  let initialProps = {
-    type,
-    nickname,
-    interestRate,
-    monthlyFee,
-    customerID,
-    checkSum,
-  };
-  if (type == "checking") {
-    account = new CheckingAccount({ ...initialProps, onlineOnly });
-  }
-  if (type == "savings") {
-    account = new SavingsAccount({ ...initialProps, monthlyTransactionLimit });
-    }
-  if (type == "installment") {
-    account = new InstallmentLoanAccount({
-      ...initialProps,
-      interestAccrualStarts,
-      paymentsStart,
-      totalPayments,
-      paymentPeriod
-    });
-  }
+  const account = data;
+
   try {
     result.data = await accountCollection.insertOne(account);
     const checkSum = generateAccountChecksum(result.data.insertedId.toString());
@@ -132,7 +96,7 @@ export async function updateDoc(filter, updates, options) {
     data: null,
   }
   try {
-    result.data = await accountCollection.updateOne(filter, updates, options || { upsert: false });
+    result.data = await accountCollection.findOneAndUpdate(filter, updates, options || { upsert: false });
   } catch (e) {
     result.data = e;
     result.code = 500;
@@ -183,25 +147,4 @@ export async function getAccountBalance(id) {
     balance += transaction.type == "debit" ? -transaction.amount : transaction.amount;
   }
   return balance;
-}
-
-export async function checkPermissions({ response, config, requestingUser, requestedAccount }) {
-
-  if (typeof requestingUser == "undefined" || requestingUser == null) {
-    APIError.db(response);
-    return false;
-  }
-  if (typeof requestedAccount == "undefined" || requestedAccount == null) {
-    APIError.db(response);
-    return false;
-  }
-  for (let i = 0; i < config.length; i++) {
-    const test = config[i];
-    const result = await test(requestingUser, requestedAccount);
-    if (result == true) {
-      return true;
-    }
-  }
-  APIError.db(response);
-  return false;
 }

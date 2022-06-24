@@ -22,7 +22,7 @@ describe('ACCOUNT CONTROLLER', () => {
     user = await result.data.user;
     const auth = await result.data.user.access_token;
     headers = { Authorization: `Bearer ${auth}` };
-    customer = (await getCustomer({ id: user.customerID },  `Bearer ${auth}`)).data;
+    customer = (await getCustomer({ id: user.customerID }, `Bearer ${auth}`)).data;
     initialData.checkSum = await customer.checkSum;
     initialData.customerID = await customer.id;
     initialData.authedUsers = [{
@@ -38,7 +38,7 @@ describe('ACCOUNT CONTROLLER', () => {
       expect((statusCode).toString()).toEqual("400");
     });
     test('Throws error if type is missing', async () => {
-      const result = await createAccount({ ...initialData, type: null }, headers.Authorization)
+      const result = await createAccount({ ...initialData, customerID: customer.id, type: null }, headers.Authorization)
       const statusCode = await result.status;
       expect((statusCode).toString()).toEqual("400");
     });
@@ -53,7 +53,8 @@ describe('ACCOUNT CONTROLLER', () => {
       expect((statusCode).toString()).toEqual("400");
     });
     test('Throws error if checksum is missing', async () => {
-      const result = await createAccount({ ...initialData, checkSum: null }, headers.Authorization)
+      initialData.customerID = customer.id;
+      const result = await createAccount({ ...initialData, customerID: customer.id, checkSum: null }, headers.Authorization)
       const statusCode = await result.status;
       expect((statusCode).toString()).toEqual("400");
     });
@@ -63,12 +64,14 @@ describe('ACCOUNT CONTROLLER', () => {
       expect((statusCode).toString()).toEqual("400");
     });
     test('Throws error if no authed users', async () => {
-      const result = await createAccount({ ...initialData, authedUsers: [] }, headers.Authorization)
+      initialData.customerID = customer.id;
+      const result = await createAccount({ ...initialData, customerID: customer.id, authedUsers: [] }, headers.Authorization)
       const statusCode = await result.status;
       expect((statusCode).toString()).toEqual("400");
     });
     test('Creates account if data is complete', async () => {
-      const result = await createAccount(initialData, headers.Authorization);
+      initialData.customerID = customer.id;
+      const result = await createAccount({ ...initialData, customerID: customer.id }, headers.Authorization);
       const statusCode = await result.status;
       account = await result.data.account;
       expect(statusCode.toString()).toEqual("200");
@@ -85,7 +88,7 @@ describe('ACCOUNT CONTROLLER', () => {
     test('Throws error on unauthorized read request', async () => {
       const result = await getAccount({ id: '12345' }, headers.Authorization);
       const statusCode = result.status;
-      expect(statusCode.toString()).toEqual("500");
+      expect(statusCode.toString()).toEqual("400");
     });
     test('Returns account by id if user is authenticated and authorized', async () => {
       const result = await getAccount({ id: account.id }, headers.Authorization);

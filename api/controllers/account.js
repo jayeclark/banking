@@ -1,43 +1,22 @@
 import CheckingAccount from "../models/Account/CheckingAccount.js";
 import SavingsAccount from "../models/Account/SavingsAccount.js";
 import InstallmentLoanAccount from "../models/Account/InstallmentLoanAccount.js";
-import db from "../database.js";
-import { authenticate, ownsCustomer, isAccountSuperadmin, ownsAccountCustomer, isCustomerSuperadmin } from "../services/helpers/auth.js";
-import { findDoc as findCustomer } from "../services/customer.js";
-import { findDoc, updateDoc, deleteDoc, checkPermissions } from "../services/account.js";
-import { checkPermissions as checkCustomerPermissions } from "../services/customer.js";
+import { checkAuthStatus, customerStatus, accountStatus } from "../services/helpers/auth.js";
+import { getUserData } from "./user.js";
+import { addDoc, findDoc, updateDoc, deleteDoc } from "../services/account.js";
 import APIError from "../services/helpers/error.js";
 
-const accountCollection = db.collections.account;
-
 async function create(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization?.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status  
+  const config = {
+    type: "customer",
+    id: request.body.customerID,
+    validators: [customerStatus.isAdmin, customerStatus.isSuperAdmin]
   }
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
-  // Reject un-authorizeed requests
-  const config = [ownsCustomer, isCustomerSuperadmin];
-
-  if (request.body.customerID == null) {
-    APIError.authentication(response);
-    return;
-  }
-  const requestedCustomer = (await findCustomer({ id: request.body.customerID })).data;
-
-  if (requestedCustomer == null) {
-    APIError.authorization(response);
-    return;
-  }
-
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkCustomerPermissions({ response, config, requestingUser, requestedCustomer });
-  if (!permitted) return;
-
-  // Create account object
+  // Create account object from request body
   const options = request.body;
   let account;
   switch (options.type) {
@@ -55,11 +34,17 @@ async function create(request, response) {
   }
 
   // Throw an error if the data provided was not correct/complete
-  if (!account.isValid() || account.checkSum !== requestedCustomer.checkSum) {
+  if (!account.isValid()) {
     response.status(400).json({ error: { type: "missingData", message: "Unable to register user. Required information is missing.", data: account.missingAccountData() } })
     return;    
   }
 
+  let requestingUser;
+  try {
+    requestingUser = await getUserData(request);
+  } catch (e) {
+    console.error(e);
+  }
   // Make sure all authedUsers are actually associated with the customer and have at least one permission, and that one user has manage permission
   const { authedUsers } = account;
   let managePermissionExists = false;
@@ -82,117 +67,93 @@ async function create(request, response) {
   // Create account
   let createdAccount;
   try {
-    createdAccount = await accountCollection.insertOne(account)
+    createdAccount = await addDoc(account);
   } catch (e) {
-    response.status(500).json({ error: { type: "unknown", message: e } });
+    console.error(e);
+    APIError.db(response);
     return;
   }
+
   // Send account as response
-  response.status(200).json({ ...createdAccount, account });
+  response.status(createdAccount.code).json({ ...createdAccount.data, account });
   return;
 }
 
 async function read(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization?.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status 
+  const config = {
+    type: "account",
+    id: request.query.id,
+    validators: [accountStatus.isAdmin, accountStatus.isSuperAdmin]
   }
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
-  // Reject un-authorizeed requests
-  const config = [ownsAccountCustomer, isAccountSuperadmin];
+  // Get account
   let requestedAccount;
   try {
-    const query = request.query;
-    requestedAccount = await findDoc(query);
+    requestedAccount = await findDoc({ id: request.query.id });
   } catch (e) {
-    response.status(500).json({ error: { type: "db", message: "Database error.", data: e } })
+    console.error(e);
+    APIError.db(response);
     return;
   }
-  
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedAccount: requestedAccount.data });
-  if (!permitted) return;
 
-  // Remove authed user data from account as it contains private keys
+  // Remove authed user data from account
   delete requestedAccount.data.authedUsers;
+
+  // Send account data 
   response.status(requestedAccount.code).json(requestedAccount.data);
   return;
 }
 
 async function update(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization?.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status
+  const config = {
+    type: "account",
+    id: request.body.id,
+    validators: [accountStatus.isAdmin, accountStatus.isSuperAdmin]
   }
-
-  // Reject un-authorizeed requests
-  const config = [ownsAccountCustomer, isAccountSuperadmin];
-  let requestedAccount;
-  try {
-    const query = { id: request.body.data.id };
-    requestedAccount = (await findDoc(query)).data;
-  } catch (e) {
-    APIError.authorization(response);
-    return;
-  }
-  if (requestedAccount == null) {
-    APIError.authorization(response);
-    return;
-  }
-  
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedAccount });
-  if (!permitted) return;
-
-  // Remove authed user data from account as it contains private keys
-  delete requestedAccount.authedUsers;
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
   // Update account
-  const result = await updateDoc({ id: request.body.id }, request.body.updates)
+  let updateResult
+  try {
+    updateResult = await updateDoc({ id: request.body.id }, { $set: request.body.updates });
+  } catch (e) {
+    console.error(e);
+    APIError.db(response);
+    return;
+  }
 
-  response.status(200).json({ ...result, account: requestedAccount });
+  // Send update data
+  response.status(updateResult.code).json(updateResult.data);
   return;  
 }
 
 async function del(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization?.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status
+  const config = {
+    type: "account",
+    id: request.body.id,
+    validators: [accountStatus.isAdmin, accountStatus.isSuperAdmin]
   }
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
-  // Reject un-authorizeed requests
-  const config = [ownsAccountCustomer, isAccountSuperadmin];
-  let requestedAccount;
+  // Delete doc
+  let deleteResult;
   try {
-    const query = { id: request.body.id };
-    requestedAccount = (await findDoc(query)).data;
+    deleteResult = await deleteDoc({ id: request.body.id })
   } catch (e) {
-    response.status(500).json({ error: { type: "db", message: "Database error.", data: e } })
+    console.error(e);
+    APIError.db(response);
     return;
   }
-  if (requestedAccount == null) {
-    APIError.authorization(response);
-    return;
-  }
-  
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedAccount: requestedAccount });
-  if (!permitted) return;
 
-  // Remove authed user data from account as it contains private keys
-  const result  = await deleteDoc({ id: request.body.id })
-
-  // Delete account
-  response.status(result.code).json(result.data);
+  // Send account delete data
+  response.status(deleteResult.code).json(deleteResult.data);
   return;    
 }
 

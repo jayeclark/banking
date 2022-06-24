@@ -39,7 +39,7 @@ export async function findDoc(query) {
   return result;
 }
 
-export async function insertDoc({ type, name, userID }) {
+export async function addDoc({ type, name, userID }) {
   let result = {
     code: 200,
     data: null,
@@ -93,40 +93,3 @@ export async function deleteDoc(filter) {
   }
   return result;
 }
-
-export async function getRequestedCustomer(requestedID, response) {
-  let requestedCustomer;
-  try {
-    const result = await findDoc({ id: requestedID });
-    if (result.code !== 200) {
-      APIError.authorization(response);
-      return result.data;
-    }
-    requestedCustomer = result.data;
-  } catch (e) {
-    console.log(e);
-  }
-  return requestedCustomer;
-}
-
-export async function checkPermissions({ response, config, requestingUser, requestedCustomer }) {
-
-  if (typeof requestingUser == "undefined" || requestingUser == null) {
-    APIError.db(response);
-    return false;
-  }
-  if (typeof requestedCustomer == "undefined" || requestedCustomer == null) {
-    APIError.db(response);
-    return false;
-  }
-  for (let i = 0; i < config.length; i++) {
-    const test = config[i];
-    const result = await test(requestingUser, requestedCustomer);
-    if (result == true) {
-      return true;
-    }
-  }
-
-  APIError.authorization(response);
-  return false;
-};

@@ -4,7 +4,7 @@ import db from "../database.js";
 
 const userCollection = db.collections.user;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* DATA ABSTRACTION METHODS  
 /*  Return an object: {
 /*                      code: number 
@@ -16,6 +16,21 @@ const userCollection = db.collections.user;
 /* findAllCustomerUsers - finds all users associated with a specific customer (ie a business)   
 /* updateDoc - updates the user record in the database
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+export async function addDoc(data) {
+  let result = {
+    data: null,
+    code: 200
+  };
+  try {
+    result.data = await userCollection.insertOne(data);
+  } catch (e) {
+    result.code = 500;
+    result.data = { error: { type: "db", message: "Database error.", data: e } };
+  }
+  return result;
+}
+
 export async function findDoc(query) {
   let result = {
     data: null,
@@ -86,42 +101,3 @@ export async function deleteDoc(filter) {
   result.data = await userCollection.deleteOne(filter);
   return result;
 }
-
-export async function getRequestedUser(requestedID, response) {
-
-  let requestedUser;
-  let error = null;
-  try {
-    const result = await findDoc({ id: requestedID });
-    if (result.code !== 200) {
-      APIError.authorization(response);
-      return result.data;
-    }
-    requestedUser = result.data;
-  } catch (e) {
-    console.log(e);
-  }
-  return requestedUser;
-}
-
-export async function checkPermissions({ response, config, requestingUser, requestedUser }) {
-
-  if (typeof requestingUser == "undefined" || requestingUser == null) {
-    APIError.db(response);
-    return false;
-  }
-  if (typeof requestedUser == "undefined" || requestedUser == null) {
-    APIError.db(response);
-    return false;
-  }
-  for (let i = 0; i < config.length; i++) {
-    const test = config[i];
-    const result = await test(requestingUser, requestedUser);
-    if (result == true) {
-      return true;
-    }
-  }
-
-  APIError.authorization(response);
-  return false;
-};

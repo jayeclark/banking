@@ -1,19 +1,10 @@
 import User from "../models/User.js";
-import { findDoc, updateDoc, deleteDoc, getRequestedUser, checkPermissions } from "../services/user.js";
-import { insertDoc as addCustomer, deleteDoc as deleteCustomer } from "../services/customer.js";
+import { addDoc, findDoc, updateDoc, deleteDoc } from "../services/user.js";
+import { addDoc as addCustomer, deleteDoc as deleteCustomer } from "../services/customer.js";
 import { deleteMany as deleteAccounts } from "../services/account.js";
 import APIError from "../services/helpers/error.js";
 import db from "../database.js";
-import {
-  makeAccessToken,
-  authenticate,
-  isSameUser,
-  isCustomerAdmin,
-  isUserSuperadmin
-} from "../services/helpers/auth.js";
-
-
-const userCollection = db.collections.user;
+import { makeAccessToken, checkAuthStatus, authenticate, userStatus } from "../services/helpers/auth.js";
 
 export async function create(request, response) {
 
@@ -53,7 +44,7 @@ export async function create(request, response) {
   // Create user
   let createdUser;
   try {
-    createdUser = await userCollection.insertOne(user);
+    createdUser = await addDoc(user);
   } catch (e) {
     APIError.db(response, e);
     return;
@@ -65,112 +56,102 @@ export async function create(request, response) {
 }
 
 export async function read(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization?.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
+  // Check auth status  
+  const config = {
+    type: "user",
+    id: request.query.id,
+    validators: [userStatus.isSelf, userStatus.isAdmin, userStatus.isSuperAdmin]
+  }
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
+  let requestedUser;
+  try {
+    requestedUser = await findDoc({ id: request.query.id });
+  } catch (e) {
+    console.error(e);
+    APIError.db(response);
     return;
   }
-  // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
-
-  // Get requesting and requested user
-  const requestedUser = await getRequestedUser(request.query.id, response);
-  if (requestedUser === null) return;
-
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedUser });
-  if (!permitted) return;
-
   let user = requestedUser;
-  // Remove password and _id from data
-  delete user.password;
-  delete user._id;
 
-  // Delete sensitive fields if requesting user !== user
-  if (requestedUser.id !== requestingUser.id) {
-      delete user.birthDate;
-      delete user.access_token;
-      delete user.refresh_token;
-  }
+  // Delete sensitive fields 
+  delete user.data.password;
+  delete user.data._id;
+  delete user.data.birthDate;
+  delete user.data.access_token;
+  delete user.data.refresh_token;
+  delete user.data.contactPreferences;
+  delete user.data.address;
+  delete user.data.primaryAddress;
+  const phone = user.data.phone.map(x => {
+    const final4 = x.match(/\d{4}$/);
+    const masked = x.replace(/\d/g, "*").replace(/\*{4}$/, final4);
+    return masked;
+  });
+  user.phone = phone;
 
-  // Delete/mask sensitive fields if requesting user !== user or superadmin
-  if (requestedUser.id !== requestingUser.id && !requestingUser.superadmin) {
-    delete user.contactPreferences;
-    delete user.address;
-    delete user.primaryAddress;
-    const phone = user.phone.map(x => {
-      const final4 = x.match(/\d{4}$/);
-      const masked = x.replace(/\d/g, "*").replace(/\*{4}$/, final4);
-      return masked;
-    });
-    user.phone = phone;
-  }
   console.log('read:\n', user.id);
-  response.status(200).json(user);
+  response.status(user.code).json(user.data);
   return;
 }
 
 export async function update(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status  
+  const config = {
+    type: "user",
+    id: request.body.id,
+    validators: [userStatus.isSelf, userStatus.isAdmin, userStatus.isSuperAdmin]
   }
-
-  // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
-
-  // Get requesting and requested user
-  const requestedUser = await getRequestedUser(request.body.data.id, response);
-  if (requestedUser === null) return;
-
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedUser });
-  if (!permitted) return;
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
   // Update record
-  const result = await updateDoc({ id: request.body.data.id }, request.body.data.updates, { upsert: false })
-  if (result.code !== 200) {
+  let updateResult;
+  try {
+    updateResult = await updateDoc({ id: request.body.id }, request.body.updates, { upsert: false });
+  } catch (e) {
+    console.error(e);
     APIError.db(response);
     return;
   }
-  console.log('updated:\n', result.data);
-  response.status(200).json(result);
+
+  console.log('updated:\n', updateResult.data);
+  response.status(updateResult.code).json(updateResult.data);
   return;
 }
 
 export async function del(request, response) {
-  // Reject non-authenticated requests
-  const auth_token = request.headers.authorization.split(" ")[1];
-  const { userIsAuthenticated, user: requestingUser } = await authenticate(auth_token);
-  if (!userIsAuthenticated) {
-    APIError.authentication(response);
-    return;
+  // Check auth status  
+  const config = {
+    type: "user",
+    id: request.body.id,
+    validators: [userStatus.isSelf, userStatus.isAdmin, userStatus.isSuperAdmin]
   }
-  // Reject un-authorizeed requests
-  const config = [isSameUser, isCustomerAdmin, isUserSuperadmin];
-
-  // Get requesting and requested user
-  const requestedUser = await getRequestedUser(request.body.id, response);
-  if (requestedUser === null) return;
-
-  // Check permissions & reject un-authorizeed requests
-  const permitted = await checkPermissions({ response, config, requestingUser, requestedUser });
-  if (!permitted) return;
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
 
   // Delete user
-  const result = await deleteDoc({ id: request.body.id })
-  console.log('deleted:\n', result);
-  if (requestingUser.admin == true) {
-    deleteAccounts({ customerID: requestingUser.customerID });
-    deleteCustomer({ id: requestingUser.customerID });
+  let deleteResult;
+  try { 
+    const userData = await getUserData(request);
+    deleteResult = await deleteDoc({ id: request.body.id })
+    if (userData?.admin == true) {
+    deleteAccounts({ customerID: userData.customerID });
+    deleteCustomer({ id: userData.customerID });
   }
-  response.status(result.code).json(result);
+  } catch (e) {
+    console.error(e);
+    APIError.db(response);
+    return;
+  }
+  console.log('deleted:\n', deleteResult);
+  response.status(deleteResult.code).json(deleteResult.data);
   return;
+}
+
+export async function getUserData(request) {
+  const result = await authenticate(request);
+  return result.user;
 }
 
 const controller = { create, read, update, del };
