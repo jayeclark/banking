@@ -8,3 +8,5 @@ router.route("/")
   .get(controller.read)
   .put(controller.update)
   .delete(controller.del)
+
+export default router;

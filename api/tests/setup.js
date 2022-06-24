@@ -19,5 +19,14 @@ module.exports = {
   initialAccountData: {
     nickname: "Test Account",
     type: "Checking",
+  },
+  initialTransactionData: {
+    amount: 1000,
+    type: "debit",
+    decimalConversion: 100,
+    currency: "USD",
+    initiatedTime: Date.now(),
+    completedTime: Date.now(),
+    status: "completed",
   }
 } 
