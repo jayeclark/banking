@@ -18,6 +18,5 @@ export default function TopRibbon({ loggedInUser, setLoggedInUser }) {
           <UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin>
         </div>        
     </div>
-    
   )
 }

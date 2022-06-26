@@ -70,7 +70,8 @@ option {
 }
 
 .home-splash {
-  height: 500px;
+  min-height: 500px;
+  height: fit-content;
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -85,8 +86,20 @@ option {
 #sign-in-card {
   margin: 10px;
   flex-shrink: 0;
-  flex-grow: 1;
   min-width: 480px;
+  background-color: rgb(220, 20, 49);
+  width: 270px;
+  flex-grow: 0;
+  border-radius: 0px;
+  height: max-content;
+}
+
+#sign-in-card .mobile-options {
+  display: none;
+}
+
+.mobile-nav-widget {
+  display: none;
 }
 
 @keyframes App-logo-spin {
@@ -98,6 +111,133 @@ option {
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .brand-div {
+    margin-bottom: 10px;
+    height: 80px;
+  }
+  .mobile-menu {
+    width: 100vw;
+  }
+  #anonymous-navigation {
+    display: none;
+  }
+  .top-ribbon {
+    display: none!important;
+  }
+  #sign-in-card {
+    position: absolute;
+    margin: 0px -11px;
+    overflow: hidden;
+    width: calc(100vw + 2px);
+    max-width: calc(100vw + 2px);
+    min-width: calc(100vw + 2px);
+    z-index: 9999;
+    height: 0;
+    background-color: rgb(242, 242, 242);
+    border: none;
+  }
+  #sign-in-card form {
+    display: flex;
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+  #sign-in-card .field-name {
+    display: none;
+  }
+  #sign-in-card form .buttons {
+    max-width: 180px;
+  }
+  #sign-in-card form button {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px!important;
+    margin-top: -6px;
+  }
+
+  #sign-in-card form input {
+    border: 1px solid #ccc;
+  }
+  .expanded #sign-in-card {
+    height: fit-content;
+    max-height: 500px;
+  }
+  #sign-in-card .mobile-options {
+    display: block;
+  }
+  #sign-in-card .desktop-options {
+    display: none;
+  }
+  .mobile-nav-widget {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    align-items: center;
+    color: rgb(220, 20, 49);
+  }
+  .close-icon, .open-icon {
+    cursor: pointer;
+    color:rgb(220, 20, 49);
+  }
+  .mobile-nav-widget .close-icon {
+    display: none;
+  }
+  .mobile-nav-widget .expanded .close-icon {
+    display: block;
+  }
+  .mobile-nav-widget .open-icon {
+    display: block;
+  }
+  .mobile-nav-widget .expanded .open-icon {
+    display: none;
+  }
+  .mobile-menu.expanded {
+    display: block;
+  }
+  .mobile-menu {
+    display: none;
+  }
+  .mobile-menu .search-bar, .mobile-menu .menu-items {
+    background-color: rgb(242, 242, 242);
+    padding: 8px;
+    width: 100vw;
+    margin: 0px -10px;
+    border-top: 1px solid #ccc;
+  }
+  .mobile-menu .search-bar input {
+    margin-right: 16px;
+    padding: 8px;
+    width: 40vw;
+    min-width: 250px;
+  }
+  .mobile-menu .search-bar button {
+    color: #012169;
+    outline: 1px solid #012169;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    background-color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 6px 24px;
+    cursor: pointer
+  }
+  .mobile-menu .search-bar button:hover {
+    background-color: #012169;
+    color: #fff;
+  }
+  .mobile-menu .menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px 15%;
+    justify-content: space-between;
+  }
+  .mobile-menu .menu-items div {
+    min-width: 300px;
+    text-align: left;
+    padding: 8px 0px;
+  }
+}
 
 @media only screen and (max-width: 991px) {
   .home-splash {
@@ -105,11 +245,7 @@ option {
   }
 }
 
-@media only screen and (max-width: 767px) {
-  #sign-in-card {
-    max-width: 400px;
-  }
-}
+
 
 @media only screen and (max-width: 680px) {
   

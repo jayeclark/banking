@@ -8,9 +8,7 @@ function AnonNav() {
     
     // Get language preference and import content data based on it
     const {language} = useContext(LanguageContext);
-    console.log(language);
     const data = languages[language];
-    console.log(data);
 
     // Build list of nav links
     const pages = Object.keys(data.anonpages);
@@ -22,10 +20,9 @@ function AnonNav() {
                 navButton: page["nav-button"],
                 }
     });
-    console.log('navs', navs);
 
     return (
-        <nav className="navbar navbar-expand-md navbar-light responsive-nav" style={{fontWeight: "500"}}>
+        <nav id="anonymous-navigation" className="navbar navbar-expand-md navbar-light responsive-nav" style={{fontWeight: "500"}}>
             <div className="container-fluid" style={{justifyContent:"left"}}>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
