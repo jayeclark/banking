@@ -263,8 +263,8 @@
             "formSubmission" : {
                     "buttons": [ {"type":"submit",
                                 "name":"submit",
-                                "display":"Sign In",
-                                "altDisplay": "Sign In",
+                                "display":"Log In",
+                                "altDisplay": "Log In",
                                 "className":"login-button",
                                 "dependency":false}],
                     "success": "You have been logged in. You may now make deposits and withdrawals.",
@@ -274,13 +274,12 @@
             },
             "formFields" : [
                     {
-                        "name" : "email",
+                        "name" : "username",
                         "display" : "",
                         "type" : "text",
-                        "placeholder": "User ID",
+                        "placeholder": "Username",
                         "validation": [
-                            {"functionName": "hasInput", "error":"Please enter your email address"},
-                            {"functionName": "isValidEmailFormat", "error": "Please enter a valid email address"}
+                            {"functionName": "hasInput", "error":"Please enter your username"}
                         ]
                     },
                     {
@@ -289,8 +288,7 @@
                         "placeholder": "Password",
                         "type" : "password",
                         "validation": [
-                            {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Must be 8 characters or longer"},
-                            {"functionName": "isValidPasswordFormat", "error": "Must include letter, number & special character."}
+                            {"functionName": "hasInput", "args":[{"name":"len","value":8}], "error":"Please enter a valid password"}
                         ]
                     }
                 ],

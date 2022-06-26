@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import axios from 'axios';
 import MobileNav from './MobileNav';
 import { parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
@@ -12,6 +13,7 @@ import NotificationContext from '../helpers/NotificationContext';
 import UserContext from '../helpers/UserContext';
 import UserDBContext from '../helpers/UserDBContext';
 import languages from '../data/languages.js';
+import { API_URL } from '../helpers/constants';
 
 export function SignIn() {
 
@@ -33,31 +35,23 @@ export function SignIn() {
         parseValidation(formFields, validationFunctions);
     
         // Add submission instructions
-        const submitHelperFunc = (values) => {
+        const submitHelperFunc = async (values) => {
     
             const user = {
-                email: values.email,
+                username: values.username,
                 password: values.password,
              };
     
-            let usersWithSameEmail = users.filter(user => user.email === values.email);
-            
-            if (usersWithSameEmail.length === 0) { 
+            let result = await axios.post(`${API_URL}/api/auth/login`, { ...user });
+            console.log(result)
+            if (result.status !== 200) { 
                 displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
                 return 'failure'; }
             else {
-                let matchingUser = usersWithSameEmail[0];
-                let userPwd = matchingUser.password;
-                if (userPwd !== user.password) {
-                    displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
-                    return 'failure';
-                }
-                else {
-                    logIn(matchingUser.number);
-                    displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
-                    return 'success';
-                }
-
+                let matchingUser = result.data;
+                logIn(matchingUser.id);
+                displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
+                return 'success';
             }
     
         }

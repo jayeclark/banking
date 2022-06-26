@@ -1,6 +1,6 @@
 import './styles/bootstrap.min.css';
 import './styles/App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Link, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import Notification from './components/Notification';
 import Home from './pages/Home.js';
@@ -88,7 +88,11 @@ function App() {
             <OptionsNav></OptionsNav>
               <div className="App">
                   <TopRibbon loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
-                  <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
+                  <div className="brand-div">
+                    <Link to="/" style={{ cursor: "pointer" }}>
+                      <img alt="" src={logo} className="brand-image"/>
+                    </Link>
+                  </div>
                   {loggedInUser ? <AppNav /> : <AnonNav />}
                   <NotificationContext.Provider value={{ displayNotification }}>
                     {notification && notification.display ? <Notification id={notification.timestamp} title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}

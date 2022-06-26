@@ -17,7 +17,6 @@ export default function MobileNav({ handleShowSignIn }) {
   const menuRef = useRef(null);
 
   const toggleSignIn = () => {
-    console.log(signInIcon.current.classList);
     if (signInIcon.current.classList.contains("expanded")) {
       signInIcon.current.classList.remove("expanded");
       handleShowSignIn();
