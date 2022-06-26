@@ -9,4 +9,7 @@ router.route("/")
   .put(controller.update)
   .delete(controller.del)
 
+router.route("/all")
+  .get(controller.readAll)
+
 export default router;

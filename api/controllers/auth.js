@@ -30,11 +30,15 @@ async function loginUser(request, response) {
   let result;
   try {
     // retrieve user info from database
+    console.log(request.body);
     result = await findDoc({ username: request.body.username })
+    console.log(result.data);
   } catch (e) {
-    response.status(500).json({ error: { type: "db", message: "Database error.", data: e } })
+    console.log(e);
+    response.status(500).json({ error: { type: "db", message: "Database error.", data: e } });
     return;
   }
+  console.log(result.code);
   if (result.code !== 200) {
     response.status(result.code).json(result.data);
     return;
@@ -53,10 +57,8 @@ async function loginUser(request, response) {
       // save in db
       const filter = { username: user.username };
       const updates = {
-        $set: {
-            access_token: user.access_token,
-            refresh_token: user.refresh_token,
-          },
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
       };
       const options = { upsert: false };
       let updateResult;

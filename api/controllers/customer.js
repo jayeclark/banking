@@ -36,9 +36,10 @@ async function read(request, response) {
 }
 
 async function readAccounts(request, response) {
+  console.log(request.query);
   // Check auth status  
   const config = {
-    type: "account",
+    type: "customer",
     id: request.query.id,
     validators: [customerStatus.isAdmin, customerStatus.isSuperAdmin]
   }
@@ -48,7 +49,7 @@ async function readAccounts(request, response) {
   // Find all accounts for customer
   let accountData;
   try { 
-    accountData = findAllAccounts({ id: request.query.id });
+    accountData = await findAllAccounts({ customerID: { $eq: request.query.id } });
   } catch (e) {
     console.error(e);
     APIError.db(response);
@@ -57,12 +58,15 @@ async function readAccounts(request, response) {
 
   // Return if code is not 200
   if (accountData.code !== 200) {
+    console.log(accountData);
     response.status(accountData.code).json(accountData.data);
     return;
   }
 
+  console.log(accountData);
   const accounts = accountData.data;
-  const requestingUser = getUserData(request);
+  const requestingUser = await getUserData(request);
+  console.log('U', requestingUser);
 
   // If requester is not an admin, only return the accounts which the requester has permissions on
   let visibleAccounts;
@@ -74,16 +78,20 @@ async function readAccounts(request, response) {
       }
       return false;
     })
+  } else {
+    visibleAccounts = accounts;
   }
-  visibleAccounts = visibleAccounts.map(async (a) => {
+  const result = [];
+  visibleAccounts = await visibleAccounts.forEach(async (a) => {
     delete a.authedUsers;
     delete a._id;
+    console.log('AAAAA', a);
     a.balance = await getAccountBalance(a.id);
-    return a;
+    result.push(a);
   })
-
+  console.log(result);
   // Send account data
-  response.status(200).json(visibleAccounts);
+  response.status(200).json(result);
   return;
 }
 

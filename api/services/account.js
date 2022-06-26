@@ -45,23 +45,20 @@ export async function findAll(query) {
   let result = { data: null, code: 200 };
   
   // If there are no filters, return an error
-  if (query == undefined || !query.hasOwnProperty("id")) {
+  if (query == undefined) {
     result.code = 500;
     result.data = { error: { type: "db", message: "No query data provided to retrieve account." } };
     return result;
   }
   
-  const filter = { id: query.id };
-
   // Retrieve account info from database
   try {
-    result.data = await accountCollection.find(query);
+    result.data = await accountCollection.find(query).toArray();
     result.code = result.data == null ? 500 : 200;
   } catch (e) {
     result.code = 500;
     result.data = { error: { type: "db", message: "Database error.", data: e } };
   }
-
   return result;
 }
 
@@ -134,7 +131,7 @@ export async function deleteMany(filter) {
 
 export async function getAccountBalance(id) {
   // get all transactions 
-  const transactions = findAllTransactions(id);
+  const transactions = findAllTransactions({ accountID: id });
 
   // if no transactions, return 0
   if (transactions.length == 0) { 

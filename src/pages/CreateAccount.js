@@ -55,6 +55,7 @@ function CreateAccount() {
          };
 
         let result = await axios.post(`${API_URL}/auth/register`, user);
+        console.log(result);
 
         if (result.status !== 200) { 
             displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });

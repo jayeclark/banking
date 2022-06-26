@@ -9,4 +9,7 @@ router.route("/")
   .put(controller.update)
   .delete(controller.del)
 
+router.route("/accounts")
+  .get(controller.readAccounts)
+
 export default router;

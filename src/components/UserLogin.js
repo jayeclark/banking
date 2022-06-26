@@ -22,12 +22,12 @@ function UserLogin() {
 
     const getUser = (users, loggedInUser) => {
         console.log(users, loggedInUser);
-        return users.filter(x=>x.id === loggedInUser)[0];
+        return users[0];
     }
 
     const handleSignOut = async () => {
         if (loggedInUser !== '') {
-            const logoutResult = await axios.post(`${API_URL}/api/auth/logout`, {}, { headers: { Authorization: `Bearer ${getUser(users, loggedInUser).access_token}` } });
+            const logoutResult = await axios.post(`${API_URL}/auth/logout`, {}, { headers: { Authorization: `Bearer ${getUser(users, loggedInUser).access_token}` } });
             if (logoutResult.status !== 200) {
                 console.error(logoutResult.data);
             }

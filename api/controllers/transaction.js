@@ -57,6 +57,29 @@ async function read(request, response) {
   return;    
 }
 
+async function readAll(request, response) {
+  // Check auth status
+  const config = {
+    type: "account",
+    id: request.query.id,
+    validators: [accountStatus.isAdmin, accountStatus.isSuperAdmin]
+  }
+  const authIssue = await checkAuthStatus(request, config);
+  if (authIssue) { APIError[authIssue](response); return; }
+
+  let requestedTransactions;
+  try {
+    requestedTransactions = await findAll({ accountID: request.query.id });
+  } catch (e) {
+    console.error(e);
+    APIError.db(response);
+    return;
+  }
+
+  response.status(requestedTransactions.code).json(requestedTransactions.data);
+  return;    
+}
+
 async function update(request, response) {
   // Check auth status
   const config = {
@@ -106,5 +129,5 @@ async function del(request, response) {
   return;   
 }
 
-const controller = { create, read, update, del };
+const controller = { create, read, readAll, update, del };
 export default controller;

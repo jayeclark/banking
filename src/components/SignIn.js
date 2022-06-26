@@ -18,7 +18,7 @@ import { API_URL } from '../helpers/constants';
 export function SignIn() {
 
         // Get user database, logged in user, form preference, and language
-        const { users } = useContext(UserDBContext);
+        const { addUser } = useContext(UserDBContext);
         const { logIn } = useContext(UserContext);
         const { form: formProvider } = useContext(FormContext);
         const { language } = useContext(LanguageContext);
@@ -42,13 +42,21 @@ export function SignIn() {
                 password: values.password,
              };
     
-            let result = await axios.post(`${API_URL}/api/auth/login`, { ...user });
-            console.log(result)
+            let result;
+            try {
+                result = await axios.post(`${API_URL}/auth/login`, { ...user });
+            } catch (e) {
+                console.log(e);
+            }
+            console.log("RESULT", result);
             if (result.status !== 200) { 
                 displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
                 return 'failure'; }
             else {
-                let matchingUser = result.data;
+                let matchingUser = result.data.value;
+                matchingUser.access_token = result.data.access_token;
+                matchingUser.refresh_token = result.data.refresh_token;
+                addUser(matchingUser);
                 logIn(matchingUser.id);
                 displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
                 return 'success';

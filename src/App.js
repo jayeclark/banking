@@ -25,6 +25,7 @@ import OptionsNav from './components/OptionsNav';
 function App() {
 
   const [loggedInUser, setLoggedInUser] = useState('');
+  const [currentAccount, setCurrentAccount] = useState(null);
   const [language, setLanguage] = useState('en');
   const [users, setUsers] = useState([]);
   const [notification, setNotification] = useState({ display: false, title: null, text: null, time: 5000, type: null, timestamp: now().toString()});
@@ -46,6 +47,9 @@ function App() {
   }
   function logIn(val) {
     setLoggedInUser(val);
+  }
+  function setAccount(account) {
+    setCurrentAccount(account);
   }
   
   function changeLanguage(lan) {
@@ -82,7 +86,7 @@ function App() {
     <>
     <BrowserRouter>
     <UserDBContext.Provider value={{users, addUser}}>
-    <UserContext.Provider value={{ loggedInUser, logOut, logIn }}>
+    <UserContext.Provider value={{ loggedInUser, logOut, logIn, currentAccount, setAccount }}>
         <LanguageContext.Provider value={{ language, changeLanguage }}>
           <FormContext.Provider value={{ form, setNewForm }}>
             <OptionsNav></OptionsNav>

@@ -18,6 +18,7 @@ async function create(request, response) {
 
   // Create account object from request body
   const options = request.body;
+  console.log(options);
   let account;
   switch (options.type) {
     case "checking":

@@ -49,21 +49,19 @@ export async function findDoc(filter) {
   return result;
 }
 
-export async function findAll(accountID) {
+export async function findAll(filter) {
   let result = { data: null, code: 200 };
 
   // If no account ID was provided, return an error
-  if (accountID == undefined) {
+  if (filter.accountID == undefined) {
     result.code = 500;
     result.data = { error: { type: "db", message: "No query data provided to retrieve account." } };
     return result;
   }  
 
-  const filter = { accountID }
-
   // Retrieve transaction info
   try {
-    result.data = await transactionCollection.findAll(filter);
+    result.data = await transactionCollection.find(filter).toArray();
     result.code = result.data == null ? 500 : 200;
   } catch (e) {
     result.code = 500;
