@@ -5,10 +5,12 @@ import App from '../App.js';
 
 describe('3. CREATE ACCOUNT PAGE', () => {
 
-    test('3.1. Includes a bootstrap card with a form', () => {
+    test('3.1. Includes a bootstrap card with a form', async () => {
 
-        const { getByText } = render(<App />);
-        const createAccount = getByText('Create Account');    
+        const { getByText, getAllByText } = render(<App />);
+        const login = getByText("Login");
+        userEvent.click(login);
+        const createAccount = getAllByText("Open an Account")[0];    
         userEvent.click(createAccount);
         
         // Check that bootstrap is in the styles section as a file
