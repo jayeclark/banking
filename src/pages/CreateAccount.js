@@ -1,9 +1,11 @@
 import React from 'react';
-import { useContext } from 'react';
-import { getUserCount, parseValidation } from '../helpers/library';
+import { useContext, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { parseValidation } from '../helpers/library';
 import validationFunctions from '../helpers/validation';
 import formParser from '../helpers/formParser';
-import { now } from 'lodash';
+import { API_URL } from '../helpers/constants';
+import axios from 'axios';
 import Card from '../components/Card';
 import FormContext from '../helpers/FormContext';
 import LanguageContext from '../helpers/LanguageContext';
@@ -14,9 +16,10 @@ import languages from '../data/languages.js';
 
 function CreateAccount() {
 
+    const [loggedIn, setLoggedIn] = useState(false);
     // Get user database, logged in user, form preference, and language
-    const { users, addUser } = useContext(UserDBContext);
     const { logIn } = useContext(UserContext);
+    const { addUser } = useContext(UserDBContext);
     const { form: formProvider } = useContext(FormContext);
     const { language } = useContext(LanguageContext);
     const { displayNotification } = useContext(NotificationContext);
@@ -35,28 +38,34 @@ function CreateAccount() {
     parseValidation(formFields, validationFunctions);
 
     // Add submission instructions
-    const submitHelperFunc = (values) => {
+    const submitHelperFunc = async (values) => {
 
         const user = {
-            name: values.name,
-            email: values.email,
+            username: values.name.replaceAll(" ", "").toLowerCase(),
+            firstName: values.name.split(" ")[0],
+            lastName: values.name.split(" ")[values.name.split(" ").length - 1],
+            birthDate: Date.parse("1990-02-01"),
+            primaryEmail: 0,
+            email: [values.email],
+            primaryPhone: 0,
+            phone: ["555-555-5555"],
+            primaryAddress: 0,
+            address: ["123 Fake Lane, Faketown AS 00000"],
             password: values.password,
-            transactions: [],
-            balance: 0,
-            time: now(),
-            number: getUserCount(users) + 1,
          };
 
-        let usersWithSameEmail = users.filter(user => user.email === values.email);
-        
-        if (usersWithSameEmail.length > 0) { 
+        let result = await axios.post(`${API_URL}/auth/register`, user);
+
+        if (result.status !== 200) { 
             displayNotification({ title: failureTitle, type: 'failure', text: failure, time: 5000 });
             return 'failure'; 
         }
         else {
-            addUser(user);
-            logIn(user.number);
+            console.log(result.data.user);
+            addUser(result.data.user);
+            logIn(result.data.user.id);
             displayNotification({ title: successTitle, type: 'success', text: success, time: 5000 });
+            setLoggedIn(true);
             return 'success';
         }
 
@@ -66,8 +75,12 @@ function CreateAccount() {
     // Create form component
     const form = formParser(formProvider, formFields, formSubmission);
 
+    if (loggedIn) {
+    return <Redirect to='/' />
+    }
+
     return (
-        <Card id={id} header={header} content={content} form={form}></Card>
+        <Card id={id} header={header} content={content} form={form} style={{ margin: "30px 50px"}}></Card>
     )
 
 }

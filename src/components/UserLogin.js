@@ -6,6 +6,8 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/UserLogin.css';
 import languages from '../data/languages';
+import axios from 'axios';
+import { API_URL } from '../helpers/constants';
 
 function UserLogin() {
 
@@ -19,11 +21,16 @@ function UserLogin() {
     const { signOut, signIn, en, es } = data.general;
 
     const getUser = (users, loggedInUser) => {
-        return users.filter(x=>x.number === loggedInUser)[0];
+        console.log(users, loggedInUser);
+        return users.filter(x=>x.id === loggedInUser)[0];
     }
 
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
         if (loggedInUser !== '') {
+            const logoutResult = await axios.post(`${API_URL}/api/auth/logout`, {}, { headers: { Authorization: `Bearer ${getUser(users, loggedInUser).access_token}` } });
+            if (logoutResult.status !== 200) {
+                console.error(logoutResult.data);
+            }
             logOut();
         }
     }
@@ -36,7 +43,7 @@ function UserLogin() {
 
     return (
         <div style={{fontSize:"0.8rem", height: 'auto', border: "none", margin:'auto 0px', display:'flex',flexWrap:'nowrap',alignItems:'center'}}>
-            {(loggedInUser !== '') ? <div className="login-name">{getUser(users, loggedInUser).name}</div> : null}
+            {(loggedInUser !== '') ? <div className="login-name">{getUser(users, loggedInUser).username}</div> : null}
             <div className='login-link' onClick={loggedInUser !== '' ? handleSignOut : null}>{loggedInUser !== '' ? signOut : users.length > 0 ? <Link style={{textDecoration:'none',color:'black', fontSize:'inherit'}} to="/">{signIn}</Link>: null}
             </div>
             <div className="language-toggle-container">

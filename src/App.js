@@ -18,7 +18,6 @@ import FormContext from './helpers/FormContext';
 import NotificationContext from './helpers/NotificationContext';
 import UserContext from './helpers/UserContext';
 import UserDBContext from './helpers/UserDBContext';
-import UserLogin from './components/UserLogin';
 import Footer from './components/Footer';
 import { now } from 'lodash';
 import OptionsNav from './components/OptionsNav';
@@ -90,12 +89,10 @@ function App() {
               <div className="App">
                   <TopRibbon loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                   <div className="brand-div"><img alt="" src={logo} className="brand-image"/></div>
-                  <div className="login-widget"><UserLogin loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></UserLogin></div>
                   {loggedInUser ? <AppNav /> : <AnonNav />}
-                  <AppNav/>
                   <NotificationContext.Provider value={{ displayNotification }}>
                     {notification && notification.display ? <Notification id={notification.timestamp} title={notification.title} type={notification.type} text={notification.text} handleClick={closeNotification} time={notification.time}></Notification> : null}
-                    <div className="container" style={{padding:'20px'}}>
+                    <div className="container" style={{padding:'10px'}}>
                       <Route path="/" exact component={Home}></Route>
                       <Route path="/create-account/" exact component={CreateAccount}></Route>
                       <Route path="/deposit/" exact component={Deposit}></Route>

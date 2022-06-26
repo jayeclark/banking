@@ -1,12 +1,13 @@
 .login-button {
-  background-color: rgb(202, 49, 57)!important;
+  background-color: rgb(220, 20, 49)!important;
   border: 1px solid white!important;
   color: white!important;
   min-width: 100%;
   padding: 5px 40px;
+  font-size: 1.2rem;
 }
 .login-button:disabled {
-  background-color: rgb(202, 49, 57)!important;
+  background-color: rgb(220, 20, 49)!important;
   border: 1px solid white!important;
   color: white!important;
 }

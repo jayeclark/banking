@@ -21,7 +21,7 @@ function Home() {
     let { header, card: { cardMsg }, id } = languages[language].pages[pageName];
     const [content, image] = [<span>{ cardMsg }</span>, heroImg];
 
-    if (loggedInUser) { header += ", " + users.filter(x => x.number === loggedInUser)[0].name + "!"; }
+    if (loggedInUser) { header += ", " + users.filter(x => x.id === loggedInUser)[0].username + "!"; }
     
     return (
         <div className="home-splash">  

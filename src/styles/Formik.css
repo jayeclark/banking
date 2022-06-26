@@ -1,6 +1,7 @@
 .form-formik {
-    min-width: 290px;
-    padding: 10px 30px;
+    min-width: calc(260px - 2rem);
+    height: fit-content;
+    padding: 5px 0px;
 }
 
 input:-internal-direct-focus {
@@ -12,7 +13,10 @@ input:-internal-direct-focus {
     flex-wrap: wrap;
     align-items: center;
     padding: 10px;
-    width: 100%;
+    width: calc(100% + 8px);
+    margin-top: -16px;
+    margin-right: -4px;
+    margin-left: -4px;
 }
 
 .form-formik .input-container .field-name {
@@ -31,6 +35,8 @@ input:-internal-direct-focus {
 .form-formik .input-container input {
     width: 100%;
     min-width: 120px;
+    padding: 8px 5px;
+    margin-bottom: 5px;
 }
 
 .input-error:focus {
@@ -71,7 +77,7 @@ input:-internal-direct-focus {
     flex-wrap: nowrap;
     justify-items: right;
     justify-content: right;
-    padding: 10px;
+    padding: 0px 10px;
     width: 100%;
 }
 
@@ -84,6 +90,10 @@ input:-internal-direct-focus {
     flex-grow: 1;
     flex-shrink: 1;
     width: 100%;
+}
+
+.form-formik button {
+    padding: 4px 10px!important;
 }
 
 @media only screen and (max-width: 767px) {

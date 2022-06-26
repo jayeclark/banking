@@ -88,8 +88,8 @@ function FormFormik({ formFields, formSubmission }) {
                 <div className='button-buffer'></div>
                 {buttons.map((buttonEl,i)=>{
                     return (
-                        <div key={i} className="button-container">
-                            <button id={idRoot + "-" + buttonEl.name} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
+                        <div key={i} className="button-container" style={buttons.length === 1 ? {width: "calc(100% + 8px)", marginLeft: -4, marginRight: -4} : null}>
+                            <button id={idRoot + "-" + buttonEl.name} style={{ padding: "8px"}} className={Object.values(formik.errors).every(x=>x==='') && Object.values(formik.values).some(x=> x !=='') ? buttonEl.className : buttonEl.className + ' disabled'} type={buttonEl.type}>
                                 {buttonEl.dependency && Helpers[buttonEl.dependency]() ? buttonEl.altDisplay : buttonEl.display}
                             </button>
                         </div>

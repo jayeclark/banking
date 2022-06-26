@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Card.css';
 
-function Card({image, header, content, form, className, id, style}) {
+function Card({image, header, content, form, className, id, style, children}) {
 
     return (
 
@@ -11,6 +11,7 @@ function Card({image, header, content, form, className, id, style}) {
             <div className="card-body">
                 {content ? content : null}
                 {form ? form : null}
+                {children}
             </div>
         </div>
 
